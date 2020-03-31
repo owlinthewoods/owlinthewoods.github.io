@@ -214,7 +214,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for_each(words.<span class="built_in">begin</span>(),words.<span class="built_in">end</span>(),[=,&amp;os] (<span class="keyword">const</span> <span class="built_in">string</span>&amp; s) &#123;os&lt;&lt;s&lt;&lt;c;&#125;);</span><br><span class="line">for_each(words.<span class="built_in">begin</span>(),words.<span class="built_in">end</span>(),[&amp;,c] (<span class="keyword">const</span> <span class="built_in">string</span>&amp; s) &#123;os&lt;&lt;s&lt;&lt;c;&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>混合使用时，显式捕获跟隐式捕获变量的方式必须不同。</p>
-<p><img src="/img/capturelist.png" alt=""></p>
+<p><img src="/images/capturelist.png" alt=""></p>
 <h5 id="指定lambda返回类型"><a href="#指定lambda返回类型" class="headerlink" title="指定lambda返回类型"></a>指定lambda返回类型</h5><p>默认情况下如果lambda体包含除<code>return</code>之外的任何语句，则编译器假定返回<code>void</code>，因为编译器不能从其他语句中推出返回类型。</p>
 <p>我们可以使用<code>transform</code>算法和lambda来将序列中的元素绝对值化。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">transform(vec.<span class="built_in">begin</span>(),vec.<span class="built_in">end</span>(),vec.<span class="built_in">begin</span>(),[](<span class="keyword">int</span> i) &#123;<span class="keyword">return</span> i&lt;<span class="number">0</span> ? -i : i;&#125;);</span><br></pre></td></tr></table></figure>
@@ -275,7 +275,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for_each(words.<span class="built_in">begin</span>(),words.<span class="built_in">end</span>(),bind(<span class="built_in">print</span>,ref(os),_1,<span class="string">" "</span>));</span><br></pre></td></tr></table></figure>
 
 <p>这里<code>ref</code>返回一个对象的引用。</p>
-<h3 id="再探迭代器"><a href="#再探迭代器" class="headerlink" title="再探迭代器"></a>再探迭代器</h3><h4 id="插入迭代器"><a href="#插入迭代器" class="headerlink" title="插入迭代器"></a>插入迭代器</h4><p>插入器有三种类型：<br><img src="/img/inserter.png" alt=""></p>
+<h3 id="再探迭代器"><a href="#再探迭代器" class="headerlink" title="再探迭代器"></a>再探迭代器</h3><h4 id="插入迭代器"><a href="#插入迭代器" class="headerlink" title="插入迭代器"></a>插入迭代器</h4><p>插入器有三种类型：<br><img src="/images/inserter.png" alt=""></p>
 <p>当我们调用<code>inserter(c,iter)</code>时，我们得到一个插入迭代器，我们通过它来插入元素时，会插入到<code>iter</code>原来指向的元素之前的位置。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> it=inserter(c,iter);</span><br><span class="line">*it=val;</span><br></pre></td></tr></table></figure>
 
@@ -300,13 +300,13 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">istream_iterator&lt;int&gt; int_it(cin),eof;</span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(int_it,eof)</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p>这里使用了<code>vector</code>的构造函数，从<code>cin</code>读取数据直到文件尾或者遇到不是<code>int</code>的数据为止。在读取的过程中，<code>int_it</code>持续自增。</p>
-<p>以下是一些<code>istream_iterator</code>的操作：<br><img src="/img/istream_iterator.png" alt=""></p>
+<p>以下是一些<code>istream_iterator</code>的操作：<br><img src="/images/istream_iterator.png" alt=""></p>
 <p>另外我们还可以向某些算法传入流迭代器：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">istream_iterator&lt;int&gt; int_it(cin),eof;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;accumulate(int_it,eof,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
 
 <p>这个调用会计算从输入流读取的所有<code>int</code>的和。</p>
 <h5 id="使用ostream-iterator"><a href="#使用ostream-iterator" class="headerlink" title="使用ostream_iterator"></a>使用ostream_iterator</h5><p>常用操作</p>
-<p><img src="/img/ostream_iterator.png" alt=""></p>
+<p><img src="/images/ostream_iterator.png" alt=""></p>
 <p>输出一个序列：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ostream_iterator&lt;<span class="keyword">int</span>&gt; <span class="title">out_it</span><span class="params">(<span class="built_in">cout</span>,<span class="string">" "</span>)</span></span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i:ivec)</span><br><span class="line">    *out_it++=i; <span class="comment">//将元素写到cout中</span></span><br></pre></td></tr></table></figure>
 
@@ -323,7 +323,7 @@
 <h4 id="反向迭代器"><a href="#反向迭代器" class="headerlink" title="反向迭代器"></a>反向迭代器</h4><p>反向迭代器就是从尾元素向首元素移动的迭代器。</p>
 <p>除了<code>forward_list</code>之外，其他的顺序容器都支持反向迭代器。</p>
 <p>下图展示了四种迭代器：</p>
-<p><img src="/img/reverse_iterator.png" alt=""></p>
+<p><img src="/images/reverse_iterator.png" alt=""></p>
 <p>逆序打印序列：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> riter=ivec.rbegin();riter!=ivec.rend();riter++)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*riter&lt;&lt;<span class="string">" "</span>;</span><br></pre></td></tr></table></figure>
 
@@ -350,19 +350,19 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="built_in">string</span>(rcomma.base(),str.<span class="built_in">end</span>())&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
 <p>注意这里使用<code>base</code>之后，返回的迭代器就指向逗号之后的第一个元素。</p>
-<p>反向迭代器和普通迭代器的关系可以由下图反应：<br><img src="/img/rev_it.png" alt=""></p>
+<p>反向迭代器和普通迭代器的关系可以由下图反应：<br><img src="/images/rev_it.png" alt=""></p>
 <p><code>rcomma</code>和<code>rcomma.base()</code>指向不同的元素，<code>line.rbegin()</code>和<code>line.end()</code>也指向不同的元素。注意左闭合区间。</p>
-<h3 id="泛型算法结构"><a href="#泛型算法结构" class="headerlink" title="泛型算法结构"></a>泛型算法结构</h3><p>迭代器的类别：<br><img src="/img/it_cate.png" alt=""></p>
-<p>输入迭代器：<br><img src="/img/input_it.png" alt=""></p>
+<h3 id="泛型算法结构"><a href="#泛型算法结构" class="headerlink" title="泛型算法结构"></a>泛型算法结构</h3><p>迭代器的类别：<br><img src="/images/it_cate.png" alt=""></p>
+<p>输入迭代器：<br><img src="/images/input_it.png" alt=""></p>
 <p>递增输入迭代器可能会导致所有其他指向流的迭代器失效，所以不能保证输入迭代器的状态可以保存下来并用来访问元素。输入迭代器只用于顺序访问，算法<code>find</code>和<code>accumulate</code>要求输入迭代器，<code>istream_iterator</code>也是一种输入迭代器。</p>
 <p>输出迭代器：</p>
-<p><img src="/img/output_it.png" alt=""></p>
+<p><img src="/images/output_it.png" alt=""></p>
 <p>只能向输出迭代器赋值一次，用作目的位置的迭代器通常都是输出迭代器。<code>copy</code>的第三个函数就是输出迭代器，包括<code>ostream_iterator</code>。</p>
 <p>前向迭代器支持输入和输出的所有操作，可以读写元素，只能往一个方向移动，我们可以保存前向迭代器的状态。</p>
 <p>双向迭代器可以正反读写序列中的元素，还支持前置和后置递减运算符。支持前向迭代器的所有操作，算法<code>reverse</code>要求双向迭代器。</p>
-<p>随机访问迭代器支持双向迭代器的所有操作。<br><img src="/img/random_it.png" alt=""></p>
+<p>随机访问迭代器支持双向迭代器的所有操作。<br><img src="/images/random_it.png" alt=""></p>
 <h4 id="算法形参模式"><a href="#算法形参模式" class="headerlink" title="算法形参模式"></a>算法形参模式</h4><p>大多数算法具有以下四种形式：</p>
-<p><img src="/img/algandargs.png" alt=""></p>
+<p><img src="/images/algandargs.png" alt=""></p>
 <p>这里的<code>beg</code>和<code>end</code>表示的是输入的范围，而<code>dest</code>，<code>beg2</code>和<code>end2</code>则指示目的位置和第二个范围。</p>
 <p>如果<code>dest</code>是指向容器的迭代器，那么会把输出数据写入到已存在的元素当中，当然更多情况下，<code>dest</code>是一个插入迭代器，为容器添加新元素。</p>
 <p>而接受<code>beg2</code>的算法假设从<code>beg2</code>开始的序列至少与<code>beg</code>到<code>end</code>的序列一样大。</p>
@@ -381,10 +381,10 @@
 
 <h3 id="特定容器算法"><a href="#特定容器算法" class="headerlink" title="特定容器算法"></a>特定容器算法</h3><p><code>list</code>和<code>forward_list</code>定义了几个<strong>成员函数</strong>版本的算法，特别是<code>sort</code>、<code>merge</code>、<code>remove</code>、<code>reverse</code>和<code>unique</code>。因为通用版本要求随机访问迭代器，所以不能用于<code>list</code>和<code>forward_list</code>，因为这两种类型提供双向迭代器和前向迭代器。</p>
 <p>对于其他的通用算法不建议用于这两种容器，相对于成员函数形式来讲代价太高。</p>
-<p><img src="/img/list_it.png" alt=""></p>
-<p><img src="/img/list_it2.png" alt=""></p>
+<p><img src="/images/list_it.png" alt=""></p>
+<p><img src="/images/list_it2.png" alt=""></p>
 <p><code>splice</code>成员，为链表数据结构通用：</p>
-<p><img src="/img/list_splice.png" alt=""></p>
+<p><img src="/images/list_splice.png" alt=""></p>
 <p>注意链表的某些特有操作会改变容器，比如<code>remove</code>和<code>unique</code>。</p>
 
       </div>

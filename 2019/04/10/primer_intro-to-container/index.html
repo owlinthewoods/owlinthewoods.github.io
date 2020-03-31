@@ -96,7 +96,7 @@
 <h5 id="直接初始化与拷贝初始化"><a href="#直接初始化与拷贝初始化" class="headerlink" title="直接初始化与拷贝初始化"></a>直接初始化与拷贝初始化</h5><p>使用 = 时，执行的是拷贝初始化，不使用等号则是直接初始化。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s3=<span class="string">"abc"</span>;<span class="comment">//拷贝初始化</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s5</span><span class="params">(<span class="string">"hey"</span>)</span></span>;<span class="comment">//直接初始化</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="string对象上的操作"><a href="#string对象上的操作" class="headerlink" title="string对象上的操作"></a>string对象上的操作</h5><p><img src="/img/stringop.png" alt=""></p>
+<h5 id="string对象上的操作"><a href="#string对象上的操作" class="headerlink" title="string对象上的操作"></a>string对象上的操作</h5><p><img src="/images/stringop.png" alt=""></p>
 <h5 id="读写string对象"><a href="#读写string对象" class="headerlink" title="读写string对象"></a>读写string对象</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;s;<span class="comment">//写入对象，遇到空白停止</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>读取时，string对象会忽略开头的空白，然后读取直到遇到下一个空白符为止。</p>
@@ -139,7 +139,7 @@
 <h5 id="string对象和字面值相加"><a href="#string对象和字面值相加" class="headerlink" title="string对象和字面值相加"></a>string对象和字面值相加</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1=s2+<span class="string">"c"</span>;/字面值与<span class="built_in">string</span>相加</span><br><span class="line"><span class="built_in">string</span> s1=<span class="string">"fack"</span>+<span class="string">"u"</span>;<span class="comment">//错误，两个字面值不能直接相加，至少要有一个string对象</span></span><br><span class="line"><span class="built_in">string</span> s1=<span class="string">"fack"</span>+<span class="string">"u"</span>+s2;<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
 
 <p>字符串字面值与string对象不是同一种类型。</p>
-<h4 id="处理string对象中的字符"><a href="#处理string对象中的字符" class="headerlink" title="处理string对象中的字符"></a>处理string对象中的字符</h4><p><img src="/img/cctypefunc.png" alt=""></p>
+<h4 id="处理string对象中的字符"><a href="#处理string对象中的字符" class="headerlink" title="处理string对象中的字符"></a>处理string对象中的字符</h4><p><img src="/images/cctypefunc.png" alt=""></p>
 <h5 id="建议使用C-版本的C标准库文件"><a href="#建议使用C-版本的C标准库文件" class="headerlink" title="建议使用C++版本的C标准库文件"></a>建议使用C++版本的C标准库文件</h5><p>C++标准库兼容了C的标准库。例如name.h这类头文件在C++中命名为cname，命名在cname头文件里的名字属于命名空间std，在.h文件中却不是这样。</p>
 <p>一般来说，C++程序应该使用cname的形式的头文件，而不是name.h形式的头文件，因为标准库中的名字总能在std中找到。</p>
 <h5 id="使用基于范围的for语句"><a href="#使用基于范围的for语句" class="headerlink" title="使用基于范围的for语句"></a>使用基于范围的for语句</h5><p>范围语句遍历给定语句的每个元素然后对序列中的每个值执行某种操作，语法形式为:</p>
@@ -182,7 +182,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;keith;<span class="comment">//保存int类型的对象</span></span><br><span class="line"><span class="built_in">vector</span>&lt;keithee&gt;keitheeboy;<span class="comment">//保存keithee类型的对象</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;file;<span class="comment">//元素是vector对象</span></span><br></pre></td></tr></table></figure>
 
 <p>不存在包含引用的vector。</p>
-<h4 id="定义和初始化vector对象"><a href="#定义和初始化vector对象" class="headerlink" title="定义和初始化vector对象"></a>定义和初始化vector对象</h4><p><img src="/img/vectorinit.png" alt=""></p>
+<h4 id="定义和初始化vector对象"><a href="#定义和初始化vector对象" class="headerlink" title="定义和初始化vector对象"></a>定义和初始化vector对象</h4><p><img src="/images/vectorinit.png" alt=""></p>
 <p>默认初始化vector对象，创建一个空vector:</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;s;<span class="comment">//不含任何元素</span></span><br></pre></td></tr></table></figure>
 
@@ -210,7 +210,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;k;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s)</span><br><span class="line">    k.push_back(s);<span class="comment">//把每一个s添加到vector后面</span></span><br></pre></td></tr></table></figure>
 
 <p>不能使用范围 for循环为vector添加对象。</p>
-<h4 id="其他vector操作"><a href="#其他vector操作" class="headerlink" title="其他vector操作"></a>其他vector操作</h4><p><img src="/img/othervecop.png" alt=""></p>
+<h4 id="其他vector操作"><a href="#其他vector操作" class="headerlink" title="其他vector操作"></a>其他vector操作</h4><p><img src="/images/othervecop.png" alt=""></p>
 <p>可以使用范围 for语句处理vector中的所有元素：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;s&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> &amp;i:s)</span><br><span class="line">    i*=i;<span class="comment">//对于每一个元素求平方</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i:s)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>;<span class="comment">//输出每一个元素</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
@@ -231,7 +231,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> b=v.<span class="built_in">begin</span>();</span><br><span class="line"><span class="keyword">auto</span> e=v.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
 
 <p>end成员负责返回尾元素的下一位置，这样的迭代器仅是一个标记而已，表示我们处理完了容器中的所有元素。</p>
-<h5 id="迭代器运算符"><a href="#迭代器运算符" class="headerlink" title="迭代器运算符"></a>迭代器运算符</h5><p><img src="/img/iterator.png" alt=""></p>
+<h5 id="迭代器运算符"><a href="#迭代器运算符" class="headerlink" title="迭代器运算符"></a>迭代器运算符</h5><p><img src="/images/iterator.png" alt=""></p>
 <p>和指针类似，解引用迭代器也能够获取迭代器指示的元素。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">"keith"</span>)</span></span>;</span><br><span class="line"><span class="keyword">auto</span> a=s.<span class="built_in">begin</span>();</span><br><span class="line">*a=<span class="built_in">toupper</span>(*a);<span class="comment">//解引用运算符</span></span><br></pre></td></tr></table></figure>
 
@@ -254,7 +254,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it=s.empty();</span><br><span class="line">    it!=s.cend()&amp;&amp;it-&gt;empty();++it)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*it&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
 <h4 id="迭代器的运算"><a href="#迭代器的运算" class="headerlink" title="迭代器的运算"></a>迭代器的运算</h4><p>string和vector的迭代器提供了比其他的标准库类型更多的运算符</p>
-<p><img src="/img/vecstritop.png" alt=""></p>
+<p><img src="/images/vecstritop.png" alt=""></p>
 <h5 id="迭代器的算术运算"><a href="#迭代器的算术运算" class="headerlink" title="迭代器的算术运算"></a>迭代器的算术运算</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> mid=vi.<span class="built_in">begin</span>+vi.<span class="built_in">size</span>()/<span class="number">2</span>;<span class="comment">//得到中间元素的迭代器，下标从0开始</span></span><br></pre></td></tr></table></figure>
 
 <p>还可以使用关系运算符来比较两个迭代器的位置：</p>

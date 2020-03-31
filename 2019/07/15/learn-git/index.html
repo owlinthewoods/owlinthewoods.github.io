@@ -211,7 +211,7 @@
 
 <p>在这里可以看到分支合并的记录。也就是说，采用<code>no-ff</code>模式后，合并这一操作也为它指定一个<code>commit id</code>，而采用<code>Fast forward</code>模式后，直接把<code>master</code>指针指向<code>dev</code>了，这样就看不见合并的记录了。</p>
 <p>对于在开发过程中采取的分支策略，这里放一张图吧：</p>
-<p><img src="/img/branchmn.jpg" alt="BranchManagement"></p>
+<p><img src="/images/branchmn.jpg" alt="BranchManagement"></p>
 <p>假设我们在<code>dev</code>分支上开发，这时在<code>master</code>分支上发现了bug需要修复，但是<code>dev</code>分支又不能直接提交，这时可以使用<code>git stash</code>来保留工作现场。</p>
 <p>比如正在编写<code>feature1.cpp</code>，发现<code>test.txt</code>需要修改，那么可以在<code>git add</code>后使用<code>git stash</code>保留工作现场：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br><span class="line">Saved working directory and index state WIP on dev: bfdd538 no-ff test2</span><br></pre></td></tr></table></figure>
@@ -257,7 +257,7 @@
 
 <p>可以看到本地的提交不再基于<code>init hello</code>，而是<code>set exit=1</code>，提交的内容是一致的。</p>
 <p>这张图很好理解：</p>
-<p><img src="/img/gitrebase.png" alt="Git rebase"></p>
+<p><img src="/images/gitrebase.png" alt="Git rebase"></p>
 <p><code>git rebase</code>把你的<code>rebase</code>分支里的每个提交取消掉，并且把它们临时保存为补丁(patch)，然后把<code>mywork</code>分支更新到最新的<code>origin</code>分支，最后把保存的这些补丁应用到<code>mywork</code>分支上。</p>
 
       </div>

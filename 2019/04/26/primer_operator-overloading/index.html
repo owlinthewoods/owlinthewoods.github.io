@@ -92,7 +92,7 @@
 <p>我们只能重载已有的运算符，不能发明新的运算符。</p>
 <p>对于一个重载运算符来说，其优先级和运算律与内置类型的对应的运算符一致。</p>
 <p>C++中可以被重载的运算符：</p>
-<p><img src="/img/operatorol.png" alt=""></p>
+<p><img src="/images/operatorol.png" alt=""></p>
 <h5 id="直接调用一个重载的运算符函数"><a href="#直接调用一个重载的运算符函数" class="headerlink" title="直接调用一个重载的运算符函数"></a>直接调用一个重载的运算符函数</h5><p>非成员运算符函数的等价调用</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data1 + data2;</span><br><span class="line"><span class="keyword">operator</span>+(data1,data2);<span class="comment">//等价的调用</span></span><br></pre></td></tr></table></figure>
 
@@ -245,7 +245,7 @@
 <p>例如<code>plus</code>类，这些都是模板：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plus&lt;<span class="keyword">int</span>&gt; intAdd;</span><br><span class="line">negate&lt;<span class="keyword">int</span>&gt; intNegate;</span><br><span class="line"><span class="keyword">int</span> sum=intAdd(<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line">sum=intNegate(sum);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/img/stdfuncobj.png" alt=""></p>
+<p><img src="/images/stdfuncobj.png" alt=""></p>
 <p>我们可以在算法中使用标准函数对象：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort(svec.<span class="built_in">begin</span>(),svec.<span class="built_in">end</span>(),greater&lt;<span class="built_in">string</span>&gt;);</span><br></pre></td></tr></table></figure>
 

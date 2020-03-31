@@ -111,7 +111,7 @@
 <p>如果一个类没有定义拷贝赋值运算符，则编译器会合成一个。</p>
 <h4 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h4><p>在析构函数中，首先执行函数体，然后按成员初始化的逆序销毁成员。</p>
 <p>销毁类类型的成员，调用自己的析构函数，销毁内置类型成员什么也不做。其次，隐式销毁一个内置指针类型的成员不会<code>delete</code>它指向的对象。</p>
-<p>对象在以下情况执行构造函数：<br><img src="/img/destruct_func.png" alt=""></p>
+<p>对象在以下情况执行构造函数：<br><img src="/images/destruct_func.png" alt=""></p>
 <p>举个例子：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//新作用域</span></span><br><span class="line">&#123;</span><br><span class="line">    Sales_data *p=<span class="keyword">new</span> Sales_data;</span><br><span class="line">    <span class="function">Sales_data <span class="title">p1</span><span class="params">(*p)</span></span>;</span><br><span class="line">    <span class="built_in">shared_ptr</span> p3=make_shared&lt;Sales_data&gt;();</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line">    ivec.push_back(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -149,7 +149,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">NoDtor</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Dtor()=<span class="keyword">default</span>;</span><br><span class="line">    ~Dtor()=<span class="keyword">delete</span>;   </span><br><span class="line">&#125;</span><br><span class="line">Dtor dt; <span class="comment">//错误，析构函数是删除的</span></span><br><span class="line">Dtor *p=<span class="keyword">new</span> Dtor();</span><br><span class="line"><span class="keyword">delete</span> p; <span class="comment">//错误，不能释放对象</span></span><br></pre></td></tr></table></figure>
 
 <h5 id="合成的拷贝构造函数可能是删除的"><a href="#合成的拷贝构造函数可能是删除的" class="headerlink" title="合成的拷贝构造函数可能是删除的"></a>合成的拷贝构造函数可能是删除的</h5><p>对某些类来说，编译器将把这些<strong>合成</strong>的成员定义为删除的函数：</p>
-<p><img src="/img/sync_delete.png" alt=""></p>
+<p><img src="/images/sync_delete.png" alt=""></p>
 <p>本质上，这些规则的要义在于，如果有数据成员不能<strong>默认</strong>构造、拷贝、赋值或者销毁时，对应的成员函数定义为删除的。</p>
 <p>对于具有引用成员或者无法默认构造的<code>const</code>成员的类，定义合成默认构造函数为删除是正确，并且因为合成的拷贝赋值运算符会试图赋值所有成员，这对于<code>const</code>成员来讲是不可能的。</p>
 <p>而对于引用成员来讲，将新值赋予一个引用成员，这样做改变的是引用的对象的值，而不是引用本身。</p>
@@ -177,7 +177,7 @@
 <h4 id="定义行为像指针的类"><a href="#定义行为像指针的类" class="headerlink" title="定义行为像指针的类"></a>定义行为像指针的类</h4><p>对于行为像指针的类，我们需要拷贝指针成员本身而不是它指向的<code>string</code>。</p>
 <p>为了使类的行为类值的最好办法是使用<code>shared_ptr</code>类，拷贝一个<code>shared_ptr</code>会拷贝它所包含的指针，在本例中我们不能单方面的释放指针关联的<code>string</code>，只有当最后一个指向<code>string</code>的<code>HasPtr</code>被销毁时，才可以释放<code>string</code>，因为多个对象是在共享<code>string</code>的。</p>
 <p>这里我们不使用<code>shared_ptr</code>，而是设计自己的引用计数，引用计数的工作方式如下：</p>
-<p><img src="/img/reference-count.png" alt=""></p>
+<p><img src="/images/reference-count.png" alt=""></p>
 <p>这里注意计数器不能直接作为<code>HasPtr</code>的成员，不然：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HasPtr p1;</span><br><span class="line"><span class="function">Hasptr <span class="title">p2</span><span class="params">(p1)</span></span>;</span><br><span class="line"><span class="function">HasPtr <span class="title">p3</span><span class="params">(p1)</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -281,7 +281,7 @@
 
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">X x,x2=<span class="built_in">std</span>::<span class="built_in">move</span>(x);  <span class="comment">//使用合成的构造函数</span></span><br><span class="line">hasX,hasX2=<span class="built_in">std</span>::<span class="built_in">move</span>(hasX); <span class="comment">//使用合成的移动构造函数</span></span><br></pre></td></tr></table></figure>
 
-<p>移动操作永远不会被定义为删除的函数，但是我们如果显式地声明<code>=default</code>，而编译器不能移动所有的成员，那么将会把移动操作定义为删除的。什么时候将移动操作定义为删除与拷贝成员的原则类似：<br><img src="/img/has-code.png" alt=""></p>
+<p>移动操作永远不会被定义为删除的函数，但是我们如果显式地声明<code>=default</code>，而编译器不能移动所有的成员，那么将会把移动操作定义为删除的。什么时候将移动操作定义为删除与拷贝成员的原则类似：<br><img src="/images/has-code.png" alt=""></p>
 <p>假如我们有一个类<code>Y</code>，它定义了自己的拷贝构造函数而未定义自己的移动构造函数：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">hasY</span>&#123;</span></span><br><span class="line">    hasY()=<span class="keyword">default</span>;</span><br><span class="line">    hasY(hasY&amp;&amp;)=defualt;</span><br><span class="line">    Y mem;</span><br><span class="line">&#125;</span><br><span class="line">hasY y,y2=<span class="built_in">std</span>::<span class="built_in">move</span>(y);</span><br></pre></td></tr></table></figure>
 

@@ -92,8 +92,8 @@
 <p>其使用方法与普通指针类似，可以解引用：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(p1 &amp;&amp; p1-&gt;empty)</span><br><span class="line">    *p1=<span class="string">"hello"</span>; <span class="comment">//如果p1不为空检测它是否指向一个空指针，然后赋新值</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/img/shared_ptr.png" alt=""></p>
-<p><code>shared_ptr</code>独有的操作：<br><img src="/img/shared_unique.png" alt=""></p>
+<p><img src="/images/shared_ptr.png" alt=""></p>
+<p><code>shared_ptr</code>独有的操作：<br><img src="/images/shared_unique.png" alt=""></p>
 <h5 id="make-shared函数"><a href="#make-shared函数" class="headerlink" title="make_shared函数"></a>make_shared函数</h5><p>这是最安全分配和使用动态内存的方法。此操作动态分配一个对象并初始化它，返回一个指向此对象的<code>shared_ptr</code>。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p3=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">18</span>); <span class="comment">//指向值为18的int的shared_ptr</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p4=make_shared&lt;<span class="built_in">string</span>&gt;(<span class="number">3</span>,<span class="string">'3'</span>);</span><br></pre></td></tr></table></figure>
 
@@ -206,7 +206,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">clone</span><span class="params">(<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">new</span> <span class="keyword">int</span>(p));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>默认情况下，用来初始化智能指针的普通指针必须指向动态内存，因为智能指针默认使用<code>delete</code>来释放其指向的对象，也可以将智能指正绑定到指向其他资源的内存上，但是必须定义自己的释放操作。</p>
-<p>定义和改变<code>shared_ptr</code>的其他方法：<br><img src="/img/shared_ptrop.png" alt=""></p>
+<p>定义和改变<code>shared_ptr</code>的其他方法：<br><img src="/images/shared_ptrop.png" alt=""></p>
 <h5 id="避免混合使用智能指针和普通指针"><a href="#避免混合使用智能指针和普通指针" class="headerlink" title="避免混合使用智能指针和普通指针"></a>避免混合使用智能指针和普通指针</h5><p>考虑一个对<code>shared_ptr</code>进行处理的函数：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//处理完p后，p被销毁</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -247,12 +247,12 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination&amp; d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c=<span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    <span class="function"><span class="built_in">shared_ptr</span>&lt;connection&gt; <span class="title">p</span><span class="params">(&amp;c,end_connection)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这里接受两个参数版本的智能指针多了一个删除器。在函数结束时会调用删除器，删除器再调用<code>disconnect</code>。</p>
-<p>智能指针的陷阱：<br><img src="/img/shared_trap.png" alt=""></p>
+<p>智能指针的陷阱：<br><img src="/images/shared_trap.png" alt=""></p>
 <h4 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h4><p>一个<code>unique_ptr</code>拥有它所指向的对象，它没有<code>make_shared</code>，需要将其绑定到<code>new</code>返回的指针上，只能进行直接初始化：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>))</span></span>;</span><br></pre></td></tr></table></figure>
 
 <p><code>unique_ptr</code>不支持普通的拷贝和赋值操作。</p>
-<p><img src="/img/unique_ptr.png" alt=""></p>
+<p><img src="/images/unique_ptr.png" alt=""></p>
 <p>使用<code>release</code>和<code>reset</code>：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">p2</span><span class="params">(p1.<span class="built_in">release</span>())</span></span>; <span class="comment">//p2取得p1原来指向对象的使用权，p1置为空</span></span><br><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">p3</span><span class="params">(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"Keith"</span>))</span></span>;</span><br><span class="line">p2.reset(p3.<span class="built_in">release</span>()); <span class="comment">//reset释放了原来指向的内存</span></span><br></pre></td></tr></table></figure>
 
@@ -271,7 +271,7 @@
 
 <p>这里我们使用<code>decltype(end_connection)</code>来获取函数类型，添加一个<code>*</code>指出我们正在使用该类型的一个指针。</p>
 <h4 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h4><p>将一个<code>weak_ptr</code>绑定到一个<code>shared_ptr</code>管理的对象上不影响<code>shared_ptr</code>的引用计数，<code>shared_ptr</code>被销毁时不受<code>weak_ptr</code>控制。</p>
-<p><img src="/img/weak_ptr.png" alt=""></p>
+<p><img src="/images/weak_ptr.png" alt=""></p>
 <p>要使用<code>shared_ptr</code>来初始化它；</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">12</span>);</span><br><span class="line"><span class="function">weak_ptr&lt;<span class="keyword">int</span>&gt; <span class="title">wp</span><span class="params">(p)</span></span>;</span><br></pre></td></tr></table></figure>
 
@@ -326,7 +326,7 @@
 <p>指向数组的<code>unique_ptr</code>不能使用箭头或者点运算符，这些是没有意义的。但可以使用下标运算符。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">    up[i]=i;</span><br></pre></td></tr></table></figure>
 
-<p><img src="/img/up_array.png" alt=""></p>
+<p><img src="/images/up_array.png" alt=""></p>
 <p>与<code>unique_ptr</code>不同，<code>shared_ptr</code>不支持管理动态数组，必须定义自己的删除器：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;int[]&gt; sp(new int[10],[](int *p) &#123;delete[] p;&#125;);</span><br><span class="line">sp.reset();</span><br></pre></td></tr></table></figure>
 
@@ -341,7 +341,7 @@
 <h5 id="allocator类-1"><a href="#allocator类-1" class="headerlink" title="allocator类"></a>allocator类</h5><p><code>allocator</code>分配的是原始的、未构造的内存，它是一个模板。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">allocator&lt;<span class="built_in">string</span>&gt; alloc;  <span class="comment">//可以分配string的allocator</span></span><br><span class="line"><span class="keyword">auto</span> <span class="keyword">const</span> p=alloc.allocate(n);  <span class="comment">//分配n个未初始化的string</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/img/allocator.png" alt=""></p>
+<p><img src="/images/allocator.png" alt=""></p>
 <h5 id="allocator分配未构造的内存"><a href="#allocator分配未构造的内存" class="headerlink" title="allocator分配未构造的内存"></a>allocator分配未构造的内存</h5><p><code>allocator</code>的<code>construct</code>成员接受指针和其他额外参数在给定位置构造元素。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> q=p; <span class="comment">//q指向最后构造元素之后的位置</span></span><br><span class="line">alloc.construct(q++); <span class="comment">//构造空串</span></span><br><span class="line">alloc.construct(q++,<span class="number">10</span>,<span class="string">"a"</span>);</span><br></pre></td></tr></table></figure>
 
@@ -356,7 +356,7 @@
 
 <p>这里的指针<code>p</code>必须指向分配的内存，另外大小参数不能错，必须与分配时一致。</p>
 <h5 id="拷贝和填充未初始化内存"><a href="#拷贝和填充未初始化内存" class="headerlink" title="拷贝和填充未初始化内存"></a>拷贝和填充未初始化内存</h5><p>标准库还为<code>allocator</code>定义了两个伴随算法</p>
-<p><img src="/img/allocator_algorithm.png" alt=""></p>
+<p><img src="/images/allocator_algorithm.png" alt=""></p>
 <p>假设我们分配一块动态内存，它的大小是一个<code>vector</code>的两倍，前一半用来拷贝这个<code>vector</code>的元素，后一半用指定值填充。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p=alloc.allocate(vi.<span class="built_in">size</span>()*<span class="number">2</span>);</span><br><span class="line"><span class="keyword">auto</span> q=unitialized_copy(vi.<span class="built_in">begin</span>(),vi.<span class="built_in">end</span>(),p);</span><br><span class="line">unitialized_fill(q,vi.<span class="built_in">size</span>(),<span class="number">12</span>);</span><br></pre></td></tr></table></figure>
 

@@ -86,7 +86,7 @@
 <p>两个主要的关联容器是<code>map</code>和<code>set</code>。</p>
 <p>对于<code>map</code>，关键字起到索引的作用，每个关键字都关联着数据。对于<code>set</code>，每个元素只保存一个关键字。</p>
 <p>标准库提供八种容器分别体现在三个维度上：<code>map</code>或者<code>set</code>；要求不重复的关键字或者重复的；有序或无序。</p>
-<p><img src="/img/associate-cate.png" alt=""></p>
+<p><img src="/images/associate-cate.png" alt=""></p>
 <h3 id="使用关联容器"><a href="#使用关联容器" class="headerlink" title="使用关联容器"></a>使用关联容器</h3><p><code>map</code>中的关键字和值形成一种映射，通常被称为<strong>关联数组</strong>。<code>set</code>就是关键字的简单集合。</p>
 <h5 id="使用map"><a href="#使用map" class="headerlink" title="使用map"></a>使用map</h5><p>写一个单词计数程序：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    ++word_count[<span class="keyword">word</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;w:word_count)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;w.second&lt;&lt;(w.second&gt;<span class="number">1</span> ? <span class="string">"times"</span> :<span class="string">"time"</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
@@ -114,7 +114,7 @@
 <h4 id="关键字类型的要求"><a href="#关键字类型的要求" class="headerlink" title="关键字类型的要求"></a>关键字类型的要求</h4><p>对于有序容器，关键字类型必须定义<code>&lt;</code>运算符。</p>
 <h5 id="有序容器的关键字类型"><a href="#有序容器的关键字类型" class="headerlink" title="有序容器的关键字类型"></a>有序容器的关键字类型</h5><p>我们可以定义自己的比较方法来代替关键字上的<code>&lt;</code>运算符。所提供的的操作必须在关键字上定义一个<strong>严格弱序</strong>。</p>
 <p>比较函数必须具有以下性质：</p>
-<p><img src="/img/comp.png" alt=""></p>
+<p><img src="/images/comp.png" alt=""></p>
 <p>也就是说关键字满足自反性，反对称性和传递性。</p>
 <h5 id="比较函数"><a href="#比较函数" class="headerlink" title="比较函数"></a>比较函数</h5><p>如果要使用自定义的操作必须在尖括号内的元素类型后指定操作的类型。</p>
 <p>例如我们为<code>Sales_data</code>定义一个比较操作：</p>
@@ -135,7 +135,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" "</span>&lt;&lt;w.second&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
 <p>这里<code>w</code>指向<code>map</code>中元素的引用，<code>map</code>的元素是<code>pair</code>。</p>
-<p><code>pair</code>的操作：<br><img src="/img/pair_op.png" alt=""></p>
+<p><code>pair</code>的操作：<br><img src="/images/pair_op.png" alt=""></p>
 <h5 id="创建pair对象的函数"><a href="#创建pair对象的函数" class="headerlink" title="创建pair对象的函数"></a>创建pair对象的函数</h5><p>我们可以把<code>pair</code>当作函数的返回值：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pair&lt;string,int&gt; process(vector&lt;string&gt;&amp; v)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!v.empty())</span><br><span class="line">        <span class="keyword">return</span> &#123;v.back(),v.back().<span class="built_in">size</span>(	)&#125;;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -147,7 +147,7 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> make_pair(v.back(),v.back().<span class="built_in">size</span>());</span><br></pre></td></tr></table></figure>
 
 <h3 id="关联容器操作"><a href="#关联容器操作" class="headerlink" title="关联容器操作"></a>关联容器操作</h3><p>关联容器额外的类型别名</p>
-<p><img src="/img/value_type.png" alt=""></p>
+<p><img src="/images/value_type.png" alt=""></p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::value_type v1; <span class="comment">//v1是一个string</span></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;::value_type v2; <span class="comment">//v2是一个pair对象</span></span><br></pre></td></tr></table></figure>
 
 <p>我们使用作用域运算符来提取一个类型成员，比如<code>map&lt;string,int&gt;::value_type</code>。</p>
@@ -170,7 +170,7 @@
 <h5 id="向map添加元素"><a href="#向map添加元素" class="headerlink" title="向map添加元素"></a>向map添加元素</h5><p>想要向<code>map</code>中添加元素，必须先创建一个<code>pair</code>对象，可以在<code>insert</code>的参数列表创建一个<code>pair</code>对象。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">word_count.insert(&#123;<span class="keyword">word</span>,<span class="number">1</span>&#125;);</span><br><span class="line">word_count.insert(make_pair(<span class="keyword">word</span>,<span class="number">1</span>));</span><br><span class="line">word_count.insert(pair&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt;(<span class="keyword">word</span>,<span class="number">1</span>));</span><br><span class="line">word_count.insert(<span class="built_in">map</span>&lt;<span class="keyword">const</span> <span class="built_in">string</span>,<span class="keyword">size_t</span>&gt;::value_type(<span class="keyword">word</span>,<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
 
-<p>关联容器的<code>insert</code>操作：<br><img src="/img/inserter_map.png" alt=""></p>
+<p>关联容器的<code>insert</code>操作：<br><img src="/images/inserter_map.png" alt=""></p>
 <h5 id="检测insert的返回值"><a href="#检测insert的返回值" class="headerlink" title="检测insert的返回值"></a>检测insert的返回值</h5><p><code>insert</code>的返回依赖于容器的类型和参数。对于不包含重复关键字的容器，添加单一元素的<code>insert</code>和<code>emplace</code>返回一个<code>pair</code>。<code>pair</code>的第一个成员是一个迭代器，指向插入的元素，另外一个是一个<code>bool</code>类型，指示插入是否成功。如果关键字已经在容器中，则不做任何事情，<code>bool</code>为<code>false</code>。</p>
 <p>我们使用<code>insert</code>重写单词计数程序：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    <span class="keyword">auto</span> res=word_count.insert(&#123;<span class="keyword">word</span>,<span class="number">1</span>&#125;);  <span class="comment">//如果存在这个word，insert不做任何事</span></span><br><span class="line">    <span class="keyword">if</span>(!res.second)</span><br><span class="line">        ++res.first-&gt;second; <span class="comment">//res是一个pair对象，first成员是指向插入元素的迭代器</span></span><br></pre></td></tr></table></figure>
@@ -182,12 +182,12 @@
 <h4 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h4><p>关联容器定义了三个版本的<code>erase</code>来删除元素，一个接受一个迭代器，一个接受一对迭代器指定的范围。另外<code>erase</code>还接受<code>key_type</code>的参数，也就是按关键字来删除元素，返回实际删除的元素数量。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">word_count.erase(removal_word);</span><br></pre></td></tr></table></figure>
 
-<p><img src="/img/map_erase.png" alt=""></p>
+<p><img src="/images/map_erase.png" alt=""></p>
 <h4 id="map的下标操作"><a href="#map的下标操作" class="headerlink" title="map的下标操作"></a>map的下标操作</h4><p><code>map</code>和<code>unordered_map</code>提供了下标运算符和<code>at</code>函数，<code>set</code>不支持下标，因为没有与关键字绑定的值。这里<code>map</code>的下标运算符使用时，如果要访问的关键字没有在容器中，那么会创建这个关键字在容器中，并对其关联的值进行值初始化。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; smap;</span><br><span class="line">smap[<span class="string">"Ethan"</span>]=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
 
 <p>由于下标运算符可以插入新的元素，所以只能对非<code>const</code>的<code>map</code>执行下标操作。</p>
-<p><img src="/img/map_index.png" alt=""></p>
+<p><img src="/images/map_index.png" alt=""></p>
 <h5 id="下标的返回值"><a href="#下标的返回值" class="headerlink" title="下标的返回值"></a>下标的返回值</h5><p>使用下标时，返回的是<code>mapped_type</code>对象，也就是值类型的对象。而解引用迭代器时，获得的是<code>value_type</code>对象。并且返回的是一个左值。</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;smap[<span class="string">"Ethan"</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">++smap[<span class="string">"Ethan"</span>];</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;smap[<span class="string">"Ethan"</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
@@ -195,8 +195,8 @@
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; iset=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">iset.<span class="built_in">find</span>(<span class="number">1</span>); <span class="comment">//返回指向key==1的元素</span></span><br><span class="line">iset.<span class="built_in">find</span>(<span class="number">6</span>); <span class="comment">//返回迭代器指向iset.end()</span></span><br><span class="line">iset.count(<span class="number">2</span>); <span class="comment">//返回2</span></span><br><span class="line">iset.count(<span class="number">6</span>); <span class="comment">//返回0</span></span><br></pre></td></tr></table></figure>
 
 <p>查找元素的操作</p>
-<p><img src="/img/map_find1.png" alt=""></p>
-<p><img src="/img/map_find2.png" alt=""></p>
+<p><img src="/images/map_find1.png" alt=""></p>
+<p><img src="/images/map_find2.png" alt=""></p>
 <h5 id="对map使用find代替下标"><a href="#对map使用find代替下标" class="headerlink" title="对map使用find代替下标"></a>对map使用find代替下标</h5><p>有时候我们需要根据我们的需要来决定使用<code>find</code>还是下标，如果我们不想在查找元素时有其他动作，则使用<code>find</code>：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(word_count.<span class="built_in">find</span>(<span class="string">"charlie"</span>)==word_count.<span class="built_in">end</span>())</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"charlie is not in the authors"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 
@@ -236,7 +236,7 @@
 
 <p>这里唯一的区别是不按字典序输出。</p>
 <h5 id="管理桶"><a href="#管理桶" class="headerlink" title="管理桶"></a>管理桶</h5><p>无序容器的管理操作：</p>
-<p><img src="/img/unordered_map.png" alt=""></p>
+<p><img src="/images/unordered_map.png" alt=""></p>
 <h5 id="无序容器对关键字类型的要求"><a href="#无序容器对关键字类型的要求" class="headerlink" title="无序容器对关键字类型的要求"></a>无序容器对关键字类型的要求</h5><p>无序容器使用关键字类型的<code>=</code>来比较元素，还使用一个<code>hash&lt;key_type&gt;</code>类型的对象来生成每个元素的哈希值。标准库为内置类型包括（指针）提供了<code>hash</code>模板。</p>
 
       </div>
