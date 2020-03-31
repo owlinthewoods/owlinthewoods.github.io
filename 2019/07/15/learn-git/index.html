@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>Git入门使用 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-07-15</span>
+    <h2>Git入门使用</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag">分布式版本控制</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>对Git入门的使用，做了一些总结，主要针对Git安装，版本回退，远程连接，分支管理做一些简单的介绍，想的是自己写一写也就慢慢熟悉了。</p>
+<a id="more"></a>
+
+<h4 id="安装Git"><a href="#安装Git" class="headerlink" title="安装Git"></a>安装Git</h4><p>去到Git官网安装Git，找到Git，然后进入Git，设置用户名和邮箱，这里使用全局的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;owlinthewoods&quot;</span><br><span class="line">git config --global user.email &quot;bearinparadox@gmail.com&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h4><p>进入到某个目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir testrepo &#x2F;&#x2F;创建空目录</span><br><span class="line">cd testrepo</span><br></pre></td></tr></table></figure>
+
+<p>将目录变为仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<p>这里已经创建了<code>testrepo</code>这个仓库了，下面我们向仓库里添加文件。</p>
+<h4 id="添加文件到仓库"><a href="#添加文件到仓库" class="headerlink" title="添加文件到仓库"></a>添加文件到仓库</h4><p>版本控制系统只能追踪文本文件的改动，而不能追踪二进制文件的改动，比如图片视频。</p>
+<p>现在创建一个<code>test.txt</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this is a test repo.</span><br></pre></td></tr></table></figure>
+
+<p>然后把它添加到<code>testrepo</code>这个仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add test.txt</span><br></pre></td></tr></table></figure>
+
+<p>接着把文件提交到仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;add a test file&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>-m</code>是对这次提交的说明，添加说明无疑十分重要，这有助于查看历史纪录。</p>
+<p>这里也可以同时添加多个文件，然后一并提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add test.txt</span><br><span class="line">git add readme.md</span><br><span class="line">git commit -m &quot;add a test file and a read-me file&quot;</span><br></pre></td></tr></table></figure>
+
+<h4 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h4><p>现在修改<code>test.txt</code>如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">this is a test repo.</span><br><span class="line">this is about version regression.</span><br></pre></td></tr></table></figure>
+
+<p>然后提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add test.txt</span><br><span class="line">git commit -m &quot;append version regression&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这里可以查看历史提交记录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>cat</code>命令查看文件的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat test.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果我们想要回退到<code>add a test file</code>这个版本的话，可以查看它的<code>commit id</code>，一般只需取前几位就可以，然后使用<code>git reset</code>命令进行版本回退。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 56b5bb</span><br></pre></td></tr></table></figure>
+
+<p>Git内部存在一个<code>head</code>指针在不同时刻指向不同版本，如果想要回到某个版本，只需要让<code>head</code>指针指向该版本。</p>
+<p>即使我们回到了原来的版本，但是我们已经找不到新版本的<code>commit id</code>时，我们可以使用<code>git reflog</code>命令来记录每一次命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git reflog</span><br><span class="line">56b5bb3 (HEAD -&gt; master) HEAD@&#123;0&#125;: reset: moving to 56b5bb</span><br><span class="line">700a9fe HEAD@&#123;1&#125;: commit: append version regression</span><br><span class="line">56b5bb3 (HEAD -&gt; master) HEAD@&#123;2&#125;: commit (initial): add a test file</span><br></pre></td></tr></table></figure>
+
+<p>这是可以得到<code>append version regression</code>的<code>commit id</code>了，再次使用<code>git reset</code>回到这个版本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard 700a9fe</span><br></pre></td></tr></table></figure>
+
+<h4 id="工作区与暂存区"><a href="#工作区与暂存区" class="headerlink" title="工作区与暂存区"></a>工作区与暂存区</h4><p>工作区就是本地的目录，比如上面的<code>testrepo</code>文件夹。</p>
+<p>暂存区也就是stage，我们先把文件从工作区提交到暂存区，然后再把暂存区的文件提交到仓库里。</p>
+<p>这里我们先修改下<code>test.txt</code>文件，然后添加一个<code>LICENSE</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">this is a testrepo.</span><br><span class="line">this is about version regression.</span><br><span class="line">this is about workspace and stage.</span><br></pre></td></tr></table></figure>
+
+<p>可以使用<code>git status</code>命令查看状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line"></span><br><span class="line">        modified:   test.txt</span><br><span class="line"></span><br><span class="line">Untracked files:</span><br><span class="line">  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)</span><br><span class="line"></span><br><span class="line">        LICENSE</span><br><span class="line"></span><br><span class="line">no changes added to commit (use &quot;git add&quot; and&#x2F;or &quot;git commit -a&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>我们还可以使用<code>git diff</code>查看工作区文件与暂存区文件即上次<code>git add</code>的内容的区别，使用<code>git diff --cached</code>比较的是暂存区的文件y与仓库分支即上次<code>git commit</code>的内容的区别。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br><span class="line">diff --git a&#x2F;test.txt b&#x2F;test.txt</span><br><span class="line">index 5a0afac..1c0baf5 100644</span><br><span class="line">--- a&#x2F;test.txt</span><br><span class="line">+++ b&#x2F;test.txt</span><br><span class="line">@@ -1,2 +1,3 @@</span><br><span class="line"> this is a testrepo.</span><br><span class="line">-this is about version regression.</span><br><span class="line">\ No newline at end of file</span><br><span class="line">+this is about version regression.</span><br><span class="line">+this is about workspace and stage.</span><br><span class="line">\ No newline at end of file</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，上次<code>git add</code>的内容是<code>this is about version regression</code>，工作区的文件又新增了<code>this is about workspace and stage</code>。</p>
+<p>如果我们进行了<code>git add</code>后，再使用<code>git diff</code>就不会显示区别了，因为此时暂存区的文件跟工作区的文件一致。</p>
+<h4 id="管理修改"><a href="#管理修改" class="headerlink" title="管理修改"></a>管理修改</h4><p>现在我们继续修改<code>test.txt</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">this is a testrepo.</span><br><span class="line">this is about version regression.</span><br><span class="line">this is about workspace and stage.</span><br><span class="line">this is about chages management.</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>git diff</code>查看区别：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git diff</span><br><span class="line">diff --git a&#x2F;test.txt b&#x2F;test.txt</span><br><span class="line">index e84115b..c212ab5 100644</span><br><span class="line">--- a&#x2F;test.txt</span><br><span class="line">+++ b&#x2F;test.txt</span><br><span class="line">@@ -1,4 +1,4 @@</span><br><span class="line"> this is a testrepo.</span><br><span class="line"> this is about version regression.</span><br><span class="line"> this is about workspace and stage.</span><br><span class="line">-this is about chages management.</span><br><span class="line">\ No newline at end of file</span><br><span class="line">+this is about changes tracking.</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到添加了新的一行。</p>
+<h4 id="撤销修改"><a href="#撤销修改" class="headerlink" title="撤销修改"></a>撤销修改</h4><p>我们为<code>test.txt</code>添加新的一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">undo the modification.</span><br></pre></td></tr></table></figure>
+
+<p>我们进行的是工作区的修改，如果想要撤销工作区的修改，使用<code>git checkout -- &lt;filename&gt;</code>可以撤销对工作区的修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- test.txt</span><br></pre></td></tr></table></figure>
+
+<p>另一种情况，将文件添加到暂存区之后，可以使用<code>git reset HEAD &lt;filename&gt;</code>，撤销暂存区的修改：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD test.txt</span><br><span class="line">Unstaged changes after reset:</span><br><span class="line">M       test.txt</span><br></pre></td></tr></table></figure>
+
+<p>然后<code>git checkout -- &lt;filename&gt;</code>，继续撤销工作区的更改。</p>
+<p>对于已提交到仓库的情况，使用版本回退。</p>
+<h4 id="删除文件"><a href="#删除文件" class="headerlink" title="删除文件"></a>删除文件</h4><p>我们在工作区新添加一个文件<code>deleted.txt</code>，如果我们想要删除工作区的文件，直接删除或者使用<code>rm</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm deleted.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果还想要从仓库里移除这个文件，那就用<code>git rm</code>，然后<code>git commit</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git rm deleted.txt</span><br><span class="line">rm &#39;deleted.txt&#39;</span><br><span class="line"></span><br><span class="line">git commit -m &quot;remove deleted.txt&quot;</span><br><span class="line">[master 3626591] remove deleted.txt</span><br><span class="line"> 1 file changed, 0 insertions(+), 0 deletions(-)</span><br><span class="line"> delete mode 100644 deleted.txt</span><br></pre></td></tr></table></figure>
+
+<p>如果不想删除版本库的文件，但是已经删除了工作区的文件，可以使用<code>git checkout</code>，就是用仓库的版本替换工作区的文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -- deleted.txt</span><br></pre></td></tr></table></figure>
+
+<h4 id="添加远程库"><a href="#添加远程库" class="headerlink" title="添加远程库"></a>添加远程库</h4><p>远程库可以理解为一台服务器上的仓库，每个人都可以“复制”这个仓库，然后每个人把自己的修改推送到这个服务器上的仓库，<a href="github.com">Github</a>提供了这样一个仓库托管服务。</p>
+<p>对于注册Github账号和添加SSH keys不做多叙述。</p>
+<h4 id="关联远程库"><a href="#关联远程库" class="headerlink" title="关联远程库"></a>关联远程库</h4><p>我们在Github上新建一个<code>GitTutorial</code>仓库，然后使用<code>git clone</code>克隆到本地：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:owlinthewoods&#x2F;GitTutorial.git</span><br><span class="line">Cloning into &#39;GitTutorial&#39;...</span><br><span class="line">remote: Enumerating objects: 3, done.</span><br><span class="line">remote: Counting objects: 100% (3&#x2F;3), done.</span><br><span class="line">remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0</span><br><span class="line">Receiving objects: 100% (3&#x2F;3), done.</span><br></pre></td></tr></table></figure>
+
+<p>Git支持多种协议，包括SSH和https。</p>
+<h4 id="创建与合并分支"><a href="#创建与合并分支" class="headerlink" title="创建与合并分支"></a>创建与合并分支</h4><p>可以把分支理解为一条时间线，不同的分支代表不同的时间线，它们不受彼此影响，也就是说在一个分支上提交文件后对另一个分支无影响。</p>
+<p>这里创建一个<code>dev</code>分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch dev</span><br></pre></td></tr></table></figure>
+
+<p>切换到<code>dev</code>分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout dev</span><br></pre></td></tr></table></figure>
+
+<p>为<code>test.txt</code>增添一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modified the file on dev branch.</span><br></pre></td></tr></table></figure>
+
+<p>注意我们切换到<code>master</code>分支后，查看状态仍然能够看到<code>changes not staged for commit</code>，这是因为在没有提交之前，我们所作的都是在本地上的改动，对<code>dev</code>分支上的仓库是没有影响，即使我们<code>git add</code>之后，仍然可以在<code>master</code>分支上看到<code>changes to be commited</code>，这是需要注意的地方。</p>
+<p>好了，当前我们在<code>dev</code>分支上了，已经做好了提交，这是我们可以切换回<code>master</code>分支，把<code>dev</code>分支合并到<code>master</code>分支里：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge dev</span><br></pre></td></tr></table></figure>
+
+<h4 id="分支合并策略"><a href="#分支合并策略" class="headerlink" title="分支合并策略"></a>分支合并策略</h4><p>这里主要说下<code>Fast forward</code>模式，这是分支合并时通常采用的策略。</p>
+<p>这里在<code>test.txt</code>中添加一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fast forward mode on.</span><br></pre></td></tr></table></figure>
+
+<p>然后在<code>dev</code>分支中提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;ff test&quot;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们不禁用<code>Fast forwrad</code>模式的情况下合并，那么<code>git log</code>会得到这样的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty&#x3D;oneline --abbrev-commit</span><br><span class="line">* c99f5ec (HEAD -&gt; master, dev) ff test</span><br><span class="line">* c82a028 modified the file on dev branch</span><br><span class="line">* 9cef9ad modified the file on master branch</span><br><span class="line">* a1dd5f0 commit the file on master</span><br><span class="line">* 3626591 remove deleted.txt</span><br><span class="line">* 3b4a363 add deleted.txt</span><br><span class="line">* cd56e73 append workspace</span><br><span class="line">* 700a9fe append version regression</span><br><span class="line">* 56b5bb3 add a test file</span><br></pre></td></tr></table></figure>
+
+<p>也就是没有合并的记录。</p>
+<p>如果我们禁用<code>Fast forward</code>模式的话，提交：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m &quot;no-ff test2&quot;</span><br></pre></td></tr></table></figure>
+
+<p>合并：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge --no-ff -m &quot;no-ff merge&quot; dev</span><br></pre></td></tr></table></figure>
+
+<p><code>git log</code>查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty&#x3D;oneline --abbrev-commit</span><br><span class="line">*   390975c (HEAD -&gt; master) no-ff merge</span><br><span class="line">|\</span><br><span class="line">| * bfdd538 (dev) no-ff test2</span><br><span class="line">|&#x2F;</span><br><span class="line">* b07fd71 no-ff test</span><br><span class="line">* c99f5ec ff test</span><br><span class="line">* c82a028 modified the file on dev branch</span><br><span class="line">* 9cef9ad modified the file on master branch</span><br><span class="line">* a1dd5f0 commit the file on master</span><br><span class="line">* 3626591 remove deleted.txt</span><br><span class="line">* 3b4a363 add deleted.txt</span><br><span class="line">* cd56e73 append workspace</span><br><span class="line">* 700a9fe append version regression</span><br><span class="line">* 56b5bb3 add a test file</span><br></pre></td></tr></table></figure>
+
+<p>在这里可以看到分支合并的记录。也就是说，采用<code>no-ff</code>模式后，合并这一操作也为它指定一个<code>commit id</code>，而采用<code>Fast forward</code>模式后，直接把<code>master</code>指针指向<code>dev</code>了，这样就看不见合并的记录了。</p>
+<p>对于在开发过程中采取的分支策略，这里放一张图吧：</p>
+<p><img src="/img/branchmn.jpg" alt="BranchManagement"></p>
+<p>假设我们在<code>dev</code>分支上开发，这时在<code>master</code>分支上发现了bug需要修复，但是<code>dev</code>分支又不能直接提交，这时可以使用<code>git stash</code>来保留工作现场。</p>
+<p>比如正在编写<code>feature1.cpp</code>，发现<code>test.txt</code>需要修改，那么可以在<code>git add</code>后使用<code>git stash</code>保留工作现场：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br><span class="line">Saved working directory and index state WIP on dev: bfdd538 no-ff test2</span><br></pre></td></tr></table></figure>
+
+<p>接着我们回到<code>master</code>分支上进行修复，创建<code>bug</code>分支，修改后回到<code>master</code>合并。</p>
+<p>我们回到<code>dev</code>分支，使用<code>git stash list</code>来查看保留的工作现场：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git stash list</span><br><span class="line">stash@&#123;0&#125;: WIP on dev: bfdd538 no-ff test2</span><br></pre></td></tr></table></figure>
+
+<p>想要恢复<code>dev</code>分支，可以使用<code>git stash apply</code>恢复，但是stash的内容不删除，另一种是<code>git stash pop</code>，恢复的同时也删除了内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git stash pop</span><br><span class="line">On branch dev</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">        new file:   feature1.cpp</span><br></pre></td></tr></table></figure>
+
+<p>这时就可以继续工作了。</p>
+<h4 id="连接远程仓库"><a href="#连接远程仓库" class="headerlink" title="连接远程仓库"></a>连接远程仓库</h4><p>我们在Github上建立一个仓库<code>GitTutorial</code>，然后<code>git remote</code>连接它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add git-ttrl https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;gittutorial.git</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>git remote -v</code>查看详细信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br><span class="line">git-ttrl        https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;GitTutorial.git (fetch)</span><br><span class="line">git-ttrl        https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;GitTutorial.git (push)</span><br></pre></td></tr></table></figure>
+
+<h4 id="分支推送"><a href="#分支推送" class="headerlink" title="分支推送"></a>分支推送</h4><p>把所在的分支推送到指定的远程分支上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push testrepo master</span><br></pre></td></tr></table></figure>
+
+<p>比如我们想要把<code>dev</code>分支与远程的<code>dev</code>分支连接起来，可以这样创建本地分支：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b dev testrepo&#x2F;dev</span><br></pre></td></tr></table></figure>
+
+<p>我们添加一个<code>feature-1.cpp</code>，提交后准备推送到远程的<code>dev</code>分支，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push testrepo dev</span><br></pre></td></tr></table></figure>
+
+<p>但是失败了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">To https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;testrepo.git</span><br><span class="line"> ! [rejected]        dev -&gt; dev (non-fast-forward)</span><br><span class="line">error: failed to push some refs to &#39;https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;testrepo.git&#39;</span><br><span class="line">hint: Updates were rejected because the tip of your current branch is behind</span><br><span class="line">hint: its remote counterpart. Integrate the remote changes (e.g.</span><br><span class="line">hint: &#39;git pull ...&#39;) before pushing again.</span><br><span class="line">hint: See the &#39;Note about fast-forwards&#39; in &#39;git push --help&#39; for details.</span><br></pre></td></tr></table></figure>
+
+<p>为什么会失败呢，是因为远程分支的内容与本地分支的有冲突，这时我们需要使用<code>git pull</code>把远程<code>dev</code>分支拉过来合并，然后再<code>git push</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git pull testrepo dev</span><br><span class="line">From https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;testrepo</span><br><span class="line"> * branch            dev        -&gt; FETCH_HEAD</span><br><span class="line"> * [new branch]      dev        -&gt; testrepo&#x2F;dev</span><br><span class="line">Merge made by the &#39;recursive&#39; strategy.</span><br><span class="line"> feature.cpp | 6 ++++++</span><br><span class="line"> readme.md   | 4 ++++</span><br><span class="line"> 2 files changed, 10 insertions(+)</span><br><span class="line"> create mode 100644 feature.cpp</span><br><span class="line"> create mode 100644 readme.md</span><br></pre></td></tr></table></figure>
+
+<p>接着：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git push testrepo dev</span><br><span class="line">Enumerating objects: 7, done.</span><br><span class="line">Counting objects: 100% (7&#x2F;7), done.</span><br><span class="line">Delta compression using up to 8 threads</span><br><span class="line">Compressing objects: 100% (5&#x2F;5), done.</span><br><span class="line">Writing objects: 100% (5&#x2F;5), 629 bytes | 629.00 KiB&#x2F;s, done.</span><br><span class="line">Total 5 (delta 1), reused 0 (delta 0)</span><br><span class="line">remote: Resolving deltas: 100% (1&#x2F;1), done.</span><br><span class="line">To https:&#x2F;&#x2F;github.com&#x2F;owlinthewoods&#x2F;testrepo.git</span><br><span class="line">   e742629..87669cd  dev -&gt; dev</span><br></pre></td></tr></table></figure>
+
+<p>成功。</p>
+<h4 id="Rebase"><a href="#Rebase" class="headerlink" title="Rebase"></a>Rebase</h4><p>现在我们在本地做了两个提交<code>add comment</code>和<code>add author</code>，准备推送到远程仓库了，发现有人先于我们做了一个<code>set exit=1</code>的提交，于是<code>git pull</code>，<code>git log</code>查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty&#x3D;oneline --abbrev-commit</span><br><span class="line">*   e0ea545 (HEAD -&gt; master) Merge branch &#39;master&#39; of github.com:michaelliao&#x2F;learngit</span><br><span class="line">|\  </span><br><span class="line">| * f005ed4 (origin&#x2F;master) set exit&#x3D;1</span><br><span class="line">* | 582d922 add author</span><br><span class="line">* | 8875536 add comment</span><br><span class="line">|&#x2F;  </span><br><span class="line">* d1be385 init hello</span><br></pre></td></tr></table></figure>
+
+<p>这里提交历史有分叉，执行<code>git rebase</code>，查看log：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git log --graph --pretty&#x3D;oneline --abbrev-commit</span><br><span class="line">* 7e61ed4 (HEAD -&gt; master) add author</span><br><span class="line">* 3611cfe add comment</span><br><span class="line">* f005ed4 (origin&#x2F;master) set exit&#x3D;1</span><br><span class="line">* d1be385 init hello</span><br></pre></td></tr></table></figure>
+
+<p>可以看到本地的提交不再基于<code>init hello</code>，而是<code>set exit=1</code>，提交的内容是一致的。</p>
+<p>这张图很好理解：</p>
+<p><img src="/img/gitrebase.png" alt="Git rebase"></p>
+<p><code>git rebase</code>把你的<code>rebase</code>分支里的每个提交取消掉，并且把它们临时保存为补丁(patch)，然后把<code>mywork</code>分支更新到最新的<code>origin</code>分支，最后把保存的这些补丁应用到<code>mywork</code>分支上。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/07/18/primer_io/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/04/26/primer_operator-overloading/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

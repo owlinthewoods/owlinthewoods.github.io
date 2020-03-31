@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>primer_IO类型 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-07-18</span>
+    <h2>primer_IO类型</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>C++定义一些标准库里的类型来实现IO，这章介绍IO库的主要内容。</p>
+<a id="more"></a>
+
+<h3 id="IO类"><a href="#IO类" class="headerlink" title="IO类"></a>IO类</h3><p>标准库定义的IO类型：</p>
+<p><img src="/img/ioclass.png" alt="IO类型"></p>
+<p>标准库这些类具有继承关系，例如<code>ifstream</code>和<code>istringstream</code>都继承自<code>istream</code>，于是我们可以像使用<code>istream</code>对象一样，使用<code>ifstream</code>对象和<code>istringstream</code>对象。</p>
+<p>不能对IO对象拷贝和赋值，通常对IO对象进行操作的函数通常以引用方式传递和返回流类型。</p>
+<h4 id="条件状态"><a href="#条件状态" class="headerlink" title="条件状态"></a>条件状态</h4><p>IO类定义了一些函数和标志，可以访问和操作流的<strong>条件状态</strong>。</p>
+<p><img src="/img/conditionstate1.png" alt=""></p>
+<p><img src="/img/conditionstate2.png" alt=""></p>
+<p>IO错误的情况：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> a;</span><br><span class="line"><span class="built_in">cin</span>&gt;&gt;a;</span><br></pre></td></tr></table></figure>
+
+<p>如果这是我们输入一个字符串，那么流对象<code>cin</code>就会进入错误状态，可以使用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;val)</span><br></pre></td></tr></table></figure>
+
+<p>这种方式来检查流的状态是否正确。</p>
+<h5 id="查询流的状态"><a href="#查询流的状态" class="headerlink" title="查询流的状态"></a>查询流的状态</h5><p>IO库定义了<code>iostate</code>类型，来表达流状态，分别为<code>badbit</code>,<code>failbit</code>,<code>eofbit</code>,<code>goodbit</code>四个标志。</p>
+<h5 id="管理条件状态"><a href="#管理条件状态" class="headerlink" title="管理条件状态"></a>管理条件状态</h5><p>流对象有<code>rdstate</code>函数来返回状态值，<code>setstate</code>函数来设置状态值，<code>clear</code>函数被重载，接受无参数和一个<code>iostate</code>的参数。</p>
+<h5 id="管理输出缓冲"><a href="#管理输出缓冲" class="headerlink" title="管理输出缓冲"></a>管理输出缓冲</h5><p>每个输出流都有缓冲区保存程序读写的数据。</p>
+<p>操作符<code>endl</code>可以用来刷新缓存区，类似的操作符还有<code>flush</code>和<code>ends</code>。</p>
+<p><code>endl</code>输出内容后换行加刷新，<code>flush</code>输出内容后不换行刷新，<code>ends</code>输出内容加一个空字符，然后刷新。</p>
+<h5 id="输出输入流的关联"><a href="#输出输入流的关联" class="headerlink" title="输出输入流的关联"></a>输出输入流的关联</h5><p>当一个输出流与输入流关联时，在进行读操作之前都会刷新输出流的缓冲区。</p>
+<p><code>cin</code>对象拥有一个<code>tie</code>函数，它有两个版本，一个是无参数的版本，返回指向输出流的指针。如果对象没有关联流，则返回一个空指针。</p>
+<p>另一个是接受一个指向<code>ostream</code>的指针，然后将它绑定到自己。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cin</span>.tie(&amp;<span class="built_in">cout</span>);</span><br><span class="line">ostream *old_tie=<span class="built_in">cin</span>.tie(null); <span class="comment">//cin关联到null,而返回的是cout的指针。</span></span><br><span class="line"><span class="built_in">cin</span>.tie(old_tie);</span><br></pre></td></tr></table></figure>
+
+<h3 id="文件IO"><a href="#文件IO" class="headerlink" title="文件IO"></a>文件IO</h3><p><code>fstream</code>的特有操作：</p>
+<p><img src="/img/fstreamop.png" alt=""></p>
+<h4 id="使用文件流对象"><a href="#使用文件流对象" class="headerlink" title="使用文件流对象"></a>使用文件流对象</h4><p>初始化文件流对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ifstream <span class="title">in</span><span class="params">(filename)</span></span>;</span><br><span class="line">ofstream out;</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>fstream</code>继承于<code>iostream</code>，这意味着接受<code>iostream</code>对象为参数的函数也可以用<code>fstream</code>对象来代替。</p>
+<h5 id="使用open和close成员"><a href="#使用open和close成员" class="headerlink" title="使用open和close成员"></a>使用open和close成员</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ofstream out; <span class="comment">//未关联文件</span></span><br><span class="line">out.<span class="built_in">open</span>(filename);</span><br></pre></td></tr></table></figure>
+
+<p>进行调用<code>open</code>是否成功的检测：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(out)</span><br><span class="line">    <span class="comment">//如果检查成功则继续使用文件</span></span><br></pre></td></tr></table></figure>
+
+<p>如果读取文件失败的话，那么<code>failbit</code>被置位。</p>
+<h5 id="自动构造和析构"><a href="#自动构造和析构" class="headerlink" title="自动构造和析构"></a>自动构造和析构</h5><p>假如我们有一个文件列表，要对这一系列的文件进行处理</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> p=fptr+<span class="number">1</span>;p!=fptr+<span class="number">1</span>;p++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">ifstream <span class="title">input</span><span class="params">(*p)</span></span>;</span><br><span class="line">    <span class="keyword">if</span>(input)&#123;</span><br><span class="line">        <span class="built_in">process</span>(input);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">cerr</span>&lt;&lt;<span class="string">"could't read the file"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在每一次循环内，都会建立一个<code>fstream</code>对象，并且在循环结束后自动销毁。</p>
+<h4 id="文件模式"><a href="#文件模式" class="headerlink" title="文件模式"></a>文件模式</h4><p><strong>文件模式</strong>（file mode）指出了应该以怎样的形式打开文件：<br><img src="/img/filemode.png" alt=""></p>
+<p>其中与<code>ifstream</code>关联的对象默认以<code>in</code>模式打开，与<code>ofstream</code>相关联的对象默认以<code>out</code>模式打开。</p>
+<p>注意：</p>
+<p>打开一个<code>ofstream</code>对象时，文件内容会被清空。如果不想清空文件内容则需要同时指定文件模式为<code>app</code>（追加）。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ofstream <span class="title">app</span><span class="params">(<span class="string">"file_app"</span>,ofstream::app)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>或者：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ofstream <span class="title">app</span><span class="params">(<span class="string">"file_app"</span>,ofstream::app|ofstream::out)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果调用<code>open</code>函数打开文件的话，也可以制定文件打开模式；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ofstream out;</span><br><span class="line">out.<span class="built_in">open</span>(<span class="string">"file_out"</span>);<span class="comment">//默认输出和截断</span></span><br><span class="line">out.<span class="built_in">open</span>(<span class="string">"file_app"</span>,ofstream::app);<span class="comment">//指定输出和追加</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="string流"><a href="#string流" class="headerlink" title="string流"></a>string流</h3><p><code>sstream</code>头文件定义了三个类型来向<code>string</code>写入数据，分别是<code>istringstream</code>，<code>ostringstream</code>，<code>stringstream</code>。</p>
+<h4 id="使用istringstream"><a href="#使用istringstream" class="headerlink" title="使用istringstream"></a>使用istringstream</h4><p>假如我们有多行的个人记录，每一行有个人的姓名和多个电话号码。如果我们从这一行字符串中提取出个人的信息，就可以使用<code>istringstream</code>。</p>
+<p>记录是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sasha 15316597548 08272356</span><br><span class="line">carol 15679873256 08244684</span><br></pre></td></tr></table></figure>
+
+<p>我们想要从多行数据中提取出每个人的记录，可以首先定义一个结构体：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">person</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="built_in">string</span> name;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;cell;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们使用循环处理数据：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> <span class="built_in">line</span>,<span class="keyword">word</span>;</span><br><span class="line">vertor&lt;person&gt;<span class="built_in">list</span>;</span><br><span class="line"><span class="keyword">while</span>(getline(<span class="built_in">cin</span>,<span class="built_in">line</span>))</span><br><span class="line">&#123;</span><br><span class="line">    person info;<span class="comment">//创建临时对象</span></span><br><span class="line">    <span class="function"><span class="built_in">istringstream</span> <span class="title">record</span><span class="params">(<span class="built_in">line</span>)</span></span>;<span class="comment">//使用record绑定line</span></span><br><span class="line">    record&gt;&gt;info.name;</span><br><span class="line">    <span class="keyword">while</span>(record&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">        info.cell.push_back(<span class="keyword">word</span>);</span><br><span class="line">    <span class="built_in">list</span>.push_back(info);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用<code>istringstream</code>对象绑定了<code>line</code>之后，便可以逐个读取<code>line</code>中的元素了。</p>
+<h4 id="使用ostringstream"><a href="#使用ostringstream" class="headerlink" title="使用ostringstream"></a>使用ostringstream</h4><p>在得到每个人的电话记录后，我们还需要对电话号码进行验证。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;entry:<span class="built_in">list</span>)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">ostringstream</span> formatted,badNums;<span class="comment">//创建对象</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;nums:entry.cell)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(!valid(nums))<span class="comment">//对每个电话号码进行验证	</span></span><br><span class="line">            badNums&lt;&lt;nums&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            formatted&lt;&lt;nums&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(badNums.str().empty())<span class="comment">//如果没有错误则打印</span></span><br><span class="line">        os&lt;&lt;entry.name&lt;&lt;<span class="string">" "</span>&lt;&lt;formatted.str();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/07/28/primer_sequential-container/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/07/15/learn-git/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Git入门使用</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

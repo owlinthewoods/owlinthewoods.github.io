@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>primer_容器入门 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-04-10</span>
+    <h2>primer_容器入门</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>这章主要介绍<code>vector</code>和<code>string</code>两种容器。</p>
+<a id="more"></a>
+
+<h3 id="命名空间的using声明"><a href="#命名空间的using声明" class="headerlink" title="命名空间的using声明"></a>命名空间的using声明</h3><p>基本上我们用到的库函数都属于std命名空间，有了using声明就无须专门的前缀：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span>::name;</span><br></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="built_in">std</span>::<span class="built_in">cin</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;i;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt;i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以把用到的标准库的名字都用using声明。</p>
+<p>头文件一般不包含using声明，头文件会被引用到所有引用它的文件里，可能会产生名字冲突。</p>
+<h4 id="标准库类型string"><a href="#标准库类型string" class="headerlink" title="标准库类型string"></a>标准库类型string</h4><h5 id="定义和初始化string对象"><a href="#定义和初始化string对象" class="headerlink" title="定义和初始化string对象"></a>定义和初始化string对象</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1;<span class="comment">//默认初始化为空字符串</span></span><br><span class="line"><span class="built_in">string</span> s2=s1;<span class="comment">//拷贝</span></span><br><span class="line"><span class="built_in">string</span> s3=<span class="string">"abc"</span>;<span class="comment">//s3是该字符串字面值的副本</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s4</span><span class="params">(<span class="number">4</span>,<span class="string">'c'</span>)</span></span>;<span class="comment">//s4的内容为cccc;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="直接初始化与拷贝初始化"><a href="#直接初始化与拷贝初始化" class="headerlink" title="直接初始化与拷贝初始化"></a>直接初始化与拷贝初始化</h5><p>使用 = 时，执行的是拷贝初始化，不使用等号则是直接初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s3=<span class="string">"abc"</span>;<span class="comment">//拷贝初始化</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s5</span><span class="params">(<span class="string">"hey"</span>)</span></span>;<span class="comment">//直接初始化</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="string对象上的操作"><a href="#string对象上的操作" class="headerlink" title="string对象上的操作"></a>string对象上的操作</h5><p><img src="/img/stringop.png" alt=""></p>
+<h5 id="读写string对象"><a href="#读写string对象" class="headerlink" title="读写string对象"></a>读写string对象</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;s;<span class="comment">//写入对象，遇到空白停止</span></span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>读取时，string对象会忽略开头的空白，然后读取直到遇到下一个空白符为止。</p>
+<p>多个输入可以连在一起：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1,s2;</span><br><span class="line"><span class="built_in">cin</span>&gt;&gt;s1&gt;&gt;s2;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;s1&lt;&lt;s2&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>假如输入” hello world ,那么将会输出“ helloworld”。</p>
+<h5 id="读取未知数量的string对象"><a href="#读取未知数量的string对象" class="headerlink" title="读取未知数量的string对象"></a>读取未知数量的string对象</h5><p>注意这里是未知数量而不是未知长度。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> s;</span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;s&lt;&lt;<span class="built_in">endl</span>;<span class="comment">//逐个输出s对象，并换行输出</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="使用getline读取一整行"><a href="#使用getline读取一整行" class="headerlink" title="使用getline读取一整行"></a>使用getline读取一整行</h5><p>如果希望保留输入时的空百符，可以使用getline代替&gt;&gt;运算符。</p>
+<p>getline的参数是一个输入流和一个string对象，函数从输入流中读取内容，直到遇到换行符为止，这样每次可以输出一整行而不是每行输出一个词：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> <span class="built_in">line</span>;</span><br><span class="line">    <span class="keyword">while</span>(getline(<span class="built_in">cin</span>,<span class="built_in">line</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="built_in">line</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于line中不包含换行符，则需要手动加上换行符。使用endl结束当前行并刷新显示缓冲区。</p>
+<h5 id="string的empty和size操作"><a href="#string的empty和size操作" class="headerlink" title="string的empty和size操作"></a>string的empty和size操作</h5><p>empty函数调用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!str.empty())</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>size函数调用</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(getline(<span class="built_in">cin</span>,str))</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(str.<span class="built_in">size</span>()&gt;<span class="number">80</span>)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="string-size-type类型"><a href="#string-size-type类型" class="headerlink" title="string::size_type类型"></a>string::size_type类型</h5><p>string::size_type是一个无符号类型的值，这种类型与机器无关。size()函数返回的是该类型的值。</p>
+<p>可以通过auto来推断变量的类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> len=str.<span class="built_in">size</span>();</span><br></pre></td></tr></table></figure>
+
+<h5 id="比较string对象"><a href="#比较string对象" class="headerlink" title="比较string对象"></a>比较string对象</h5><p>string对象相等意味着长度相同并且包含的字符也都相同，比较运算符对大小写敏感。</p>
+<p>比较规则：</p>
+<ul>
+<li>如果长度不同，但较短的string的每个字符都与对应位置的较长string上的字符都相等，则较短string小于较长string。</li>
+<li>如果两个string对象在某些位置上不一致，则比较的结果是两个string第一对相异字符的比较结果</li>
+</ul>
+<p>比较示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1=<span class="string">"fack"</span>;</span><br><span class="line"><span class="built_in">string</span> s2=<span class="string">"fuck"</span>;</span><br><span class="line"><span class="built_in">string</span> s3=<span class="string">"facku"</span>;</span><br></pre></td></tr></table></figure>
+
+<p>对于s1,s3,应用规则一可知s3大于s1，对于s1，s2应用规则二可知（a&lt;u),s1对象小于s3。</p>
+<h5 id="为string对象赋值"><a href="#为string对象赋值" class="headerlink" title="为string对象赋值"></a>为string对象赋值</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">string s1(4,'c'),s2;//s2为空</span><br><span class="line">s1=s2;<span class="comment">//s1为空</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="两个string对象相加"><a href="#两个string对象相加" class="headerlink" title="两个string对象相加"></a>两个string对象相加</h5><h5 id="对象的相加指的是字符串的串接，"><a href="#对象的相加指的是字符串的串接，" class="headerlink" title="对象的相加指的是字符串的串接，"></a>对象的相加指的是字符串的串接，</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1=<span class="string">"hey"</span>,s2=<span class="string">"you"</span>;</span><br><span class="line"><span class="built_in">string</span> s3=s1+s2;<span class="comment">//s3的内容为heyyou</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="string对象和字面值相加"><a href="#string对象和字面值相加" class="headerlink" title="string对象和字面值相加"></a>string对象和字面值相加</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s1=s2+<span class="string">"c"</span>;/字面值与<span class="built_in">string</span>相加</span><br><span class="line"><span class="built_in">string</span> s1=<span class="string">"fack"</span>+<span class="string">"u"</span>;<span class="comment">//错误，两个字面值不能直接相加，至少要有一个string对象</span></span><br><span class="line"><span class="built_in">string</span> s1=<span class="string">"fack"</span>+<span class="string">"u"</span>+s2;<span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>字符串字面值与string对象不是同一种类型。</p>
+<h4 id="处理string对象中的字符"><a href="#处理string对象中的字符" class="headerlink" title="处理string对象中的字符"></a>处理string对象中的字符</h4><p><img src="/img/cctypefunc.png" alt=""></p>
+<h5 id="建议使用C-版本的C标准库文件"><a href="#建议使用C-版本的C标准库文件" class="headerlink" title="建议使用C++版本的C标准库文件"></a>建议使用C++版本的C标准库文件</h5><p>C++标准库兼容了C的标准库。例如name.h这类头文件在C++中命名为cname，命名在cname头文件里的名字属于命名空间std，在.h文件中却不是这样。</p>
+<p>一般来说，C++程序应该使用cname的形式的头文件，而不是name.h形式的头文件，因为标准库中的名字总能在std中找到。</p>
+<h5 id="使用基于范围的for语句"><a href="#使用基于范围的for语句" class="headerlink" title="使用基于范围的for语句"></a>使用基于范围的for语句</h5><p>范围语句遍历给定语句的每个元素然后对序列中的每个值执行某种操作，语法形式为:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (declaration:expression)</span><br><span class="line">    statement</span><br></pre></td></tr></table></figure>
+
+<p>其中expression是对象序列，declaration定义一个变量，用于访问序列中的每个元素。每次迭代，该变量就会初始化为序列部分的下一个值。</p>
+<p>对于string对象，可以通过for语句把string对象中的每一个字符输出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> keith;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> c:keith)</span><br><span class="line">   <span class="built_in">cout</span>&lt;&lt;keith&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用auto关键字，让编译器决定c的类型，这里为char。</p>
+<p>使用for语句和ispunct函数来统计string对象中标点符号的个数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">keith</span><span class="params">(<span class="string">"heykeith!!!"</span>)</span></span>;</span><br><span class="line"><span class="keyword">decltype</span>(s.<span class="built_in">size</span>()) punct_cnt;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> c:keith)</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">ispunct</span>(c))</span><br><span class="line">        ++punct_cnt;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;punct_cnt&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用decltype关键字（新特性）声明punct_cnt的类型为size函数的返回类型。</p>
+<h5 id="使用for语句改变string中的字符"><a href="#使用for语句改变string中的字符" class="headerlink" title="使用for语句改变string中的字符"></a>使用for语句改变string中的字符</h5><p>若想改变string中的字符，必须把循环变量声明为引用类型。</p>
+<p>例如，我们想要把string中的小写字母改为大写字母。可以for语句和toupper函数来实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">keith</span><span class="params">(<span class="string">"heykeith!!!"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">for</span><span class="params">(<span class="keyword">auto</span> &amp;c:keith)</span></span></span><br><span class="line"><span class="function">    c</span>=<span class="built_in">toupper</span>(c);</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;keith&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="处理一部分字符"><a href="#处理一部分字符" class="headerlink" title="处理一部分字符"></a>处理一部分字符</h5><p>想要访问string中的单个字符有两种方式：下标和迭代器。</p>
+<p>下标运算符（[]）接受的参数类型为string:size_type类型，下标必须大于0小于s.size().</p>
+<p>下标的值也叫下标（index），如果index是一个符号数，那么将会被转换为string:size_type类型。</p>
+<h5 id="使用下标执行迭代"><a href="#使用下标执行迭代" class="headerlink" title="使用下标执行迭代"></a>使用下标执行迭代</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">keith</span><span class="params">(<span class="string">"hey keith"</span>)</span></span></span><br><span class="line"><span class="function"><span class="title">for</span><span class="params">(<span class="keyword">decltype</span>(keith.<span class="built_in">size</span>()) index=<span class="number">0</span>;index!=keith.<span class="built_in">size</span>()&amp;&amp;<span class="built_in">isspace</span>(s[index]);++index)</span></span>;</span><br><span class="line"><span class="comment">//将部分小写字母转为大写</span></span><br></pre></td></tr></table></figure>
+
+<p>得到的是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HEY keith;</span><br></pre></td></tr></table></figure>
+
+<p>为了保证下标的合法性，可以总是下标的类型为string:size_type类型，由于此类型为无符号数，所以不会出现小于0的情况。</p>
+<h5 id="使用下标执行随机访问"><a href="#使用下标执行随机访问" class="headerlink" title="使用下标执行随机访问"></a>使用下标执行随机访问</h5><p>通过计算得到index的值从而直接访问对应位置的字符。</p>
+<p>这里为了将0-15的十进制数转化为十六进制形式，只需创建一个string存放16个十六进制的数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="built_in">string</span> <span class="title">hexdigits</span><span class="params">(<span class="string">"0123456789ABCDEF"</span>)</span></span>;</span><br><span class="line"><span class="built_in">string</span> hex;<span class="comment">//用于保存十六进制数的字符串</span></span><br><span class="line"><span class="built_in">string</span>::size_type n;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;n)</span><br><span class="line">    <span class="keyword">if</span>(n&lt;hexdigits.<span class="built_in">size</span>())</span><br><span class="line">        hex+=hexdigits[n];<span class="comment">//得到对应的十六进制数</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;hex&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>若输入：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5</span> <span class="number">7</span> <span class="number">9</span> <span class="number">11</span> <span class="number">13</span> <span class="number">15</span></span><br></pre></td></tr></table></figure>
+
+<p>将输出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">579B</span>DF</span><br></pre></td></tr></table></figure>
+
+<h3 id="标准库类型vector"><a href="#标准库类型vector" class="headerlink" title="标准库类型vector"></a>标准库类型vector</h3><p>vector实际上是一个模板，使用模板时，需要把vertor实例化为某种类型。</p>
+<p>以vector为例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;keith;<span class="comment">//保存int类型的对象</span></span><br><span class="line"><span class="built_in">vector</span>&lt;keithee&gt;keitheeboy;<span class="comment">//保存keithee类型的对象</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;file;<span class="comment">//元素是vector对象</span></span><br></pre></td></tr></table></figure>
+
+<p>不存在包含引用的vector。</p>
+<h4 id="定义和初始化vector对象"><a href="#定义和初始化vector对象" class="headerlink" title="定义和初始化vector对象"></a>定义和初始化vector对象</h4><p><img src="/img/vectorinit.png" alt=""></p>
+<p>默认初始化vector对象，创建一个空vector:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;s;<span class="comment">//不含任何元素</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="列表初始化vector"><a href="#列表初始化vector" class="headerlink" title="列表初始化vector"></a>列表初始化vector</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;alpha=&#123;<span class="string">"a"</span>,<span class="string">"b"</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>注意初始值都只能放在花括号里，而不是圆括号。</p>
+<h5 id="值初始化"><a href="#值初始化" class="headerlink" title="值初始化"></a>值初始化</h5><p>如果只提供vector的元素数量而没有初始值，那么vector将执行值初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v1(<span class="number">10</span>);<span class="comment">//每个元素初始化为0；</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;s1(<span class="number">10</span>);<span class="comment">//每个元素初始化为一个空string</span></span><br></pre></td></tr></table></figure>
+
+<p>初始化需注意的问题：</p>
+<ul>
+<li>如果vector元素类型不支持默认初始化，则必须提供元素的初始值</li>
+<li>如果只提供了元素的数量，而没有设定初始值，则只能使用直接初始化，而不能使用拷贝初始化</li>
+</ul>
+<h5 id="使用花括号和圆括号初始化vector的区别"><a href="#使用花括号和圆括号初始化vector的区别" class="headerlink" title="使用花括号和圆括号初始化vector的区别"></a>使用花括号和圆括号初始化vector的区别</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v1(<span class="number">10</span>);<span class="comment">//有十个元素</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;v2&#123;<span class="number">10</span>&#125;;<span class="comment">//有一个值为10的元素</span></span><br></pre></td></tr></table></figure>
+
+<p>圆括号是用来construct object,</p>
+<p>花括号是用来list initialize object.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;v3&#123;<span class="string">"hey"</span>&#125;;<span class="comment">//正确，可以用string初始化</span></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;v4(<span class="string">"hey"</span>);<span class="comment">//错误，不能用string构造对象</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="向vector中添加元素"><a href="#向vector中添加元素" class="headerlink" title="向vector中添加元素"></a>向vector中添加元素</h4><p>如果不清楚元素的个数和初始值，可以使用vector的push_back函数向其中添加元素，它负责将一个值push到vector的”尾端“。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;k;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;=<span class="number">99</span>;i++)</span><br><span class="line">    k.push_back(i);<span class="comment">//依次把0-99共100个数push到vector中</span></span><br></pre></td></tr></table></figure>
+
+<p>如果需要实时读入数据并把他们放入vector中，也可以采用push_back方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> s;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;k;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s)</span><br><span class="line">    k.push_back(s);<span class="comment">//把每一个s添加到vector后面</span></span><br></pre></td></tr></table></figure>
+
+<p>不能使用范围 for循环为vector添加对象。</p>
+<h4 id="其他vector操作"><a href="#其他vector操作" class="headerlink" title="其他vector操作"></a>其他vector操作</h4><p><img src="/img/othervecop.png" alt=""></p>
+<p>可以使用范围 for语句处理vector中的所有元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;s&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> &amp;i:s)</span><br><span class="line">    i*=i;<span class="comment">//对于每一个元素求平方</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i:s)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;i&lt;&lt;<span class="string">" "</span>;<span class="comment">//输出每一个元素</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>vector的empty和size函数与string的完全一致，size函数返回的是vector定义的size_type类型。</p>
+<h5 id="计算vector对象的索引"><a href="#计算vector对象的索引" class="headerlink" title="计算vector对象的索引"></a>计算vector对象的索引</h5><p>使用vector统计不同分数段的人数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">unsigned</span>&gt;grades(<span class="number">11</span>,<span class="number">0</span>);<span class="comment">//全部初始化为0；</span></span><br><span class="line"><span class="keyword">unsigned</span> t;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;t)</span><br><span class="line">    <span class="keyword">if</span>(t&lt;=<span class="number">100</span>)</span><br><span class="line">        ++grades[t/<span class="number">10</span>];<span class="comment">//对应分数段人数+1</span></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> i:grades)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;grades&lt;&lt;<span class="string">" "</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="不能用下标形式添加vector元素"><a href="#不能用下标形式添加vector元素" class="headerlink" title="不能用下标形式添加vector元素"></a>不能用下标形式添加vector元素</h5><p>错误示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;t;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">decltype</span>(t.<span class="built_in">size</span>()) ix=<span class="number">0</span>;ix!=<span class="number">10</span>;++ix)</span><br><span class="line">    t[ix]=ix;<span class="comment">//错误，t是一个空vector，不含任何元素</span></span><br></pre></td></tr></table></figure>
+
+<p>如上，正确的方法是使用push_back:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">decltype</span>(t.<span class="built_in">size</span>()) ix=<span class="number">0</span>;ix!=<span class="number">10</span>;++ix)</span><br><span class="line">    t.push_back[ix];<span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<p>总结:vector下标运算符只能访问已存在的元素，而不能用于添加元素。</p>
+<p>确保下标合法的一种好的方法是尽可能使用范围 for语句。</p>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p>所有的标准库容器都可以使用迭代器，但只有少数的类型支持下标运算符。</p>
+<h4 id="使用迭代器"><a href="#使用迭代器" class="headerlink" title="使用迭代器"></a>使用迭代器</h4><p>有迭代器的类型同时拥有返回迭代器的成员。例如begin和end成员。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> b=v.<span class="built_in">begin</span>();</span><br><span class="line"><span class="keyword">auto</span> e=v.<span class="built_in">end</span>();</span><br></pre></td></tr></table></figure>
+
+<p>end成员负责返回尾元素的下一位置，这样的迭代器仅是一个标记而已，表示我们处理完了容器中的所有元素。</p>
+<h5 id="迭代器运算符"><a href="#迭代器运算符" class="headerlink" title="迭代器运算符"></a>迭代器运算符</h5><p><img src="/img/iterator.png" alt=""></p>
+<p>和指针类似，解引用迭代器也能够获取迭代器指示的元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">"keith"</span>)</span></span>;</span><br><span class="line"><span class="keyword">auto</span> a=s.<span class="built_in">begin</span>();</span><br><span class="line">*a=<span class="built_in">toupper</span>(*a);<span class="comment">//解引用运算符</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="迭代器的移动"><a href="#迭代器的移动" class="headerlink" title="迭代器的移动"></a>迭代器的移动</h5><p>迭代器的递增指的是将迭代器向前移动一个位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it=s.<span class="built_in">begin</span>();it!=s.<span class="built_in">end</span>()&amp;&amp;!<span class="built_in">isspace</span>(*it);++it)<span class="comment">//执行++it使迭代器前移从而访问下一个字符</span></span><br><span class="line">    *it=<span class="built_in">toupper</span>(*it);</span><br></pre></td></tr></table></figure>
+
+<p>这个循环也是遍历s的所有字符直到遇到空白字符为止，这里运用的不再是下标运算符而是迭代器。</p>
+<p>关键概念：泛型编程</p>
+<p>上面可以看到不是所有的标准库类型有下标运算符，但是所有的类型都定义了==和!=,以及迭代器。</p>
+<p>因此在编程时，尽量养成使用迭代器和!=的习惯是好的。</p>
+<h5 id="迭代器的类型"><a href="#迭代器的类型" class="headerlink" title="迭代器的类型"></a>迭代器的类型</h5><p>我们可以使用iterator和const_iterator来表示迭代器的类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator it1;<span class="comment">//it可以读写vector里的元素</span></span><br><span class="line"><span class="built_in">string</span>::iterator it2;</span><br><span class="line"></span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::const_iterator it3;<span class="comment">//只读不能写</span></span><br><span class="line"><span class="built_in">string</span>::const_iterator it4;</span><br></pre></td></tr></table></figure>
+
+<h5 id="begin和end运算符"><a href="#begin和end运算符" class="headerlink" title="begin和end运算符"></a>begin和end运算符</h5><p>对象为常量时，begin返回const_iterator；反之，返回iterator:</p>
+<p>为了便于专门返回const_iterator,C++11定义了cbegin和cend函数，不管对象是否是常量，都返回const_iterator。</p>
+<h5 id="解引用和成员访问"><a href="#解引用和成员访问" class="headerlink" title="解引用和成员访问"></a>解引用和成员访问</h5><p>对于一个由string组成的vector来说，可以引入迭代器，来检查元素是否为空字符串：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(*it).empty();<span class="comment">//先解引用再执行点运算符</span></span><br><span class="line">*it.empty();<span class="comment">//it只是一个迭代器，没有empty成员</span></span><br></pre></td></tr></table></figure>
+
+<p>为了简化操作，引入-&gt;箭头运算符将*和.运算符结合在一起。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> it=s.empty();</span><br><span class="line">    it!=s.cend()&amp;&amp;it-&gt;empty();++it)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*it&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="迭代器的运算"><a href="#迭代器的运算" class="headerlink" title="迭代器的运算"></a>迭代器的运算</h4><p>string和vector的迭代器提供了比其他的标准库类型更多的运算符</p>
+<p><img src="/img/vecstritop.png" alt=""></p>
+<h5 id="迭代器的算术运算"><a href="#迭代器的算术运算" class="headerlink" title="迭代器的算术运算"></a>迭代器的算术运算</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> mid=vi.<span class="built_in">begin</span>+vi.<span class="built_in">size</span>()/<span class="number">2</span>;<span class="comment">//得到中间元素的迭代器，下标从0开始</span></span><br></pre></td></tr></table></figure>
+
+<p>还可以使用关系运算符来比较两个迭代器的位置：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(it&lt;mid)<span class="comment">//处理前半部分的元素，</span></span><br></pre></td></tr></table></figure>
+
+<p>注意，这里的it和mid两个迭代器必须是指向同一个容器的元素。</p>
+<h5 id="使用迭代器运算"><a href="#使用迭代器运算" class="headerlink" title="使用迭代器运算"></a>使用迭代器运算</h5><p>迭代器的一个景点运用是二分搜索（有序序列）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> beg=<span class="built_in">text</span>.<span class="built_in">begin</span>();<span class="keyword">auto</span> <span class="built_in">end</span>=<span class="built_in">text</span>.<span class="built_in">end</span>();</span><br><span class="line"><span class="keyword">auto</span> mid=<span class="built_in">text</span>.<span class="built_in">begin</span>()+(<span class="built_in">end</span>-<span class="built_in">begin</span>)/<span class="number">2</span>;</span><br><span class="line"><span class="keyword">while</span>(mid!=<span class="built_in">text</span>.<span class="built_in">end</span>()&amp;&amp;*mid!=sought)&#123;</span><br><span class="line">    <span class="keyword">if</span>(sought&lt;*mid)</span><br><span class="line">        <span class="built_in">end</span>=mid;<span class="comment">//忽略后半部分</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    beg=mid+<span class="number">1</span>;</span><br><span class="line">mid=beg+(<span class="built_in">end</span>-beg)/<span class="number">2</span>;<span class="comment">//确定新的中间点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/04/26/primer_operator-overloading/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/04/03/primer_intro-to-oop/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

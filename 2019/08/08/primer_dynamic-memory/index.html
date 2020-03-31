@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>primer_动态内存 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-08-08</span>
+    <h2>primer_动态内存</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>为了更安全地使用动态对象，标准库定义了两个智能指针类型来管理动态分配的对象。当对象被释放时，指向它的智能指针可以确保正确地释放他。</p>
+<a id="more"></a>
+
+<p>我们的程序目前为止只使用过静态内存或栈内存。静态内存用于保存局部<code>static</code>对象，类的<code>static</code>数据成员以及任何定义在函数之外的变量。栈内存用于保存函数中非<code>static</code>对象。分配在栈内存和静态内存的对象由编译器自动创建和销毁。对于栈对象，仅在其定义的程序块内运行时才存在，<code>static</code>对象在使用之前分配，在程序结束时销毁。</p>
+<p>除此之外，程序还拥有一部分内存叫做<strong>自由空间</strong>或者<strong>堆</strong>。程序用堆来存储动态分配的对象，也就是说在程序运行时分配的对象，其生存期由程序来控制。</p>
+<h3 id="动态内存和智能指针"><a href="#动态内存和智能指针" class="headerlink" title="动态内存和智能指针"></a>动态内存和智能指针</h3><p>我们通过<code>new</code>和<code>delete</code>来管理动态内存。标准库定义了两种智能指针，一种<code>shared_ptr</code>允许多个指针指向同一个对象，而<code>unique_ptr</code>则”独占“所指向的对象。另外还有一个<code>weak_ptr</code>的伴随类，它是一种弱引用，指向<code>shared_ptr</code>管理的对象。</p>
+<h4 id="shared-ptr类"><a href="#shared-ptr类" class="headerlink" title="shared_ptr类"></a>shared_ptr类</h4><p>智能指针是模板，初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p1; <span class="comment">//指向string的p1</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; p2;</span><br></pre></td></tr></table></figure>
+
+<p>其使用方法与普通指针类似，可以解引用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(p1 &amp;&amp; p1-&gt;empty)</span><br><span class="line">    *p1=<span class="string">"hello"</span>; <span class="comment">//如果p1不为空检测它是否指向一个空指针，然后赋新值</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/shared_ptr.png" alt=""></p>
+<p><code>shared_ptr</code>独有的操作：<br><img src="/img/shared_unique.png" alt=""></p>
+<h5 id="make-shared函数"><a href="#make-shared函数" class="headerlink" title="make_shared函数"></a>make_shared函数</h5><p>这是最安全分配和使用动态内存的方法。此操作动态分配一个对象并初始化它，返回一个指向此对象的<code>shared_ptr</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p3=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">18</span>); <span class="comment">//指向值为18的int的shared_ptr</span></span><br><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="built_in">string</span>&gt; p4=make_shared&lt;<span class="built_in">string</span>&gt;(<span class="number">3</span>,<span class="string">'3'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果我们不传入参数，则执行值初始化。</p>
+<p>可以使用<code>auto</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p5=make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<h5 id="shared-ptr的拷贝和赋值"><a href="#shared-ptr的拷贝和赋值" class="headerlink" title="shared_ptr的拷贝和赋值"></a>shared_ptr的拷贝和赋值</h5><p>当进行拷贝和赋值时，每个<code>shared_ptr</code>都会记录有多少个其他的<code>shared_ptr</code>指向相同的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">12</span>);</span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">q</span><span class="params">(p)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>每个<code>shared_ptr</code>都有一个计数器，称为<strong>引用计数</strong>。当我们用其初始化另一个<code>shared_ptr</code>，传参，拷贝，返回<code>shared_ptr</code>时，都会增加其计数器。如果被赋予新值或者被销毁，计数器递减。变为0时，它会自动释放自己管理的对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> r=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">12</span>);</span><br><span class="line">r=q;</span><br></pre></td></tr></table></figure>
+
+<p>这里给<code>r</code>赋值，使其指向新的地址，递减原来<code>r</code>指向对象的引用计数，这时<code>r</code>原来指向的对象已经没有引用，这个<code>int</code>将被释放，再递增<code>q</code>指向的对象的引用计数。</p>
+<p>shared_ptr自动销毁所管理的对象是通过其析构函数完成的。</p>
+<p>比如我们有一个返回指向动态分配的对象的<code>shared_ptr</code>的函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;Foo&gt; <span class="title">factory</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;Foo&gt;(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同时另一个函数将返回的<code>shared_ptr</code>保存在局部变量中：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;Foo&gt; p=factory(args);</span><br><span class="line">    <span class="comment">//使用p</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>p</code>在<code>use_factory</code>结束后将被销毁，由于<code>p</code>是唯一引用<code>factory</code>返回的内存的对象，所以<code>p</code>指向的<code>Foo</code>类型的对象也会被销毁。</p>
+<p>如果还有其他<code>shared_ptr</code>指向这块内存：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;Foo&gt; p=factory(args);</span><br><span class="line">    <span class="keyword">return</span> p; <span class="comment">//返回shared_ptr的拷贝</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于这里返回了<code>p</code>的拷贝，所以即便<code>p</code>被释放了，但是仍有对象的引用。</p>
+<p>如果你忘记销毁不再使用的<code>shared_ptr</code>，那么你最后手动释放它，尽管不会引起内存泄漏，但会浪费内存。</p>
+<p>如果你把<code>shared_ptr</code>存放在容器中，但后来不再需要全部元素，记得<code>erase</code>它们。</p>
+<h5 id="使用了动态生存期的资源的类"><a href="#使用了动态生存期的资源的类" class="headerlink" title="使用了动态生存期的资源的类"></a>使用了动态生存期的资源的类</h5><p>程序使用动态内存处于以下三种原因：</p>
+<ol>
+<li>程序不知道要使用多少对象</li>
+<li>程序不知道所使用对象的准确类型</li>
+<li>程序需要在多个对象间共享数据</li>
+</ol>
+<p>容器是处于第一种原因使用动态内存。这里我们定义一个类使用动态内存，来达到多个对象共享底层数据。</p>
+<p>我们拷贝一个<code>vector</code>时：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v1;</span><br><span class="line">&#123; <span class="comment">//新作用域</span></span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; v2=&#123;<span class="string">"a"</span>,<span class="string">"an"</span>,<span class="string">"the"</span>&#125;;</span><br><span class="line">    v1=v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里<code>v2</code>结束其作用域，<code>v2</code>的元素也被销毁，<code>v1</code>保存着元素的拷贝。</p>
+<p>如果两个对象共享底层的元素，当某个对象被销毁时，不能单方面销毁底层数据：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">keith&lt;<span class="built_in">string</span>&gt; k1;</span><br><span class="line">&#123; <span class="comment">//新作用域</span></span><br><span class="line">    keith&lt;<span class="built_in">string</span>&gt; k2=&#123;<span class="string">"a"</span>,<span class="string">"an"</span>,<span class="string">"the"</span>&#125;;</span><br><span class="line">    k1=k2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里<code>k2</code>被销毁了，但是<code>k2</code>中的元素没有被销毁，而是由<code>k1</code>指向了它们。</p>
+<h5 id="定义StrKeith类"><a href="#定义StrKeith类" class="headerlink" title="定义StrKeith类"></a>定义StrKeith类</h5><p>我们定义一个管理<code>string</code>的<code>StrKeith</code>类，我们将使用<code>vector</code>来保存元素，但是我们不能在一个<code>Keith</code>对象中直接保存<code>vector</code>，如果<code>keith1</code>被销毁了，里面的<code>vector</code>也会被销毁，所以将<code>vector</code>保存在动态内存中。</p>
+<p>为每个<code>StrKeith</code>设置一个<code>shared_ptr</code>来记录有多少个对象共享该<code>vector</code>。</p>
+<p>我们的类有    默认构造函数和构造函数，接受单一的<code>initializer_list&lt;string&gt;</code>类型参数，也就是一个初始化器的花括号列表。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrKeith</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;::size_type size_type;</span><br><span class="line">    StrKeith();</span><br><span class="line">    StrKeith(<span class="built_in">initializer_list</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt; il);</span><br><span class="line">    <span class="function">size_type <span class="title">size</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> data-&gt;size_type;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> data-&gt;empty()&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; s)</span> </span>&#123;data-&gt;push_back(s)&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pop_back</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="title">front</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="title">back</span><span class="params">()</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&gt; data;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">check</span><span class="params">(size_type i,<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; msg)</span> <span class="keyword">const</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个构造函数都使用初始化列表初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">StrKeith::StrKeith():data(make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;()) &#123;&#125;</span><br><span class="line">StrKeith::StrKeith(<span class="built_in">initializer_list</span>&lt;<span class="built_in">string</span>&gt; il):</span><br><span class="line">            data(make_shared&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;(il)) &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认构造函数分配一个空<code>vector</code>，另外一个将其参数传给<code>vector</code>的构造函数。</p>
+<p><code>check</code>函数检查在使用<code>pop_back</code>，<code>front</code>和<code>back</code>操作时<code>index</code>是否越界。还使用<code>string</code>来描述错误内容：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">StrKeith::check</span><span class="params">(size_type i,<span class="keyword">const</span> <span class="built_in">string</span>&amp; msg)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(i&gt;data-&gt;<span class="built_in">size</span>())</span><br><span class="line">        <span class="keyword">throw</span> out_of_range(msg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>访问成员函数：（先进行<code>check</code>）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span>&amp; <span class="title">StrKeith::front</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    check(<span class="number">0</span>,<span class="string">"front on empty StrKeith"</span>);</span><br><span class="line">    <span class="keyword">return</span> data-&gt;front();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>back</code>和<code>pop_back</code>成员的定义类似。</p>
+<p>由于<code>StrKeith</code>只有一个数据成员<code>shared_ptr</code>，所以当一个<code>StrKeith</code>对象被可拷贝赋值和销毁，<code>shared_ptr</code>也会改变其引用计数，当计数器为0时，这快内存被销毁。    </p>
+<h4 id="直接管理内存"><a href="#直接管理内存" class="headerlink" title="直接管理内存"></a>直接管理内存</h4><h5 id="使用new"><a href="#使用new" class="headerlink" title="使用new"></a>使用new</h5><p><code>new</code>无法为分配的对象命名：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">//pi指向为初始化的int</span></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，动态分配的对象是默认初始化的。内置类型和组合类型的值为定义，类类型使用默认构造函数初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
+
+<p>使用直接初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">512</span>);</span><br><span class="line"><span class="built_in">string</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>(<span class="number">10</span>,<span class="string">'s'</span>);</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; *pv=<span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用值初始化，跟上括号即可</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pi=<span class="keyword">new</span> <span class="keyword">int</span>();</span><br><span class="line"><span class="keyword">int</span> *ps=<span class="keyword">new</span> <span class="built_in">string</span>();</span><br></pre></td></tr></table></figure>
+
+<p>对于定义了默认构造函数的的类类型来说，值初始化是多余的。但是对于内置类型来说却是好极了。</p>
+<p>如果我们提供了一个括号包围的初始化器，就可以使用<code>auto</code>来推断我们想要初始化的类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p1=<span class="keyword">new</span> <span class="keyword">auto</span>(obj); <span class="comment">//用obj初始化</span></span><br><span class="line"><span class="keyword">auto</span> p2=<span class="keyword">new</span> <span class="keyword">auto</span>&#123;a,b,c&#125;; <span class="comment">//错误，括号内只能有单个初始化器</span></span><br></pre></td></tr></table></figure>
+
+<p>使用<code>new</code>分配<code>const</code>对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* pci=<span class="keyword">new</span> <span class="keyword">const</span> <span class="keyword">int</span>(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>* pcs=<span class="keyword">new</span> <span class="keyword">const</span> <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
+
+<p>动态分配分配的<code>cosnt</code>对象必须初始化。</p>
+<h5 id="内存耗尽"><a href="#内存耗尽" class="headerlink" title="内存耗尽"></a>内存耗尽</h5><p>一般如果没有内存时再分配动态对象会抛出异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p1=<span class="keyword">new</span> <span class="keyword">int</span>; <span class="comment">//失败时抛出std::bad_alloc</span></span><br><span class="line"><span class="keyword">int</span> *p2=<span class="keyword">new</span> (nothrow) <span class="keyword">int</span>; <span class="comment">//失败时，返回一个空指针</span></span><br></pre></td></tr></table></figure>
+
+<p>将标准库定义的<code>nothrow</code>对象传给<code>new</code>，就不能抛出异常。</p>
+<h5 id="delete操作"><a href="#delete操作" class="headerlink" title="delete操作"></a>delete操作</h5><p><code>delete</code>实现两个动作，一个是销毁指针指向的对象，然后释放对应的内存。</p>
+<p>传递给<code>delete</code>的指针必须指向动态内存，或者一个空指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i,*pi=&amp;i;</span><br><span class="line"><span class="keyword">int</span> *pd=<span class="keyword">new</span> <span class="keyword">double</span>(<span class="number">10</span>),*pd1=pd;</span><br><span class="line"><span class="keyword">delete</span> i;<span class="comment">//错误，i不是指针</span></span><br><span class="line"><span class="keyword">delete</span> pi;<span class="comment">//错误，pi指向局部变量</span></span><br><span class="line"><span class="keyword">delete</span> pd；<span class="comment">//正确</span></span><br><span class="line"><span class="keyword">delete</span> pd1; <span class="comment">//错误，pd指向的内存已被释放</span></span><br></pre></td></tr></table></figure>
+
+<p>通常情况下，编译器不能分辨一个指针指向的是动态内存还是静态的。</p>
+<p>可以释放<code>const</code>对象：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> *pci=<span class="keyword">new</span> <span class="keyword">const</span> <span class="keyword">int</span>(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">delete</span> pci;</span><br></pre></td></tr></table></figure>
+
+<h5 id="动态对象的生存期"><a href="#动态对象的生存期" class="headerlink" title="动态对象的生存期"></a>动态对象的生存期</h5><p>在被显式释放之前，动态内存都是存在的。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Foo* <span class="title">factory</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Foo(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">use_factory</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Foo *p=factory(arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里即使<code>use_factory</code>函数结束了，但是<code>p</code>指向的动态内存没有分配，这是很严重的问题。由于<code>p</code>是指向这块内存的唯一指针，所以在函数结束之后，就没有办法释放这块内存了，所以要在函数内部<code>delete</code>它。</p>
+<h4 id="shared-ptr和new结合使用"><a href="#shared-ptr和new结合使用" class="headerlink" title="shared_ptr和new结合使用"></a>shared_ptr和new结合使用</h4><p>我们可以使用<code>new</code>返回的指针来初始化智能指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p1</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">21</span>))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>智能指针的构造函数是<code>explicit</code>的，所以编译器不能隐式地将一个内置指针转化为智能指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p2=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>p2</code>的初始化隐式地要求编译器用一个<code>new</code>返回的<code>int*</code>来初始化智能指针，是错误的。</p>
+<p>同样的，不能在返回语句中隐式转换一个内置指针：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">clone</span><span class="params">(<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>(p); <span class="comment">//错误</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正确的做法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">clone</span><span class="params">(<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">new</span> <span class="keyword">int</span>(p));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，用来初始化智能指针的普通指针必须指向动态内存，因为智能指针默认使用<code>delete</code>来释放其指向的对象，也可以将智能指正绑定到指向其他资源的内存上，但是必须定义自己的释放操作。</p>
+<p>定义和改变<code>shared_ptr</code>的其他方法：<br><img src="/img/shared_ptrop.png" alt=""></p>
+<h5 id="避免混合使用智能指针和普通指针"><a href="#避免混合使用智能指针和普通指针" class="headerlink" title="避免混合使用智能指针和普通指针"></a>避免混合使用智能指针和普通指针</h5><p>考虑一个对<code>shared_ptr</code>进行处理的函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//处理完p后，p被销毁</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们使用它：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>));</span><br><span class="line"><span class="built_in">process</span>(p);</span><br><span class="line"><span class="keyword">int</span> i=*p;</span><br></pre></td></tr></table></figure>
+
+<p>在函数结束之前，内存的引用计数是2，结束之后为1，所以再次对<code>p</code>解引用是可行的。这是因为我们智能指针来初始化<code>new</code>返回的<code>int*</code>。</p>
+<p>如果我们不用智能指针初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>);</span><br><span class="line"><span class="built_in">process</span>(shared&lt;<span class="keyword">int</span>&gt;(p));</span><br><span class="line"><span class="keyword">int</span> i=*p; <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>错误的原因在于我们在把一个<code>shared_ptr</code>传递给<code>process</code>之后，<code>shared_ptr</code>指向的内存就已经被销毁了，这时<code>p</code>已经成为了指向已经释放内存的空悬指针。</p>
+<h5 id="智能指针的get"><a href="#智能指针的get" class="headerlink" title="智能指针的get"></a>智能指针的get</h5><p>智能指针的<code>get</code>可以返回一个内置指针，指向返回所管理的对象，通常使用<code>get</code>是将内置指针返回给不使用智能指针的代码。但是使用<code>get</code>的代码不能<code>delete</code>此指针（要保证代码不能<code>delete</code>）。</p>
+<p>绑定另一个智能指针到<code>get</code>返回的指针上士错误的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>))</span></span>;</span><br><span class="line"><span class="keyword">int</span> *q=p.<span class="built_in">get</span>();</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt;(q);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> i=*p; <span class="comment">//错误，q指向的对象已经被释放</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="其他shared-ptr操作"><a href="#其他shared-ptr操作" class="headerlink" title="其他shared_ptr操作"></a>其他shared_ptr操作</h5><p>使用<code>reset</code>来赋予<code>shared_ptr</code>新值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p=<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>); <span class="comment">//错误，不能讲普通指针赋予智能指针</span></span><br><span class="line">p.reset(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>)); <span class="comment">//正确，p指向一个新对象</span></span><br></pre></td></tr></table></figure>
+
+<p>同时在<code>reset</code>之前，我们需要检查<code>p</code>是否是其管理对象的唯一用户，如果不是，则需要制作一份拷贝（疑问）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!p.unique())</span><br><span class="line">    p.reset(<span class="keyword">new</span> <span class="built_in">string</span>(*p));</span><br><span class="line">*p += newVal;</span><br></pre></td></tr></table></figure>
+
+<h4 id="智能指针和异常"><a href="#智能指针和异常" class="headerlink" title="智能指针和异常"></a>智能指针和异常</h4><p>如果我们有一个程序块发生了异常：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> *<span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>))</span></span>;</span><br><span class="line">    <span class="comment">//中间发生了异常</span></span><br><span class="line">    <span class="keyword">delete</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果发生异常，而且异常未在<code>f</code>中被捕获，则这块内存不会被释放。</p>
+<p>使用智能指针可以避免这种问题：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>))</span></span>;</span><br><span class="line">    <span class="comment">//发生异常</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里发生异常后，由于<code>p</code>是局部变量，所以不管正常结束还是发生了异常，都会销毁<code>p</code>。</p>
+<h5 id="智能指针和哑类"><a href="#智能指针和哑类" class="headerlink" title="智能指针和哑类"></a>智能指针和哑类</h5><p>那些分配了资源但是却没有定义析构函数来释放资源的类，可能也会遇到与未释放动态内存的问题。这里我们有一个网络库：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">destination</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">connection</span>;</span></span><br><span class="line"><span class="function">connection <span class="title">connect</span><span class="params">(destination*)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">disconnect</span><span class="params">(connection)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination&amp; d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c=<span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    <span class="comment">//如果在使用结束后没有disconnect，我们就无法释放c了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>connection</code>定义了析构函数，就可以在<code>f</code>结束时关闭连接。</p>
+<h5 id="使用自定义的释放操作"><a href="#使用自定义的释放操作" class="headerlink" title="使用自定义的释放操作"></a>使用自定义的释放操作</h5><p>为了使得<code>shared_ptr</code>能够管理<code>connection</code>，必须定义一个函数来代替<code>delete</code>。也就是<strong>删除器</strong>（deleter）：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">end_connection</span><span class="params">(connection *p)</span> </span>&#123;<span class="built_in">disconnect</span>(*p);&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>接着我们定义<code>f</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination&amp; d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c=<span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    <span class="function"><span class="built_in">shared_ptr</span>&lt;connection&gt; <span class="title">p</span><span class="params">(&amp;c,end_connection)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里接受两个参数版本的智能指针多了一个删除器。在函数结束时会调用删除器，删除器再调用<code>disconnect</code>。</p>
+<p>智能指针的陷阱：<br><img src="/img/shared_trap.png" alt=""></p>
+<h4 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h4><p>一个<code>unique_ptr</code>拥有它所指向的对象，它没有<code>make_shared</code>，需要将其绑定到<code>new</code>返回的指针上，只能进行直接初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">p</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(<span class="number">12</span>))</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>unique_ptr</code>不支持普通的拷贝和赋值操作。</p>
+<p><img src="/img/unique_ptr.png" alt=""></p>
+<p>使用<code>release</code>和<code>reset</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">p2</span><span class="params">(p1.<span class="built_in">release</span>())</span></span>; <span class="comment">//p2取得p1原来指向对象的使用权，p1置为空</span></span><br><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="built_in">string</span>&gt; <span class="title">p3</span><span class="params">(<span class="keyword">new</span> <span class="built_in">string</span>(<span class="string">"Keith"</span>))</span></span>;</span><br><span class="line">p2.reset(p3.<span class="built_in">release</span>()); <span class="comment">//reset释放了原来指向的内存</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们使用普通指针来保存<code>release</code>后的资源，记得释放它。</p>
+<h5 id="传递参数和返回"><a href="#传递参数和返回" class="headerlink" title="传递参数和返回"></a>传递参数和返回</h5><p>我们可以拷贝和赋值即将销毁的<code>unique_ptr</code>，这是一个例外，比如说函数返回：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">f</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; ret(<span class="keyword">new</span> <span class="keyword">int</span>(args));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>还可以返回局部对象的拷贝：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">f</span><span class="params">(T args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">unique_ptr</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ret</span><span class="params">(<span class="keyword">new</span> <span class="keyword">int</span>(args))</span></span>;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="向unique-ptr传递删除器"><a href="#向unique-ptr传递删除器" class="headerlink" title="向unique_ptr传递删除器"></a>向unique_ptr传递删除器</h5><p>重载删除器可能会影响到其构造或<code>reset</code>，在创建或者<code>reset</code>时，必须提供一个可调用对象：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;objT,delT&gt; p(new objT,func);</span><br></pre></td></tr></table></figure>
+
+<p>这里仍然使用关闭连接的例子：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(destination&amp; d)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    connection c=<span class="built_in">connect</span>(&amp;d);</span><br><span class="line">    unique_ptr&lt;connection,decltype(end_connection)*&gt; p(&amp;c,end_connection);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用<code>decltype(end_connection)</code>来获取函数类型，添加一个<code>*</code>指出我们正在使用该类型的一个指针。</p>
+<h4 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h4><p>将一个<code>weak_ptr</code>绑定到一个<code>shared_ptr</code>管理的对象上不影响<code>shared_ptr</code>的引用计数，<code>shared_ptr</code>被销毁时不受<code>weak_ptr</code>控制。</p>
+<p><img src="/img/weak_ptr.png" alt=""></p>
+<p>要使用<code>shared_ptr</code>来初始化它；</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p=make_shared&lt;<span class="keyword">int</span>&gt;(<span class="number">12</span>);</span><br><span class="line"><span class="function">weak_ptr&lt;<span class="keyword">int</span>&gt; <span class="title">wp</span><span class="params">(p)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>wp</code>不会改变<code>p</code>的引用计数。</p>
+<p>由于指向的对象可能已经不存在了，不能直接访问对象，必须调用<code>lock</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="built_in">shared_ptr</span>&lt;<span class="keyword">int</span>&gt; p=wp.lock())</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="核查指针类"><a href="#核查指针类" class="headerlink" title="核查指针类"></a>核查指针类</h5><p>我们为<code>StrKeith</code>定义一个伴随指针类，这个类包含一个<code>weak_ptr</code>，指向<code>data</code>成员，通过使用<code>weak_ptr</code>来组织用户企图访问一个不再存在的<code>vector</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrKeithPtr</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    StrKeithPtr():curr(<span class="number">0</span>)&#123;&#125;</span><br><span class="line">    StrKeithPtr(StrKeith&amp; a,<span class="keyword">size_t</span> sz):wptr(a.data),curr(sz)&#123;&#125;</span><br><span class="line">    <span class="function"><span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="title">deref</span><span class="params">()</span> </span>&#123;&#125;; <span class="comment">//对StrKeithPtr进行解引用</span></span><br><span class="line">    <span class="function">StrKeithPtr&amp; <span class="title">incr</span><span class="params">()</span></span>; <span class="comment">//前缀递增</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&gt; </span><br><span class="line">        check(<span class="built_in">std</span>::<span class="keyword">size_t</span>,<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp;) <span class="keyword">const</span>;</span><br><span class="line">     <span class="comment">//检查成功则返回一个指向vector&lt;string&gt;的shared_ptr</span></span><br><span class="line">    <span class="built_in">std</span>::weak_ptr&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&gt; wptr;</span><br><span class="line">    <span class="built_in">std</span>::<span class="keyword">size_t</span> curr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>定义的<code>check</code>函数检查<code>wptr</code>指向的<code>vector</code>是否还存在</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;&gt; <span class="title">check</span><span class="params">(<span class="built_in">std</span>::<span class="keyword">size_t</span> i,<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span>&amp; msg)</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> ret=wptr.lock();</span><br><span class="line">    <span class="keyword">if</span>(!ret)</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::runtime_error(<span class="string">"unbound StrKeithPtr"</span>);</span><br><span class="line">    <span class="keyword">if</span>(i&gt;=ret-&gt;<span class="built_in">size</span>())</span><br><span class="line">        <span class="keyword">throw</span> <span class="built_in">std</span>::out_of_range(msg);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>vector</code>被销毁了，则返回一个空指针，抛出异常。接着检查索引，如果大于<code>size</code>，则抛出异常。</p>
+<p>我们暂时定义两个函数函数而不是重载运算符来实现解引用和自增<code>StrKeithPtr</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">std</span>::<span class="built_in">string</span>&amp; <span class="title">StrKeithPtr::deref</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    check(curr,<span class="string">"dereference past end"</span>);</span><br><span class="line">    <span class="keyword">return</span> (*wptr)[curr];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">StrKeith&amp; <span class="title">StrKeith::incr</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    check(curr,<span class="string">"inrement past end StrKeithPtr"</span>); <span class="comment">//如果已经指向尾后位置就不能自增</span></span><br><span class="line">    ++curr;</span><br><span class="line">    <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后为了访问<code>StrKeith</code>中的<code>data</code>，必须将伴随类声明为其友元类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrKeithPtr</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StrKeith</span>&#123;</span></span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">StrKeithPtr</span>;</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="function">StrKeithPtr <span class="title">begin</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> StrKeithPtr(*<span class="keyword">this</span>)&#125;;</span><br><span class="line">    <span class="function">StrKeithPtr <span class="title">end</span><span class="params">()</span> </span>&#123;<span class="keyword">return</span> StrKeithPtr(*<span class="keyword">this</span>,data-&gt;<span class="built_in">size</span>())&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里还定义了一个<code>begin</code>和<code>end</code>操作，返回一个指向自身的<code>StrKeithPtr</code>。</p>
+<h3 id="动态数组"><a href="#动态数组" class="headerlink" title="动态数组"></a>动态数组</h3><h4 id="new和数组"><a href="#new和数组" class="headerlink" title="new和数组"></a>new和数组</h4><p>在<code>new</code>数组时，在类型名后紧跟一对方括号，其中指明分配的对象的数目。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pia=<span class="keyword">new</span> <span class="keyword">int</span>[get_size()];</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用类型别名</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> arrT[<span class="number">42</span>]; <span class="comment">//arrT表示42个int组成的数组类型</span></span><br><span class="line"><span class="keyword">int</span> *pia=<span class="keyword">new</span> arrT; <span class="comment">//pia指向第一个int</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="分配数组得到一个元素类型的指针"><a href="#分配数组得到一个元素类型的指针" class="headerlink" title="分配数组得到一个元素类型的指针"></a>分配数组得到一个元素类型的指针</h5><p>使用<code>new</code>分配数组时，我们并未得到一个数组类型的对象，而是得到数组元素类型的指针。由于分配的内存不是数组类型，所以不能使用<code>begin</code>和<code>end</code>。也不能用范围<code>for</code>语句来遍历。</p>
+<h5 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pia=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]; <span class="comment">//默认初始化</span></span><br><span class="line"><span class="keyword">int</span> *pia=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>](); <span class="comment">//进行值初始化</span></span><br></pre></td></tr></table></figure>
+
+<p>使用初始化器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *pia=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">10</span>]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>如果初始化器小于元素数目，剩余的进行值初始化。</p>
+<h5 id="动态分配空数组是合法的"><a href="#动态分配空数组是合法的" class="headerlink" title="动态分配空数组是合法的"></a>动态分配空数组是合法的</h5><p>尽管我们不能创建一个大小为0的静态数组：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> arrc[<span class="number">0</span>]; <span class="comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>但是调用<code>new[0]</code>是合法的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *pc=<span class="keyword">new</span> <span class="keyword">char</span>[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+<p>在这里虽然合法，但是不能对<code>pc</code>进行解引用。</p>
+<h5 id="释放动态数组"><a href="#释放动态数组" class="headerlink" title="释放动态数组"></a>释放动态数组</h5><p>我们在指针前加上括号，为了指示编译器该指针指向对象数组的第一个元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> [] pi;</span><br></pre></td></tr></table></figure>
+
+<p>数组中的元素按逆序销毁。</p>
+<p>即使我们定义了类型别名，释放时也要加上括号。</p>
+<h5 id="智能指针和动态数组"><a href="#智能指针和动态数组" class="headerlink" title="智能指针和动态数组"></a>智能指针和动态数组</h5><p>可以使用<code>unique_ptr</code>来管理动态分配的数组。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;int[]&gt; up(new int[10]);</span><br><span class="line">up.<span class="built_in">release</span>(); <span class="comment">//使用delete[]销毁其指针</span></span><br></pre></td></tr></table></figure>
+
+<p>指向数组的<code>unique_ptr</code>不能使用箭头或者点运算符，这些是没有意义的。但可以使用下标运算符。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">    up[i]=i;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/up_array.png" alt=""></p>
+<p>与<code>unique_ptr</code>不同，<code>shared_ptr</code>不支持管理动态数组，必须定义自己的删除器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unique_ptr&lt;int[]&gt; sp(new int[10],[](int *p) &#123;delete[] p;&#125;);</span><br><span class="line">sp.reset();</span><br></pre></td></tr></table></figure>
+
+<p><code>shared_ptr</code>未定义下标运算符，不支持指针的算术运算：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">size_t</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;++i)</span><br><span class="line">    *(sp.<span class="built_in">get</span>()+i)=i; <span class="comment">//使用get获取一个内置指针</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="allocator类"><a href="#allocator类" class="headerlink" title="allocator类"></a>allocator类</h4><p><code>new</code>有一些局限，其中一个就是它将内存分配和对象构造结合在了一起。我们希望可以分配大块内存，但是只是在需要的情况下构造对象，不然的话使用<code>new</code>把分配的所有内存都用来构造对象，而且一些对象可能不会用到，这样就造成了内存浪费。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> *<span class="keyword">const</span> p=<span class="keyword">new</span> <span class="built_in">string</span>[n];</span><br><span class="line"><span class="keyword">size_t</span> st=n/<span class="number">2</span>;</span><br><span class="line"><span class="built_in">string</span> *q=p;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;s &amp;&amp; q!=p+st)</span><br><span class="line">&#123;</span><br><span class="line">    *p++=s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里，我们只写入了<code>n/2</code>长度的元素，这样我们就创建了一些可能再也用不到的对象。</p>
+<p>另外，对于没有默认构造函数来说，就不能分配动态数组了。</p>
+<h5 id="allocator类-1"><a href="#allocator类-1" class="headerlink" title="allocator类"></a>allocator类</h5><p><code>allocator</code>分配的是原始的、未构造的内存，它是一个模板。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">allocator&lt;<span class="built_in">string</span>&gt; alloc;  <span class="comment">//可以分配string的allocator</span></span><br><span class="line"><span class="keyword">auto</span> <span class="keyword">const</span> p=alloc.allocate(n);  <span class="comment">//分配n个未初始化的string</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/allocator.png" alt=""></p>
+<h5 id="allocator分配未构造的内存"><a href="#allocator分配未构造的内存" class="headerlink" title="allocator分配未构造的内存"></a>allocator分配未构造的内存</h5><p><code>allocator</code>的<code>construct</code>成员接受指针和其他额外参数在给定位置构造元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> q=p; <span class="comment">//q指向最后构造元素之后的位置</span></span><br><span class="line">alloc.construct(q++); <span class="comment">//构造空串</span></span><br><span class="line">alloc.construct(q++,<span class="number">10</span>,<span class="string">"a"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>不能在未构造的情况下使用原始内存：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;*p&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//正确，p指向的内存已经被构造</span></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;*q&lt;&lt;<span class="built_in">endl</span>; <span class="comment">//错误，q指向的内存未被构造</span></span><br></pre></td></tr></table></figure>
+
+<p>用完对象后，使用<code>destroy</code>来销毁元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(q!=p)</span><br><span class="line">    alloc.destroy(q--);</span><br></pre></td></tr></table></figure>
+
+<p>在销毁了元素之后，就可以重新使用这块内存，也可以归还给系统：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alloc.deallocate(p,n);</span><br></pre></td></tr></table></figure>
+
+<p>这里的指针<code>p</code>必须指向分配的内存，另外大小参数不能错，必须与分配时一致。</p>
+<h5 id="拷贝和填充未初始化内存"><a href="#拷贝和填充未初始化内存" class="headerlink" title="拷贝和填充未初始化内存"></a>拷贝和填充未初始化内存</h5><p>标准库还为<code>allocator</code>定义了两个伴随算法</p>
+<p><img src="/img/allocator_algorithm.png" alt=""></p>
+<p>假设我们分配一块动态内存，它的大小是一个<code>vector</code>的两倍，前一半用来拷贝这个<code>vector</code>的元素，后一半用指定值填充。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> p=alloc.allocate(vi.<span class="built_in">size</span>()*<span class="number">2</span>);</span><br><span class="line"><span class="keyword">auto</span> q=unitialized_copy(vi.<span class="built_in">begin</span>(),vi.<span class="built_in">end</span>(),p);</span><br><span class="line">unitialized_fill(q,vi.<span class="built_in">size</span>(),<span class="number">12</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>unitialized_copy</code>会返回一个指针指向最后一个构造的元素之后的位置。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/10/primer_text-query/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>使用标准库：建...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/05/primer_associative-container/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

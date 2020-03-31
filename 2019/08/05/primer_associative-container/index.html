@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>primer_关联容器 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-08-05</span>
+    <h2>primer_关联容器</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>关联容器和顺序容器有着很大的不同，关联容器的中的元素按关键字储存和访问。</p>
+<a id="more"></a>
+
+<p>两个主要的关联容器是<code>map</code>和<code>set</code>。</p>
+<p>对于<code>map</code>，关键字起到索引的作用，每个关键字都关联着数据。对于<code>set</code>，每个元素只保存一个关键字。</p>
+<p>标准库提供八种容器分别体现在三个维度上：<code>map</code>或者<code>set</code>；要求不重复的关键字或者重复的；有序或无序。</p>
+<p><img src="/img/associate-cate.png" alt=""></p>
+<h3 id="使用关联容器"><a href="#使用关联容器" class="headerlink" title="使用关联容器"></a>使用关联容器</h3><p><code>map</code>中的关键字和值形成一种映射，通常被称为<strong>关联数组</strong>。<code>set</code>就是关键字的简单集合。</p>
+<h5 id="使用map"><a href="#使用map" class="headerlink" title="使用map"></a>使用map</h5><p>写一个单词计数程序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    ++word_count[<span class="keyword">word</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;w:word_count)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;w.second&lt;&lt;(w.second&gt;<span class="number">1</span> ? <span class="string">"times"</span> :<span class="string">"time"</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里容器保存的是<code>string</code>关键字，值是<code>size_t</code>类型。我们使用<code>string</code>作为下标，来访问对应的值。</p>
+<p><code>while</code>循环每次读取一个<code>word</code>，如果容器中没有<code>word</code>就创建新元素，值为0。</p>
+<p>从<code>map</code>提取元素时，会得到一个<code>pair</code>类型，它是一个模板类型，保存着<code>first</code>和<code>second</code>两个数据成员。</p>
+<h5 id="使用set"><a href="#使用set" class="headerlink" title="使用set"></a>使用set</h5><p>如果我们想要使用<code>set</code>保存想要忽略的单词：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;exclude=&#123;<span class="string">"the"</span>,<span class="string">"a"</span>,<span class="string">"an"</span>&#125;;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    <span class="keyword">if</span>(exclude.<span class="built_in">find</span>(<span class="keyword">word</span>)==exclude.<span class="built_in">end</span>())</span><br><span class="line">        ++word_count[<span class="keyword">word</span>];</span><br></pre></td></tr></table></figure>
+
+<p>这里使用<code>find</code>来检查单词是否在<code>exclude</code>当中，如果不是则返回尾后迭代器。</p>
+<h3 id="关联容器概述"><a href="#关联容器概述" class="headerlink" title="关联容器概述"></a>关联容器概述</h3><p>关联容器不支持顺序容器的位置相关操作，比如<code>push_back</code>和<code>push_front</code>。关联容器的迭代器都是双向的。</p>
+<h4 id="定义关联容器"><a href="#定义关联容器" class="headerlink" title="定义关联容器"></a>定义关联容器</h4><p>我们对容器进行初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count; <span class="comment">//空容器</span></span><br><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; exclude=&#123;<span class="string">"a"</span>,<span class="string">"an"</span>,<span class="string">"the"</span>&#125;;</span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; authors=&#123;&#123;<span class="string">"Chris"</span>,<span class="string">"Evans"</span>&#125;,&#123;<span class="string">"Peter"</span>,<span class="string">"White"</span>&#125;&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>初始化<code>map</code>时，必须提供关键字和值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key,value&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关键字为第一个，值为第二个。</p>
+<h5 id="初始化multimap和multiset"><a href="#初始化multimap和multiset" class="headerlink" title="初始化multimap和multiset"></a>初始化multimap和multiset</h5><p>这两种容器对关键字的重复没有限制。</p>
+<p>我们生成一个含有0到9十个整数以及其拷贝的<code>vector</code>，利用这个<code>vector</code>来初始化<code>set</code>和<code>multiset</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">    ivec.push_back(i);</span><br><span class="line">    ivec.push_back(i);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; <span class="title">iset</span><span class="params">(ivec.<span class="built_in">begin</span>(),ivec.<span class="built_in">end</span>())</span></span>;</span><br><span class="line"><span class="function"><span class="built_in">multiset</span>&lt;<span class="keyword">int</span>&gt; <span class="title">miset</span><span class="params">(ivec.<span class="built_in">begin</span>(),ivec.<span class="built_in">end</span>())</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>当我们查询两个容器的大小时，<code>iset</code>返回10，而<code>miset</code>返回20。</p>
+<h4 id="关键字类型的要求"><a href="#关键字类型的要求" class="headerlink" title="关键字类型的要求"></a>关键字类型的要求</h4><p>对于有序容器，关键字类型必须定义<code>&lt;</code>运算符。</p>
+<h5 id="有序容器的关键字类型"><a href="#有序容器的关键字类型" class="headerlink" title="有序容器的关键字类型"></a>有序容器的关键字类型</h5><p>我们可以定义自己的比较方法来代替关键字上的<code>&lt;</code>运算符。所提供的的操作必须在关键字上定义一个<strong>严格弱序</strong>。</p>
+<p>比较函数必须具有以下性质：</p>
+<p><img src="/img/comp.png" alt=""></p>
+<p>也就是说关键字满足自反性，反对称性和传递性。</p>
+<h5 id="比较函数"><a href="#比较函数" class="headerlink" title="比较函数"></a>比较函数</h5><p>如果要使用自定义的操作必须在尖括号内的元素类型后指定操作的类型。</p>
+<p>例如我们为<code>Sales_data</code>定义一个比较操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">compareIsbn</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; a,<span class="keyword">const</span> <span class="built_in">string</span>&amp; b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a.isbn()&lt;b.isbn();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后定义<code>multiset</code>时，我们提供两个类型，一个是<code>Sales_data</code>，另一个是操作类型，这里使用函数指针：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">multiset&lt;Sales_data,decltype(compareIsbn)*&gt; bookstore(comparaIsbn);</span><br></pre></td></tr></table></figure>
+
+<h4 id="pair类型"><a href="#pair类型" class="headerlink" title="pair类型"></a>pair类型</h4><p><code>pair</code>是标准库定义的类型，是一个模板，可以保存两个数据成员。</p>
+<p>初始化：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; sp;</span><br><span class="line">pair&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; st;</span><br></pre></td></tr></table></figure>
+
+<p><code>pair</code>的默认构造函数对数据成员进行值初始化。</p>
+<p>也可以为每个成员提供初始化器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pair&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; author&#123;<span class="string">"James"</span>,<span class="string">"Bond"</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>pair</code>的数据成员是<code>public</code>的，可以使用<code>fisrt</code>和<code>second</code>来访问它们。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;w.first&lt;&lt;<span class="string">" "</span>&lt;&lt;w.second&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>w</code>指向<code>map</code>中元素的引用，<code>map</code>的元素是<code>pair</code>。</p>
+<p><code>pair</code>的操作：<br><img src="/img/pair_op.png" alt=""></p>
+<h5 id="创建pair对象的函数"><a href="#创建pair对象的函数" class="headerlink" title="创建pair对象的函数"></a>创建pair对象的函数</h5><p>我们可以把<code>pair</code>当作函数的返回值：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pair&lt;string,int&gt; process(vector&lt;string&gt;&amp; v)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(!v.empty())</span><br><span class="line">        <span class="keyword">return</span> &#123;v.back(),v.back().<span class="built_in">size</span>(	)&#125;;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果<code>v</code>不为空，则返回一个尾元素及其大小组成的<code>pair</code>，否则返回一个空<code>pair</code>。</p>
+<p>在较早的版本中不允许使用花括号包围的初始化器来返回<code>pair</code>这种类型：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(!v.empty())</span><br><span class="line">    <span class="keyword">return</span> pair&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;(v.back(),v.back().<span class="built_in">size</span>());</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以使用<code>make_pair</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> make_pair(v.back(),v.back().<span class="built_in">size</span>());</span><br></pre></td></tr></table></figure>
+
+<h3 id="关联容器操作"><a href="#关联容器操作" class="headerlink" title="关联容器操作"></a>关联容器操作</h3><p>关联容器额外的类型别名</p>
+<p><img src="/img/value_type.png" alt=""></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::value_type v1; <span class="comment">//v1是一个string</span></span><br><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt;::value_type v2; <span class="comment">//v2是一个pair对象</span></span><br></pre></td></tr></table></figure>
+
+<p>我们使用作用域运算符来提取一个类型成员，比如<code>map&lt;string,int&gt;::value_type</code>。</p>
+<h4 id="关联容器迭代器"><a href="#关联容器迭代器" class="headerlink" title="关联容器迭代器"></a>关联容器迭代器</h4><p>获取迭代器：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> map_it=word_count.<span class="built_in">begin</span>();</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;map_it-&gt;first;</span><br></pre></td></tr></table></figure>
+
+<p>如果我们对<code>map_it</code>进行解引用，得到的是一个<code>pair&lt;const string,size_t&gt;</code>对象的引用。这里注意对于<code>map</code>而言，不能改变其关键字。</p>
+<h5 id="set的迭代器是const的"><a href="#set的迭代器是const的" class="headerlink" title="set的迭代器是const的"></a>set的迭代器是const的</h5><p>尽管<code>set</code>定义了<code>iterator</code>和<code>const_iterator</code>两种迭代器，但是都是只读类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator set_it=iset.<span class="built_in">begin</span>();</span><br></pre></td></tr></table></figure>
+
+<h5 id="遍历关联容器"><a href="#遍历关联容器" class="headerlink" title="遍历关联容器"></a>遍历关联容器</h5><p>打印单词计数程序的结果：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> map_it=word_count.cbegin();</span><br><span class="line"><span class="keyword">while</span>(map_it!=word_count.cend())</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;map_it-&gt;first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;map_it-&gt;second&lt;&lt;<span class="string">" times "</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    ++map_it;</span><br></pre></td></tr></table></figure>
+
+<p>本程序的输出是按字典序排序的，当使用一个迭代器遍历一个<code>map</code>、<code>set</code>、<code>multiset</code>和<code>multimap</code>时候，迭代器按升序访问元素。</p>
+<h5 id="关联容器和算法"><a href="#关联容器和算法" class="headerlink" title="关联容器和算法"></a>关联容器和算法</h5><p>关联容器只适用于可读取元素的算法，而不适用于修改元素的算法，因为<code>set</code>和元素是<code>const</code>，<code>map</code>中的<code>pair</code>第一个元素是<code>const</code>。</p>
+<h4 id="添加元素"><a href="#添加元素" class="headerlink" title="添加元素"></a>添加元素</h4><p>使用<code>insert</code>成员来添加一个元素或者一个范围，可以插入重复的元素没有影响，</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; ivec=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>&#125;;</span><br><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; iset;</span><br><span class="line">iset.insert(ivec.<span class="built_in">begin</span>(),ivec.<span class="built_in">end</span>());</span><br><span class="line">iset.insert(&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>对于插入一个序列或者给定一个初始化列表，都只插入三个元素。</p>
+<h5 id="向map添加元素"><a href="#向map添加元素" class="headerlink" title="向map添加元素"></a>向map添加元素</h5><p>想要向<code>map</code>中添加元素，必须先创建一个<code>pair</code>对象，可以在<code>insert</code>的参数列表创建一个<code>pair</code>对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">word_count.insert(&#123;<span class="keyword">word</span>,<span class="number">1</span>&#125;);</span><br><span class="line">word_count.insert(make_pair(<span class="keyword">word</span>,<span class="number">1</span>));</span><br><span class="line">word_count.insert(pair&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt;(<span class="keyword">word</span>,<span class="number">1</span>));</span><br><span class="line">word_count.insert(<span class="built_in">map</span>&lt;<span class="keyword">const</span> <span class="built_in">string</span>,<span class="keyword">size_t</span>&gt;::value_type(<span class="keyword">word</span>,<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<p>关联容器的<code>insert</code>操作：<br><img src="/img/inserter_map.png" alt=""></p>
+<h5 id="检测insert的返回值"><a href="#检测insert的返回值" class="headerlink" title="检测insert的返回值"></a>检测insert的返回值</h5><p><code>insert</code>的返回依赖于容器的类型和参数。对于不包含重复关键字的容器，添加单一元素的<code>insert</code>和<code>emplace</code>返回一个<code>pair</code>。<code>pair</code>的第一个成员是一个迭代器，指向插入的元素，另外一个是一个<code>bool</code>类型，指示插入是否成功。如果关键字已经在容器中，则不做任何事情，<code>bool</code>为<code>false</code>。</p>
+<p>我们使用<code>insert</code>重写单词计数程序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    <span class="keyword">auto</span> res=word_count.insert(&#123;<span class="keyword">word</span>,<span class="number">1</span>&#125;);  <span class="comment">//如果存在这个word，insert不做任何事</span></span><br><span class="line">    <span class="keyword">if</span>(!res.second)</span><br><span class="line">        ++res.first-&gt;second; <span class="comment">//res是一个pair对象，first成员是指向插入元素的迭代器</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="像multimap和multiset中添加元素"><a href="#像multimap和multiset中添加元素" class="headerlink" title="像multimap和multiset中添加元素"></a>像multimap和multiset中添加元素</h5><p>如果我们想要为一个关键字创建多个值，比如作者和多条书目的映射，这是我们就需要使用<code>multimap</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">multimap</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; authors;</span><br><span class="line">authors.insert(&#123;<span class="string">"Jesper,Wecksell"</span>,<span class="string">"Petting Tutorial"</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这里使用初始化列表来插入，关键字为<code>Jesper，Wecksell</code>。</p>
+<h4 id="删除元素"><a href="#删除元素" class="headerlink" title="删除元素"></a>删除元素</h4><p>关联容器定义了三个版本的<code>erase</code>来删除元素，一个接受一个迭代器，一个接受一对迭代器指定的范围。另外<code>erase</code>还接受<code>key_type</code>的参数，也就是按关键字来删除元素，返回实际删除的元素数量。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">word_count.erase(removal_word);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/map_erase.png" alt=""></p>
+<h4 id="map的下标操作"><a href="#map的下标操作" class="headerlink" title="map的下标操作"></a>map的下标操作</h4><p><code>map</code>和<code>unordered_map</code>提供了下标运算符和<code>at</code>函数，<code>set</code>不支持下标，因为没有与关键字绑定的值。这里<code>map</code>的下标运算符使用时，如果要访问的关键字没有在容器中，那么会创建这个关键字在容器中，并对其关联的值进行值初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="keyword">int</span>&gt; smap;</span><br><span class="line">smap[<span class="string">"Ethan"</span>]=<span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+<p>由于下标运算符可以插入新的元素，所以只能对非<code>const</code>的<code>map</code>执行下标操作。</p>
+<p><img src="/img/map_index.png" alt=""></p>
+<h5 id="下标的返回值"><a href="#下标的返回值" class="headerlink" title="下标的返回值"></a>下标的返回值</h5><p>使用下标时，返回的是<code>mapped_type</code>对象，也就是值类型的对象。而解引用迭代器时，获得的是<code>value_type</code>对象。并且返回的是一个左值。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cout</span>&lt;&lt;smap[<span class="string">"Ethan"</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">++smap[<span class="string">"Ethan"</span>];</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;smap[<span class="string">"Ethan"</span>]&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="访问元素"><a href="#访问元素" class="headerlink" title="访问元素"></a>访问元素</h4><p>可以使用<code>find</code>和<code>count</code>来查找指定元素，<code>count</code>会对重复的关键字做统计，如果不需要计数，则最好使用<code>find</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span>&lt;<span class="keyword">int</span>&gt; iset=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">iset.<span class="built_in">find</span>(<span class="number">1</span>); <span class="comment">//返回指向key==1的元素</span></span><br><span class="line">iset.<span class="built_in">find</span>(<span class="number">6</span>); <span class="comment">//返回迭代器指向iset.end()</span></span><br><span class="line">iset.count(<span class="number">2</span>); <span class="comment">//返回2</span></span><br><span class="line">iset.count(<span class="number">6</span>); <span class="comment">//返回0</span></span><br></pre></td></tr></table></figure>
+
+<p>查找元素的操作</p>
+<p><img src="/img/map_find1.png" alt=""></p>
+<p><img src="/img/map_find2.png" alt=""></p>
+<h5 id="对map使用find代替下标"><a href="#对map使用find代替下标" class="headerlink" title="对map使用find代替下标"></a>对map使用find代替下标</h5><p>有时候我们需要根据我们的需要来决定使用<code>find</code>还是下标，如果我们不想在查找元素时有其他动作，则使用<code>find</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(word_count.<span class="built_in">find</span>(<span class="string">"charlie"</span>)==word_count.<span class="built_in">end</span>())</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"charlie is not in the authors"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="在multimap或multiset中查找元素"><a href="#在multimap或multiset中查找元素" class="headerlink" title="在multimap或multiset中查找元素"></a>在multimap或multiset中查找元素</h5><p>如果想要打印指定作者的全部书目，则可以使用<code>find</code>和<code>count</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">author</span><span class="params">(<span class="string">"Theodore"</span>)</span></span>;</span><br><span class="line"><span class="keyword">auto</span> it=authors.<span class="built_in">find</span>(author);  <span class="comment">//it指向author的第一本书</span></span><br><span class="line"><span class="keyword">auto</span> num=authors.count(author);  <span class="comment">//获取书目的数量</span></span><br><span class="line"><span class="keyword">while</span>(num)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;it-&gt;second&lt;&lt;<span class="built_in">endl</span>;  <span class="comment">//打印书目</span></span><br><span class="line">    ++it;</span><br><span class="line">    --num;</span><br></pre></td></tr></table></figure>
+
+<p>此外我们还提供了面向迭代器的解决办法来打印书目，那就是使用<code>lower_bound</code>和<code>upper_bound</code>。</p>
+<p>这两个操作都接受关键字，返回一个迭代器。如果关键字在容器中，则<code>lower_bound</code>返回指向第一个匹配关键字的元素的迭代器，而<code>upper_bound</code>则返回指向最后一个匹配关键字元素之后的位置的迭代器。如果元素不在容器内，则两种操作返回相等的迭代器，指向一个不影响排序的的关键字插入位置，一般这个位置在最后一个小于该关键字的元素之后，也就是关键字可以插入的位置。</p>
+<p>如果查找的元素具有容器内最大的关键字，则<code>upper_bound</code>返回尾后迭代器，如果关键字不存在且大于容器内任何关键字，则<code>lower_bound</code>也返回一个尾后迭代器。</p>
+<p>现在使用迭代器来打印元素：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> beg=authors.lower_bound(author),<span class="built_in">end</span>=authors.upper_bound(author);</span><br><span class="line">   beg!=<span class="built_in">end</span>;++beg)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;beg-&gt;second&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="equal-range函数"><a href="#equal-range函数" class="headerlink" title="equal_range函数"></a>equal_range函数</h5><p>此函数接受一个关键字，返回一个<code>pair</code>，其中第一个迭代器指向第一个与关键字匹配的元素，第二个迭代器指向最后匹配关键字的元素之后的位置。若元素不存在，则都指向关键字可以安全插入的位置。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">auto</span> pos=authors.equal_range(author);pos.first!=pos.second;++pos.first)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;pos.first-&gt;second&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="一个单词转换的map"><a href="#一个单词转换的map" class="headerlink" title="一个单词转换的map"></a>一个单词转换的map</h4><p>现在我们运用<code>map</code>来解决一个转换<code>string</code>的问题。程序的输入是两个文件，一个文件制定了某些串的转换规则，比如这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">u you</span><br><span class="line">fk fuck</span><br><span class="line">tbw to be honest</span><br><span class="line">srs serious</span><br><span class="line">gratz congratulations</span><br></pre></td></tr></table></figure>
+
+<p>另一个文件包含要输入的文本。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">are u srs</span><br><span class="line">fk these morons</span><br><span class="line">gratz to ethan</span><br></pre></td></tr></table></figure>
+
+<h5 id="单词转换程序"><a href="#单词转换程序" class="headerlink" title="单词转换程序"></a>单词转换程序</h5><p>我们将使用<code>word_transform</code>来管理整个过程，它接受两个参数，一个是单词规则文件，另一个是输入文件。其中会调用<code>buildMap</code>读取转换规则文件来创建一个<code>map</code>。<code>transform</code>函数接受一个<code>string</code>，如果可以转换则转换。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">word_transform</span><span class="params">(ifstream&amp; map_file,ifstream&amp; input)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> trans_map=buildMap(map_file);</span><br><span class="line">    <span class="built_in">string</span> <span class="built_in">text</span>;</span><br><span class="line">    <span class="keyword">while</span>(getline(input,<span class="built_in">text</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="built_in">istringstream</span> <span class="title">stream</span><span class="params">(<span class="built_in">text</span>)</span></span>;</span><br><span class="line">        <span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line">        <span class="keyword">bool</span> firstword=<span class="literal">true</span>; <span class="comment">//控制是否输出空格</span></span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">text</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(firstword)</span><br><span class="line">                firstword=<span class="literal">false</span>;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="built_in">cout</span>&lt;&lt;<span class="string">" "</span>;</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;transform(<span class="keyword">word</span>,trans_map); <span class="comment">//转换单词</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="建立转换映射"><a href="#建立转换映射" class="headerlink" title="建立转换映射"></a>建立转换映射</h5><p>使用<code>buildMap</code>来读入给定文件，建立转换映射。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">map&lt;string,string&gt; buildMap(ifstream&amp; map_file)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt; trans_map;</span><br><span class="line">    <span class="built_in">string</span> key,value;</span><br><span class="line">    <span class="keyword">while</span>(map_file&gt;&gt;key &amp;&amp; getline(map_file,value))</span><br><span class="line">        <span class="keyword">if</span>(value.<span class="built_in">size</span>()&gt;<span class="number">1</span>)</span><br><span class="line">            trans_map[key]=value.substr(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">throw</span> runtime_error(<span class="string">"no rules for "</span>+key);</span><br><span class="line">    <span class="keyword">return</span> trans_map;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于规则文件里每一行有一个单词和一个短语构成，短语可能有多个单词构成。所以先使用<code>&gt;&gt;</code>读取<code>key</code>，然后使用<code>getline</code>将剩余的内容读入<code>value</code>中。</p>
+<p>如果单词出现了多次，则将最后一个对应的短语存入<code>trans_map</code>。</p>
+<h5 id="生成转换文本"><a href="#生成转换文本" class="headerlink" title="生成转换文本"></a>生成转换文本</h5><p>函数<code>transform</code>按照规则将<code>word</code>转换，如果<code>word</code>匹配则返回相应的短语，如果不匹配则返回原来的<code>word</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">const</span> <span class="built_in">string</span>&amp; <span class="title">transform</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s,<span class="keyword">const</span> <span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">string</span>&gt;&amp; m)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> map_it=m.<span class="built_in">find</span>(s);</span><br><span class="line">    <span class="keyword">if</span>(map_it!=m.<span class="built_in">end</span>())</span><br><span class="line">        <span class="keyword">return</span> map_it-&gt;second;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="无序容器"><a href="#无序容器" class="headerlink" title="无序容器"></a>无序容器</h3><p>无序关联容器使用<strong>哈希函数</strong>（hash function）和关键字类型的<code>=</code>运算符。</p>
+<h5 id="使用无序容器"><a href="#使用无序容器" class="headerlink" title="使用无序容器"></a>使用无序容器</h5><p>除了哈希管理操作以外，无序容器还提供了与有序容器相同的操作，比如<code>find</code>和<code>insert</code>。</p>
+<p>使用<code>unordered_map</code>重写单词计数程序</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">unordered_map</span>&lt;<span class="built_in">string</span>,<span class="keyword">size_t</span>&gt; word_count;</span><br><span class="line"><span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">    ++word_count[<span class="keyword">word</span>];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">const</span> <span class="keyword">auto</span> &amp;s:word_count)</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s.first&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;(s.second1 ? <span class="string">"times"</span> : <span class="string">" time"</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+
+<p>这里唯一的区别是不按字典序输出。</p>
+<h5 id="管理桶"><a href="#管理桶" class="headerlink" title="管理桶"></a>管理桶</h5><p>无序容器的管理操作：</p>
+<p><img src="/img/unordered_map.png" alt=""></p>
+<h5 id="无序容器对关键字类型的要求"><a href="#无序容器对关键字类型的要求" class="headerlink" title="无序容器对关键字类型的要求"></a>无序容器对关键字类型的要求</h5><p>无序容器使用关键字类型的<code>=</code>来比较元素，还使用一个<code>hash&lt;key_type&gt;</code>类型的对象来生成每个元素的哈希值。标准库为内置类型包括（指针）提供了<code>hash</code>模板。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/08/primer_dynamic-memory/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/02/primer_generic-algorithm/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

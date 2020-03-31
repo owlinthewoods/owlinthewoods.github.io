@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>使用标准库：建立文本查询程序 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2019-08-10</span>
+    <h2>使用标准库：建立文本查询程序</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>单独总结下文本查询程序的设计思想，特别是对<code>shared_ptr</code>的运用。</p>
+<a id="more"></a>
+
+<p>假如我们要从一个包含标准库的章节里寻找一个<em>element</em>，并显示所在行数和出现的次数。输出预期是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">element occurs 114 times</span><br><span class="line"> (line 23) A set element contains only a key;</span><br><span class="line"> (line 54) operator creates a new element</span><br><span class="line"> (line 55) Regardless of whether the element</span><br><span class="line"> (line 90) when we fetch an element from a map</span><br></pre></td></tr></table></figure>
+
+<h4 id="程序的设计"><a href="#程序的设计" class="headerlink" title="程序的设计"></a>程序的设计</h4><p>根据输出我们的任务有：</p>
+<ul>
+<li>读取文件时，需要记住单词出现的每一行。所以需要逐行读取并分解单词</li>
+<li>输出时，提取行号，行号按升序，能够打印行号对应的文本</li>
+</ul>
+<p>对于用到的标准库设施，具体有这些：</p>
+<ul>
+<li>使用<code>vector</code>来保存输入文件的文本，<code>vector</code>的每一个元素是一行文本，没有重复。</li>
+<li>使用<code>istringstream</code>来分解每一行的单词</li>
+<li>使用<code>set</code>来保存每个单词出现的行号，保证行号唯一且升序排列</li>
+<li>使用<code>map</code>来保存一个单词和一个<code>set</code>，也就是说一个单词对应一个<code>set</code>。</li>
+</ul>
+<p>我们先定义一个<code>TextQuery</code>类，包含一个<code>vector</code>和一个<code>map</code>，<code>vector</code>用来保存输入的文本，<code>map</code>用来</p>
+<p>关联每个单词和它出现的行号的<code>set</code>，这个类拥有一个读取文本文件的构造函数和一个查询操作。我们在查询到了结果之后，可以再定义一个<code>QueryResult</code>来完成打印工作。</p>
+<h5 id="在类之间共享数据"><a href="#在类之间共享数据" class="headerlink" title="在类之间共享数据"></a>在类之间共享数据</h5><p>由于<code>QueryResult</code>要用到<code>TestQuery</code>里面的数据，我们的第一反应是把<code>vector</code>拷贝过来，但是这样做异常费时，因为我们只需要用到里面一小部分数据。于是这里就要用到<code>shared_ptr</code>。</p>
+<h5 id="使用TextQuery类"><a href="#使用TextQuery类" class="headerlink" title="使用TextQuery类"></a>使用TextQuery类</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">runQueries</span><span class="params">(ifstream&amp; infile)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="function">TextQuery <span class="title">tq</span><span class="params">(infile)</span></span>;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"enter the word to look for,or q to quit: "</span>;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)</span><br><span class="line">        <span class="keyword">if</span>(!(<span class="built_in">cin</span>&gt;&gt;s) &amp;&amp; s==<span class="string">'q'</span>) <span class="keyword">break</span>;</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">cout</span>,tq.query(s))&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="定义TextQuery类"><a href="#定义TextQuery类" class="headerlink" title="定义TextQuery类"></a>定义TextQuery类</h5><p>设计数据成员时，要考虑到<code>QueryResult</code>要共享输入文件的<code>vector</code>和保存单词关联的<code>set</code>。</p>
+<p>于是给出定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QueryResult</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextQuery</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">typedef</span> <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;::size_type line_no;</span><br><span class="line">    TextQuery(ifstream&amp;);</span><br><span class="line">    <span class="function">QueryResult <span class="title">query</span><span class="params">(<span class="keyword">const</span> <span class="built_in">string</span>&amp; s)</span> <span class="keyword">const</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; file;</span><br><span class="line">    <span class="built_in">map</span>&lt;<span class="built_in">string</span>,<span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt; wm; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="TextQuery构造函数"><a href="#TextQuery构造函数" class="headerlink" title="TextQuery构造函数"></a>TextQuery构造函数</h5><p>构造函数接受一个<code>ifstream</code>，实行逐行读取：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TextQuery::TextQuery(ifstream&amp; is):file(<span class="keyword">new</span> <span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">string</span> <span class="built_in">text</span>;</span><br><span class="line">    <span class="keyword">while</span>(getline(is,<span class="built_in">text</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        file-&gt;push_back(<span class="built_in">text</span>);</span><br><span class="line">        <span class="keyword">int</span> n=file-&gt;<span class="built_in">size</span>()<span class="number">-1</span>;  <span class="comment">//当前行号</span></span><br><span class="line">        <span class="function"><span class="built_in">istringstream</span> <span class="title">line</span><span class="params">(<span class="built_in">text</span>)</span></span>;</span><br><span class="line">        <span class="built_in">string</span> <span class="keyword">word</span>;</span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">line</span>&gt;&gt;<span class="keyword">word</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">auto</span> &amp;lines=wm[<span class="keyword">word</span>];  <span class="comment">//如果map有该单词则获取set的智能指针，如果没有插入这个单词</span></span><br><span class="line">            <span class="keyword">if</span>(!lines)  <span class="comment">//检查指向set的指针是否为空</span></span><br><span class="line">                lines.reset(<span class="keyword">new</span> <span class="built_in">set</span>&lt;line_no&gt;); <span class="comment">//为空，则分配一个新的set</span></span><br><span class="line">            lines-&gt;insert(n); <span class="comment">//插入当前行号</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="QueryResult类"><a href="#QueryResult类" class="headerlink" title="QueryResult类"></a>QueryResult类</h5><p>该类有三个数据成员，一个<code>string</code>保存查询的单词，一个<code>shared_ptr</code>指向保存输入文件文本的<code>vector</code>，一个<code>shared_ptr</code>指向保存单词出现行号的<code>set</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QueryResult</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="function"><span class="keyword">friend</span> ostream&amp; <span class="title">print</span><span class="params">(ostream&amp;,<span class="keyword">const</span> QueryResult&amp;)</span></span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    QueryResult(<span class="built_in">string</span> s,<span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt; p,<span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; f):</span><br><span class="line">        sought(s),lines(p),file(f) &#123; &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">string</span> sought;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt; lines;</span><br><span class="line">    <span class="built_in">shared_ptr</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt; file;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="query函数"><a href="#query函数" class="headerlink" title="query函数"></a>query函数</h5><p>该函数接受一个<code>string</code>，如果找到了就使用<code>string</code>，对应单词的<code>set</code>和<code>file</code>来构造一个<code>QueryResult</code>对象，并返回它。</p>
+<p>如果我们没有找到，则定义一个<code>static</code>对象，是一个指向空行号的<code>shared_ptr</code>，用它来构造<code>QueryResult</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">QueryResult</span><br><span class="line">TextQuery::query(<span class="keyword">const</span> <span class="built_in">string</span>&amp; sought) <span class="keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">static</span> <span class="built_in">shared_ptr</span>&lt;<span class="built_in">set</span>&lt;line_no&gt;&gt; <span class="title">nodata</span><span class="params">(<span class="keyword">new</span> <span class="built_in">set</span>&lt;line_no&gt;)</span></span>;</span><br><span class="line">    <span class="keyword">auto</span> loc=wm.<span class="built_in">find</span>(sought);  <span class="comment">//使用find而不是下标</span></span><br><span class="line">    <span class="keyword">if</span>(loc==wm.<span class="built_in">end</span>())</span><br><span class="line">        <span class="keyword">return</span> QueryResult(sought,nodata,file);  <span class="comment">//未找到</span></span><br><span class="line">    <span class="keyword">return</span> QueryResult(sought,loc-&gt;second,file);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="打印结果"><a href="#打印结果" class="headerlink" title="打印结果"></a>打印结果</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ostream&amp; <span class="title">print</span><span class="params">(ostream&amp; os,<span class="keyword">const</span> QueryResult&amp; qr)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    os&lt;&lt;qr.sought&lt;&lt;<span class="string">" occurs "</span>&lt;&lt;qr.lines-&gt;<span class="built_in">size</span>()&lt;&lt;<span class="string">" "</span></span><br><span class="line">        &lt;&lt;(lines.<span class="built_in">size</span>()&gt;<span class="number">1</span> ? <span class="string">"times"</span> : <span class="string">"time"</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">auto</span> num:*qr.lines)</span><br><span class="line">        os&lt;&lt;<span class="string">"\t(line "</span>&lt;&lt;num+<span class="number">1</span>&lt;&lt;<span class="string">") "</span>&lt;&lt;</span><br><span class="line">        *(qr.file-&gt;<span class="built_in">begin</span>()+num)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> os;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果没有找到元素，<code>lines</code>指向一个空<code>vector</code>，<code>for</code>范围循环一次也不会执行。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/14/primer_copy-control/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/08/primer_dynamic-memory/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>

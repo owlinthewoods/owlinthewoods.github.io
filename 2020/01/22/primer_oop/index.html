@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>primer_面向对象程序设计 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Gniq">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2020-01-22</span>
+    <h2>primer_面向对象程...</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/cpp-primer/" rel="tag">cpp_primer</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>本章介绍OOP的另外两个概念，继承和动态绑定。</p>
+<a id="more"></a>
+
+<h3 id="定义基类和派生类"><a href="#定义基类和派生类" class="headerlink" title="定义基类和派生类"></a>定义基类和派生类</h3><p>定义基类<code>Quote</code>:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Quote</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Quote()=<span class="keyword">default</span>;</span><br><span class="line">    Quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp; book,<span class="keyword">double</span> sales_price,bookNo(book),price(sales_price))&#123; &#125;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">isbn</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;<span class="keyword">return</span> bookNo;&#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> n*price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">virtual</span> ~Quote()=<span class="keyword">default</span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">string</span> bookNo;</span><br><span class="line"><span class="keyword">protected</span>:</span><br><span class="line">    <span class="keyword">double</span> price=<span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>isbn</code>函数由于是用于返回书号的，与派生类的细节无关，所以不需要设置为虚函数。而不同的折扣书的<code>net_price</code>函数的行为不同，所以需要设置虚函数。</p>
+<h4 id="定义派生类"><a href="#定义派生类" class="headerlink" title="定义派生类"></a>定义派生类</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>:</span><span class="keyword">public</span> Quote&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Bulk_quote()=<span class="keyword">default</span>;</span><br><span class="line">    Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp;,<span class="keyword">double</span>,<span class="keyword">size_t</span>,<span class="keyword">double</span>);</span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">net_price</span><span class="params">(<span class="keyword">size_t</span>)</span> <span class="keyword">const</span> <span class="keyword">override</span></span>;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">size_t</span> min_qty=<span class="number">0</span>; <span class="comment">//最低批发购买量</span></span><br><span class="line">    <span class="keyword">double</span> discount=<span class="number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在派生类中，自己定义的成员与继承自基类的成员不一定是连续存储的。</p>
+<p>还可以将基类的指针或者引用指向派生类的基类部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Quote item;</span><br><span class="line">Bulk_quote bulk;</span><br><span class="line">Quote *p=&amp;item;</span><br><span class="line">p=&amp;bulk; <span class="comment">//将Quote类型指针绑定到子类对象上</span></span><br><span class="line">Quote&amp; r=bulk;<span class="comment">//同样的，引用绑定</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="派生类构造函数"><a href="#派生类构造函数" class="headerlink" title="派生类构造函数"></a>派生类构造函数</h5><p>派生类构造函数是通过初始化列表来将实参传递给基类构造函数的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Bulk_quote(<span class="keyword">const</span> <span class="built_in">string</span>&amp; book,<span class="keyword">double</span> p,<span class="keyword">size_t</span> qty,<span class="keyword">double</span> disc)</span><br><span class="line">    :Quote(book,p),min_qty(qty),discount(disc) &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除非特别指出，派生类的基类部分将会像数据成员那样执行默认初始化。</p>
+<h5 id="派生类使用基类的成员"><a href="#派生类使用基类的成员" class="headerlink" title="派生类使用基类的成员"></a>派生类使用基类的成员</h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">double</span> <span class="title">Bulk_quote::net_price</span><span class="params">(<span class="keyword">size_t</span> cnt)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cnt&gt;=min_qty)</span><br><span class="line">        <span class="keyword">return</span> price*(<span class="number">1</span>-discount)*cnt;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">return</span> cnt*price;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果超过给定了一个数量，该函数产生一个打折后的价格。</p>
+<h5 id="继承与静态成员"><a href="#继承与静态成员" class="headerlink" title="继承与静态成员"></a>继承与静态成员</h5><p>如果一个基类定义了一个静态成员，那么无论有多少个子类，都只存在这个静态成员的唯一实例。</p>
+<p>对于派生类的声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>:</span><span class="keyword">public</span> Quote; <span class="comment">//错误</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulk_quote</span>;</span><span class="comment">//正确</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="被用作基类的类"><a href="#被用作基类的类" class="headerlink" title="被用作基类的类"></a>被用作基类的类</h5><p>基类被使用之前必须定义，因为子类要继承基类必须清除基类的成员是什么。最终的派生类会继承其直接基类的成员和所有间接基类的成员。</p>
+<p>可以使用<code>final</code>关键字来防止继承的出现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">NoDerived</span> <span class="title">final</span>&#123;</span> <span class="comment">/* */</span> &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="类型转换与继承"><a href="#类型转换与继承" class="headerlink" title="类型转换与继承"></a>类型转换与继承</h4><p>我们将基类的指针与引用绑定到派生类对象上。当使用基类指针时，我们并不清楚该引用或者指针所绑定对象的真正类型。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2020/03/29/implement-queue-using-stacks-lcci/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>Leetcod...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2019/08/14/primer_copy-control/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>primer_...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt="Gniq"/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p>Gniq</p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>
