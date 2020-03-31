@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>minimum-height-tree | Gnique Explorer</title>
+  <title>Leetcode_最小高度树 | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Gniq">
   <meta name="keywords" content="">
@@ -70,8 +70,8 @@
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
     <span>2020-03-31</span>
-    <h2>minimum-heig...</h2>
-    
+    <h2>Leetcode_最小高度树</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></div>
     </div>
 </div>
 </div>
@@ -80,7 +80,23 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        
+        <p>给定一个有序整数数组，元素各不相同且按升序排列，编写一个算法，创建一棵高度最小的二叉搜索树。</p>
+<a id="more"></a>
+
+<p>示例：</p>
+<p>给定有序数组: [-10,-3,0,5,9],</p>
+<p>一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：</p>
+<pre><code>     0 
+    / \ 
+  -3   9 
+  /   / 
+-10  5 </code></pre><p>思路：</p>
+<p>既然数组是有序的，那么就从数组的左，右半部分别组成根节点的左子树和右子树，于是便想到递归，递归时传入原来数组的一半。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> TreeNode <span class="title">sortedArrayToBST</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums.length==<span class="number">0</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">int</span> len=nums.length;</span><br><span class="line">        <span class="comment">//把数组中间的值赋给根节点</span></span><br><span class="line">        TreeNode node=<span class="keyword">new</span> TreeNode(nums[len/<span class="number">2</span>]);</span><br><span class="line">        <span class="comment">//左子树传入左办数组</span></span><br><span class="line">        node.left=sortedArrayToBST(Arrays.copyOfRange(nums,<span class="number">0</span>,len/<span class="number">2</span>));</span><br><span class="line">        node.right=sortedArrayToBST(Arrays.copyOfRange(nums,len/<span class="number">2</span>+<span class="number">1</span>,len));</span><br><span class="line">        <span class="keyword">return</span> node;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
       </div>
     </div>
   </div>
@@ -101,12 +117,12 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/03/31/hello-world/">
+		<a class="copy" href="/2020/03/29/convert-binary-number-in-a-linked-list-to-integer/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Prev</span>
-						<h3>Hello W...</h3>
+						<h3>Leetcod...</h3>
 					</div>
 				</div>
 			</div>
