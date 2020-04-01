@@ -81,6 +81,24 @@
 
   <div class="lx-entry padding">
     <div>
+      <h2 class="title"><a href="/2020/04/01/maximum-depth-of-binary-tree/">Leetcode_二叉树的深度</a></h2>
+      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-01 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
+      <p><p>输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。</p>
+<p>例如：</p>
+<p>给定二叉树 [3,9,20,null,null,15,7]，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
+
+<p>返回它的最大深度 3 。</p>
+<p>思路：</p>
+<p>使用递归，每次对根节点求左子树和右子树的深度，返回其中较大的深度并加一。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> depth=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> left_depth=maxDepth(root.left);</span><br><span class="line">        <span class="keyword">int</span> right_depth=maxDepth(root.right);</span><br><span class="line">        depth=(left_depth&gt;right_depth)?left_depth:right_depth;</span><br><span class="line">        <span class="keyword">return</span> depth+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</p>
+      <div class="post-button"><a class="btn" href="/2020/04/01/maximum-depth-of-binary-tree/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+    </div>
+  </div>
+  <div class="lx-entry padding">
+    <div>
       <h2 class="title"><a href="/2020/03/31/minimum-height-tree/">Leetcode_最小高度树</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-03-31 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
       <p><p>给定一个有序整数数组，元素各不相同且按升序排列，编写一个算法，创建一棵高度最小的二叉搜索树。</p></p>
@@ -150,14 +168,6 @@
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2019-08-02 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/C/">C++</a></span>
       <p><p><strong>泛型算法</strong>（generic algorithm）可用于不同类型的容器和不同元素，而无需为每一种容器定制过多的操作。</p></p>
       <div class="post-button"><a class="btn" href="/2019/08/02/primer_generic-algorithm/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2019/07/28/primer_sequential-container/">primer_顺序容器</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2019-07-28 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/C/">C++</a></span>
-      <p><p>这一章是第三章的扩充，主要介绍顺序容器。</p></p>
-      <div class="post-button"><a class="btn" href="/2019/07/28/primer_sequential-container/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
 
