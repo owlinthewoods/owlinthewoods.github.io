@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>Leetcode_二叉树的深度 | Gnique Explorer</title>
+  <title>how-many-numbers-are-smalller-than-the-current-number | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Gniq">
   <meta name="keywords" content="">
@@ -69,8 +69,8 @@
   <div class="overlay">
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
-    <span>2020-04-01</span>
-    <h2>Leetcode_二叉树...</h2>
+    <span>2020-04-02</span>
+    <h2>how-many-num...</h2>
     <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></div>
     </div>
 </div>
@@ -80,17 +80,15 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。</p>
-<a id="more"></a>
+        <p>给你一个数组 nums，对于其中每个元素 nums[i]，请你统计数组中比它小的所有数字的数目。</p>
+<p>换而言之，对于每个 nums[i] 你必须计算出有效的 j 的数量，其中 j 满足 j != i 且 nums[j] &lt; nums[i] 。</p>
+<p>以数组形式返回答案。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入：nums &#x3D; [8,1,2,2,3]</span><br><span class="line">输出：[4,0,1,1,3]</span><br><span class="line">解释： </span><br><span class="line">对于 nums[0]&#x3D;8 存在四个比它小的数字：（1，2，2 和 3）。 </span><br><span class="line">对于 nums[1]&#x3D;1 不存在比它小的数字。</span><br><span class="line">对于 nums[2]&#x3D;2 存在一个比它小的数字：（1）。 </span><br><span class="line">对于 nums[3]&#x3D;2 存在一个比它小的数字：（1）。 </span><br><span class="line">对于 nums[4]&#x3D;3 存在三个比它小的数字：（1，2 和 2）。</span><br></pre></td></tr></table></figure>
 
-<p>例如：</p>
-<p>给定二叉树 [3,9,20,null,null,15,7]，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> &#x2F; \</span><br><span class="line">9  20</span><br><span class="line">  &#x2F;  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure>
-
-<p>返回它的最大深度 3 。</p>
 <p>思路：</p>
-<p>使用递归，每次对根节点求左子树和右子树的深度，返回其中较大的深度并加一。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for a binary tree node.</span></span><br><span class="line"><span class="comment"> * public class TreeNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     TreeNode left;</span></span><br><span class="line"><span class="comment"> *     TreeNode right;</span></span><br><span class="line"><span class="comment"> *     TreeNode(int x) &#123; val = x; &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> depth=<span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxDepth</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root==<span class="keyword">null</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> left_depth=maxDepth(root.left);</span><br><span class="line">        <span class="keyword">int</span> right_depth=maxDepth(root.right);</span><br><span class="line">        depth=(left_depth&gt;right_depth)?left_depth:right_depth;</span><br><span class="line">        <span class="keyword">return</span> depth+<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先将数组排序，那么比当前数字小的数量就是排序后数组里该数字的索引，于是想到用map来保存每一个数字的索引，其中关键字为数字，值为数字在排序数组中的索引。考虑到排序数组里面有相同的元素，所以只存放相同数字里的第一个数字的索引。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] smallerNumbersThanCurrent(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        <span class="keyword">int</span>[] sorted=nums.clone();</span><br><span class="line">        Arrays.sort(sorted);</span><br><span class="line">        HashMap&lt;Integer,Integer&gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        <span class="comment">//存放排序数组的第一个元素</span></span><br><span class="line">        map.put(sorted[<span class="number">0</span>],<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;sorted.length;i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sorted[i]&gt;sorted[i-<span class="number">1</span>])</span><br><span class="line">            &#123;</span><br><span class="line">                map.put(sorted[i],i);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;nums.length;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            nums[i]=map.get(nums[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> nums;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -100,12 +98,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/04/02/how-many-numbers-are-smalller-than-the-current-number/">
+		<a class="copy" href="#">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>how-man...</h3>
+						<h3>No newer post</h3>
 					</div>
 				</div>
 			</div>
@@ -113,7 +111,7 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/03/31/minimum-height-tree/">
+		<a class="copy" href="/2020/04/01/maximum-depth-of-binary-tree/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
