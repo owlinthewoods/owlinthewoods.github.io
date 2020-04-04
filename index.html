@@ -81,6 +81,30 @@
 
   <div class="lx-entry padding">
     <div>
+      <h2 class="title"><a href="/2020/04/04/kth-node-from-end-of-list/">Leetcode_返回倒数第k个节点</a></h2>
+      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-04 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
+      <p><p>实现一种算法，找出单向链表中倒数第 k 个节点。返回该节点的值。</p>
+<p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入： 1-&gt;2-&gt;3-&gt;4-&gt;5 和 k &#x3D; 2</span><br><span class="line">输出： 4</span><br></pre></td></tr></table></figure>
+
+<p>思路:</p>
+<p>使用两个游标head和head2，先将第一个游标head移动到第k个节点处，然后head和head2同时向前移动，当head达到结尾时，head2刚好指向倒数第k个节点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">kthToLast</span><span class="params">(ListNode* head, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        ListNode *head2=head;</span><br><span class="line">        <span class="keyword">int</span> cur=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(head-&gt;next &amp;&amp; cur!=k)&#123;</span><br><span class="line">            head=head-&gt;next;</span><br><span class="line">            cur++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(head-&gt;next)&#123;</span><br><span class="line">            head=head-&gt;next;</span><br><span class="line">            head2=head2-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> head2-&gt;val;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</p>
+      <div class="post-button"><a class="btn" href="/2020/04/04/kth-node-from-end-of-list/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+    </div>
+  </div>
+  <div class="lx-entry padding">
+    <div>
+      <h2 class="title"><a href="/2020/04/04/delete-node-in-a-linked-list/">Leetcode_删除链表中的节点</a></h2>
+      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-04 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
+      <p><p>请编写一个函数，使其可以删除某个链表中给定的（非末尾）节点，你将只被给定要求被删除的节点。</p></p>
+      <div class="post-button"><a class="btn" href="/2020/04/04/delete-node-in-a-linked-list/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+    </div>
+  </div>
+  <div class="lx-entry padding">
+    <div>
       <h2 class="title"><a href="/2020/04/03/create-target-array-in-the-given-order/">Leetcode_按照既定顺序创造数组</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-03 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
       <p><p>给你两个整数数组 nums 和 index。你需要按照以下规则创建目标数组：</p>
@@ -148,26 +172,10 @@
       <div class="post-button"><a class="btn" href="/2020/01/22/primer_oop/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2019/08/14/primer_copy-control/">primer_拷贝控制</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2019-08-14 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/C/">C++</a></span>
-      <p><p>本章学习如何控制类类型对象在拷贝、赋值、移动和销毁时应该做什么。</p></p>
-      <div class="post-button"><a class="btn" href="/2019/08/14/primer_copy-control/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2019/08/10/primer_text-query/">使用标准库：建立文本查询程序</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2019-08-10 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/C/">C++</a></span>
-      <p><p>单独总结下文本查询程序的设计思想，特别是对<code>shared_ptr</code>的运用。</p></p>
-      <div class="post-button"><a class="btn" href="/2019/08/10/primer_text-query/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
 
 
 <div id="pagination">
-  <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"></a>
+  <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"></a>
 </div>
 
 <footer>
