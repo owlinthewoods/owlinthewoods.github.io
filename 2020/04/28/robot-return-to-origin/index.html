@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>Leetcode_解码字母到整数映射 | Gnique Explorer</title>
+  <title>Leetcode_机器人能够返回原点 | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="">
   <meta name="keywords" content="">
@@ -70,7 +70,7 @@
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
     <span>2020-04-28</span>
-    <h2>Leetcode_解码字...</h2>
+    <h2>Leetcode_机器人...</h2>
     <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></div>
     </div>
 </div>
@@ -80,21 +80,16 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>给你一个字符串 <code>s</code>，它由数字（<code>&#39;0&#39;</code> - <code>&#39;9&#39;</code>）和 <code>&#39;#&#39;</code> 组成。我们希望按下述规则将 <code>s</code> 映射为一些小写英文字符：</p>
-<ul>
-<li>字符（<code>&#39;a&#39;</code> - <code>&#39;i&#39;</code>）分别用（<code>&#39;1&#39;</code> - <code>&#39;9&#39;</code>）表示。</li>
-<li>字符（<code>&#39;j&#39;</code> - <code>&#39;z&#39;</code>）分别用（<code>&#39;10#&#39;</code> - <code>&#39;26#&#39;</code>）表示。 </li>
-</ul>
-<p>返回映射之后形成的新字符串。</p>
-<p>题目数据保证映射始终唯一。</p>
+        <p>在二维平面上，有一个机器人从原点 (0, 0) 开始。给出它的移动顺序，判断这个机器人在完成移动后是否在 (0, 0) 处结束。</p>
+<p>移动顺序由字符串表示。字符 move[i] 表示其第 i 次移动。机器人的有效动作有 R（右），L（左），U（上）和 D（下）。如果机器人在完成所有动作后返回原点，则返回 true。否则，返回 false。</p>
 <a id="more"></a>
 
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：s &#x3D; &quot;10#11#12&quot;</span><br><span class="line">输出：&quot;jkab&quot;</span><br><span class="line">解释：&quot;j&quot; -&gt; &quot;10#&quot; , &quot;k&quot; -&gt; &quot;11#&quot; , &quot;a&quot; -&gt; &quot;1&quot; , &quot;b&quot; -&gt; &quot;2&quot;.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;UD&quot;</span><br><span class="line">输出: true</span><br><span class="line">解释：机器人向上移动一次，然后向下移动一次。所有动作都具有相同的幅度，因此它最终回到它开始的原点。因此，我们返回 true。</span><br></pre></td></tr></table></figure>
 
 <p>思路：</p>
-<p>从头对原串进行遍历，一次扫描三个字符，如果第三个字符是#，就将前两个字符一起转换，否则就对第一个字符进行转换，注意这里不能将三个字符分别转换，因为后两个字符可能会组成新的字母。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">freqAlphabets</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">string</span> ans;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>(); ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + <span class="number">2</span> &lt; s.<span class="built_in">size</span>() &amp;&amp; s[i + <span class="number">2</span>] == <span class="string">'#'</span>) &#123;</span><br><span class="line">                ans += <span class="keyword">char</span>((s[i] - <span class="string">'0'</span>) * <span class="number">10</span> + (s[i + <span class="number">1</span>] - <span class="string">'1'</span>) + <span class="string">'a'</span>);</span><br><span class="line">                i += <span class="number">2</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                ans += <span class="keyword">char</span>(s[i] - <span class="string">'1'</span> + <span class="string">'a'</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ans;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>设定x轴和y轴的偏移，然后加减，如果最后偏移都为零则返回true。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">judgeCircle</span><span class="params">(<span class="built_in">string</span> moves)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> offset_x=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> offset_y=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> <span class="built_in">move</span>:moves)&#123;</span><br><span class="line">            <span class="keyword">if</span>(<span class="built_in">move</span>==<span class="string">'L'</span>)&#123;</span><br><span class="line">                offset_x--;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">move</span>==<span class="string">'R'</span>)&#123;</span><br><span class="line">                offset_x++;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">move</span>==<span class="string">'D'</span>)&#123;</span><br><span class="line">                offset_y--;</span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">move</span>==<span class="string">'U'</span>)&#123;</span><br><span class="line">                offset_y++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(offset_x==<span class="number">0</span>&amp;&amp;offset_y==<span class="number">0</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -104,12 +99,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/04/28/robot-return-to-origin/">
+		<a class="copy" href="#">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>Leetcod...</h3>
+						<h3>No newer post</h3>
 					</div>
 				</div>
 			</div>
@@ -117,7 +112,7 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/04/27/increasing-decreasing-string/">
+		<a class="copy" href="/2020/04/28/decrypt-string-from-alphabet-to-integer-mapping/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
