@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>Leetcode_反转字符串中的单词 | Gnique Explorer</title>
+  <title>Leetcode_旅行者的终点 | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="">
   <meta name="keywords" content="">
@@ -69,8 +69,8 @@
   <div class="overlay">
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
-    <span>2020-04-29</span>
-    <h2>Leetcode_反转字...</h2>
+    <span>2020-05-07</span>
+    <h2>Leetcode_旅行者...</h2>
     <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Leetcode/" rel="tag">Leetcode</a></div>
     </div>
 </div>
@@ -80,17 +80,15 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</p>
+        <p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code>表示，其中<code>paths[i] = [cityAi, cityBi]</code>表示该线路将会从 <code>cityAi</code> 直接前往<code>cityBi</code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市。</p>
 <a id="more"></a>
 
 <p>示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入: &quot;Let&#39;s take LeetCode contest&quot;</span><br><span class="line">输出: &quot;s&#39;teL ekat edoCteeL tsetnoc&quot;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">输入：paths &#x3D; [[&quot;B&quot;,&quot;C&quot;],[&quot;D&quot;,&quot;B&quot;],[&quot;C&quot;,&quot;A&quot;]]</span><br><span class="line">输出：&quot;A&quot;</span><br><span class="line">解释：所有可能的线路是：</span><br><span class="line">&quot;D&quot; -&gt; &quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;B&quot; -&gt; &quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;C&quot; -&gt; &quot;A&quot;. </span><br><span class="line">&quot;A&quot;. </span><br><span class="line">显然，旅行终点站是 &quot;A&quot; 。</span><br></pre></td></tr></table></figure>
 
 <p>思路：</p>
-<p>设置两个迭代器begin和end来指定每个单词的开始和结束位置，在遍历时如果遇到空格，则利用stl的reverse方法将begin和end之间的单词反转，最后还要单独处理最后一个单词。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">reverseWords</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">auto</span> <span class="built_in">begin</span> = s.<span class="built_in">begin</span>() , <span class="built_in">end</span> = <span class="built_in">begin</span> ;</span><br><span class="line">        <span class="keyword">for</span> ( ; <span class="built_in">end</span> &lt; s.<span class="built_in">end</span>() ; ++ <span class="built_in">end</span> )</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> ( *<span class="built_in">end</span> == <span class="string">' '</span> )</span><br><span class="line">            &#123;</span><br><span class="line">                reverse( <span class="built_in">begin</span> , <span class="built_in">end</span> ) ;</span><br><span class="line">                <span class="built_in">begin</span> = <span class="built_in">end</span> + <span class="number">1</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        reverse( <span class="built_in">begin</span> , <span class="built_in">end</span> ) ;</span><br><span class="line">        <span class="keyword">return</span> s ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
+<p>将每一条线路的第一个地点存到hashset，然后遍历paths的所有线路，如果某一条线路的第二个地点在set中找不到，则返回该城市，这是因为如果一个地点是终点站，那么它不可能是任何一条线路的起点。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">destCity</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt;&gt;&amp; paths)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt; cities;</span><br><span class="line">        <span class="built_in">string</span> res;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> path:paths)&#123;</span><br><span class="line">            cities.insert(path[<span class="number">0</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">set</span>&lt;<span class="built_in">string</span>&gt;::iterator it;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> path:paths)&#123;</span><br><span class="line">            it=cities.<span class="built_in">find</span>(path[<span class="number">1</span>]);</span><br><span class="line">            <span class="keyword">if</span>(it==cities.<span class="built_in">end</span>())&#123;</span><br><span class="line">                res=path[<span class="number">1</span>];</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 
       </div>
@@ -100,12 +98,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/05/07/destination-city/">
+		<a class="copy" href="#">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>Leetcod...</h3>
+						<h3>No newer post</h3>
 					</div>
 				</div>
 			</div>
@@ -113,7 +111,7 @@
 	</div>
         <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="/2020/04/28/robot-return-to-origin/">
+		<a class="copy" href="/2020/04/29/reverse-words-in-a-string/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
