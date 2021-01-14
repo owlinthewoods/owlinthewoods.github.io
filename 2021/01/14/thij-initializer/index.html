@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>Gnique Explorer</title>
+  <title>初始化和清理 | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="">
   <meta name="keywords" content="">
@@ -62,28 +62,25 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
 <meta name="generator" content="Hexo 4.2.0"></head>
 <body>
-<div id="page">
+<div class="single">
 
-<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/cover.jpeg)">
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
   <div class="overlay">
-  <div class="featured">
+  <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
-    <span></span>
-    <h1>Gnique Explorer</h1>
-    
-    
-  </div>
-  </div>
+    <span>2021-01-14</span>
+    <h2>初始化和清理</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Thinking-in-Java/" rel="tag">Thinking in Java</a></div>
+    </div>
+</div>
 </div>
 
 <div id="lx-main-content">
   <div class="lx-post">
-
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2021/01/14/thij-initializer/">初始化和清理</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2021-01-14 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
-      <p><p>无参构造器/默认构造器：</p>
+    <div class="lx-entry padding">
+      <div>
+        <p>无参构造器/默认构造器：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock</span> </span>&#123;</span><br><span class="line"> 	Rock() &#123; <span class="comment">// 这是⼀个构造器</span></span><br><span class="line"> 		System.out.print(<span class="string">"Rock "</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>接收参数的构造器：</p>
@@ -132,132 +129,40 @@
 <h4 id="显式的静态初始化"><a href="#显式的静态初始化" class="headerlink" title="显式的静态初始化"></a>显式的静态初始化</h4><p>可以将静态初始化动作放在一个静态块中，与其他静态初始化动作⼀样，这段代码仅执⾏⼀次：当⾸次创建这个<br>类的对象或⾸次访问这个类的静态成员（甚⾄不需要创建该类的对象）时。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Spoon</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">static</span> <span class="keyword">int</span> i;</span><br><span class="line"> 	<span class="keyword">static</span> &#123;</span><br><span class="line"> 		i = <span class="number">47</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="数组初始化"><a href="#数组初始化" class="headerlink" title="数组初始化"></a>数组初始化</h3></p>
-      <div class="post-button"><a class="btn" href="/2021/01/14/thij-initializer/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+<h3 id="数组初始化"><a href="#数组初始化" class="headerlink" title="数组初始化"></a>数组初始化</h3>
+      </div>
     </div>
   </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/05/26/sliding-window-maximum/">Leetcode_滑动窗口最大值</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-05-26 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给定一个数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。</p>
-<p>返回滑动窗口中的最大值。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/05/26/sliding-window-maximum/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/05/07/thij-operator/">操作符</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-05-07 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
-      <p><h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>对⼀个对象进⾏操作时，我们实际上操作的是它的引⽤。两者指向的堆中的对象还是同⼀个。</p>
-<p>在方法中传递对象时，会发生别名现象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Letter y)</span></span>&#123;</span><br><span class="line">    y.c=<span class="string">'z'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>No newer post</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2020/05/26/sliding-window-maximum/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>Leetcod...</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
 
-<p>这里传递的是引用。</p>
-<h3 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h3><p>⼀元减号可以得到数据的负值。⼀元加号的作⽤相反，不过它唯⼀能影响的就是把较⼩的数值类型⾃动转换为 int 类型。</p>
-<h4 id="测试对象等价"><a href="#测试对象等价" class="headerlink" title="测试对象等价"></a>测试对象等价</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Equivalance</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Integer n1=<span class="number">47</span>;</span><br><span class="line">        Integer n2=<span class="number">47</span>;</span><br><span class="line">        System.out.println(n1 == n2);         </span><br><span class="line">        System.out.println(n1 != n2);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">true</span><br><span class="line">false</span><br></pre></td></tr></table></figure>
-
-<p>输出实际上应该是先输出 false，再输出 true（译者注：如果你把 47 改成 128，那么打印的结果就是这样，因为 Integer 内部维护着⼀个 IntegerCache 的缓存，默认缓存范围是 [-128, 127]，所以 [-128, 127] 之 间的值⽤ <code>==</code> 和 <code>!=</code> ⽐较也能能到正确的结果，但是不推荐⽤关系运算符⽐较。</p>
-<p>那么怎么⽐较两个对象的内容是否相同呢？你必须使⽤所有对象（不包括基本类型）中都存在的 equals() ⽅法。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(n1.equals(n2));</span><br></pre></td></tr></table></figure>
-
-<p>此时输出结果为<code>true</code>。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// operators/EqualsMethod2.java</span></span><br><span class="line"><span class="comment">// 默认的 equals() ⽅法没有⽐较内容</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Value</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">int</span> i;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EqualsMethod2</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Value v1 = <span class="keyword">new</span> Value();</span><br><span class="line"> 		Value v2 = <span class="keyword">new</span> Value();</span><br><span class="line"> 		v1.i = v2.i = <span class="number">100</span>;</span><br><span class="line"> 		System.out.println(v1.equals(v2));</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> <code>equals()</code>的默认⾏为是⽐较对象的引⽤⽽⾮具体内容。因此，除⾮你在新类中覆写<code>equals()</code> ⽅法，否则我们将获取不到想要的结果。</p>
-<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 int 作为布尔处理不是合法的 Java 写法</span></span><br><span class="line"><span class="comment">//- System.out.println("i &amp;&amp; j is " + (i &amp;&amp; j));</span></span><br><span class="line"><span class="comment">//- System.out.println("i || j is " + (i || j));</span></span><br><span class="line"><span class="comment">//- System.out.println("!i is " + !i);</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="字符串运算符"><a href="#字符串运算符" class="headerlink" title="字符串运算符"></a>字符串运算符</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringOperators</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">int</span> x = <span class="number">0</span>, y = <span class="number">1</span>, z = <span class="number">2</span>;</span><br><span class="line"> 		String s = <span class="string">"x, y, z "</span>;</span><br><span class="line"> 		System.out.println(s + x + y + z);</span><br><span class="line"> 		<span class="comment">// 将 x 转换为字符串</span></span><br><span class="line"> 		System.out.println(x + <span class="string">" "</span> + s);</span><br><span class="line"> 		s += <span class="string">"(summed) = "</span>;</span><br><span class="line"> 		<span class="comment">// 级联操作</span></span><br><span class="line"> 		System.out.println(s + (x + y + z));</span><br><span class="line"> 		<span class="comment">// Integer.toString()⽅法的简写:</span></span><br><span class="line"> 		System.out.println(<span class="string">""</span> + x);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x, y, z 012</span><br><span class="line">0 x, y, z</span><br><span class="line">x, y, z (summed) &#x3D; 3</span><br><span class="line">0</span><br></pre></td></tr></table></figure>
-
-<p>可以看出只要当中有⼀条数据是字符串类型，其他⾮字符串数据都将被转换为字符串形式并连接。括号<code>()</code>可以控制表达式的计算顺序，以便在显⽰ int 之前对其进⾏实际求和。</p>
-<p>最后一个例子中，以隐式地将其转换为字符串，以代替繁琐的显式调⽤⽅法（如这⾥可以使用<code>Integer.toString()）</code>。</p>
-<h3 id="常见陷阱"><a href="#常见陷阱" class="headerlink" title="常见陷阱"></a>常见陷阱</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while(x&#x3D;y)&#123;</span><br><span class="line">&#x2F;&#x2F;...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在C++中，如果<code>y</code>非0，那么总会返回<code>true</code>，但是在Java中，编译器会试图将这个int型数据转换为应接收的布尔类型数据，最后会发生编译期错误。</p>
-<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Casting</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">200</span>;</span><br><span class="line">        <span class="keyword">long</span> lng=(<span class="keyword">long</span>)i;</span><br><span class="line">        lng =i;<span class="comment">//没有必要的类型提升</span></span><br><span class="line">        <span class="keyword">long</span> lng2=(<span class="keyword">long</span>)<span class="number">200</span>;</span><br><span class="line">        lng2=<span class="number">200</span>;<span class="comment">//类型收缩</span></span><br><span class="line">       	i=(<span class="keyword">int</span>)lng2;<span class="comment">//必须进行的强转</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>若将数据类型进⾏“向下转换”（Narrowing Conversion）的操作（将容量较⼤的数据类型转换成容量较⼩的类 型），可能会发⽣信息丢失的危险。此时，编译器会强迫我们进⾏转型， 好⽐在提醒我们：该操作可能危险，若你坚持让我这么做，那么对不起， 请明确需要转换的类型。 对于“向上转换”（Widening conversion），则 不必进⾏显式的类型转换，因为较⼤类型的数据肯定能容纳较⼩类型的数 据，不会造成任何信息的丢失。</p>
-<p>除了布尔类型的数据，Java允许任何基本类型的数据转换为另一种基本类型的数据。</p>
-<h3 id="类型提升"><a href="#类型提升" class="headerlink" title="类型提升"></a>类型提升</h3><p>对⼩于 int 的基本数据类型（即 char、byte 或short）执⾏任何算术或按位操作，这些值会在执⾏操作之前类型提升为int，并且结果值的类型为 int。若想重新使⽤较⼩的类型，必须使⽤强制转换（由于重新分配回⼀个较⼩的类型，结果可能会丢失精度）。通常，<strong>表达式中最⼤的数据类型是决定表达式结果的数据类型</strong>。float 型和double 型相乘，结果是 double 型的；int 和 long 相加，结果是 long型。</p>
-</p>
-      <div class="post-button"><a class="btn" href="/2020/05/07/thij-operator/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/05/07/destination-city/">Leetcode_旅行者的终点</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-05-07 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code>表示，其中<code>paths[i] = [cityAi, cityBi]</code>表示该线路将会从 <code>cityAi</code> 直接前往<code>cityBi</code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/05/07/destination-city/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/29/reverse-words-in-a-string/">Leetcode_反转字符串中的单词</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-29 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/29/reverse-words-in-a-string/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/28/robot-return-to-origin/">Leetcode_机器人能够返回原点</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-28 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>在二维平面上，有一个机器人从原点 (0, 0) 开始。给出它的移动顺序，判断这个机器人在完成移动后是否在 (0, 0) 处结束。</p>
-<p>移动顺序由字符串表示。字符 move[i] 表示其第 i 次移动。机器人的有效动作有 R（右），L（左），U（上）和 D（下）。如果机器人在完成所有动作后返回原点，则返回 true。否则，返回 false。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/28/robot-return-to-origin/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/28/decrypt-string-from-alphabet-to-integer-mapping/">Leetcode_解码字母到整数映射</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-28 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给你一个字符串 <code>s</code>，它由数字（<code>&#39;0&#39;</code> - <code>&#39;9&#39;</code>）和 <code>&#39;#&#39;</code> 组成。我们希望按下述规则将 <code>s</code> 映射为一些小写英文字符：</p>
-<ul>
-<li>字符（<code>&#39;a&#39;</code> - <code>&#39;i&#39;</code>）分别用（<code>&#39;1&#39;</code> - <code>&#39;9&#39;</code>）表示。</li>
-<li>字符（<code>&#39;j&#39;</code> - <code>&#39;z&#39;</code>）分别用（<code>&#39;10#&#39;</code> - <code>&#39;26#&#39;</code>）表示。 </li>
-</ul>
-<p>返回映射之后形成的新字符串。</p>
-<p>题目数据保证映射始终唯一。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/28/decrypt-string-from-alphabet-to-integer-mapping/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/27/increasing-decreasing-string/">Leetcode_上升下降字符串</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-27 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给你一个字符串 s ，请你根据下面的算法重新构造字符串：</p>
-<p>从 s 中选出 最小 的字符，将它 接在 结果字符串的后面。<br>从 s 剩余字符中选出 最小 的字符，且该字符比上一个添加的字符大，将它 接在 结果字符串后面。<br>重复步骤 2 ，直到你没法从 s 中选择字符。<br>从 s 中选出 最大 的字符，将它 接在 结果字符串的后面。<br>从 s 剩余字符中选出 最大 的字符，且该字符比上一个添加的字符小，将它 接在 结果字符串后面。<br>重复步骤 5 ，直到你没法从 s 中选择字符。<br>重复步骤 1 到 6 ，直到 s 中所有字符都已经被选过。<br>在任何一步中，如果最小或者最大字符不止一个 ，你可以选择其中任意一个，并将其添加到结果字符串。</p>
-<p>请你返回将 s 中字符重新排序后的 结果字符串 。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/27/increasing-decreasing-string/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/24/kth-largest-node-in-bst/">Leetcode_二叉搜索树的第k大节点</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-24 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给定一棵二叉搜索树，请找出其中第k大的节点。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/24/kth-largest-node-in-bst/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/22/nary-tree-postorder-traversal/">Leetcode_N叉树的后序遍历</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-22 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给定一个N叉树，返回其节点值的后序遍历。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/22/nary-tree-postorder-traversal/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-
-
-<div id="pagination">
-  <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"></a>
 </div>
 
 <footer>
@@ -266,8 +171,6 @@
   </div>
 </footer>
 
-  </div>
-</div>
 </div>
 
 <button class="hamburger hamburger--arrow-r" type="button">
