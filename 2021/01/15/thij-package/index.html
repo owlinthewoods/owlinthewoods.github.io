@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>封装 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/tortoise.png">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2021-01-15</span>
+    <h2>封装</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Thinking-in-Java/" rel="tag">Thinking in Java</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。</p>
+<a id="more"></a>
+
+<p>假设⽂件名是 MyClass.java ，这意味着⽂件中只能有⼀个 public类，且类名必须是 MyClass（⼤⼩写也与⽂件名相同）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/mypackage/MyClass.java</span></span><br><span class="line"><span class="keyword">package</span> hiding.mypackage</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"> 	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果有⼈想使⽤ MyClass 或 hiding.mypackage 中的其他 public类，就必须使⽤关键字 import 来使 hiding.mypackage 中的名称可⽤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/ImportedMyClass.java</span></span><br><span class="line"><span class="keyword">import</span> hiding.mypackage.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImportedMyClass</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		MyClass m = <span class="keyword">new</span> MyClass();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="包访问权限"><a href="#包访问权限" class="headerlink" title="包访问权限"></a>包访问权限</h3><h4 id="public：接口访问权限"><a href="#public：接口访问权限" class="headerlink" title="public：接口访问权限"></a>public：接口访问权限</h4><p>当你使⽤关键字 public，就意味着紧随 public 后声明的成员对于每个⼈都是可⽤的。</p>
+<p>这里在dessert包下创建一个cookie类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hiding.dessert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cookie</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Cookie</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Cookie constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">void</span> <span class="title">bite</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"bite"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用Cookie：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/Dinner.java</span></span><br><span class="line"><span class="keyword">import</span> hiding.dessert.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Dinner</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Cookie x = <span class="keyword">new</span> Cookie();</span><br><span class="line"> 		<span class="comment">// -x.bite(); // Can't access</span></span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>你可以创建⼀个 Cookie 对象，因为它构造器和类都是 public 的。（后⾯会看到更多 public 的概念）但是，在Dinner.java 中⽆法访问到Cookie 对象中的 bite() ⽅法，因为 bite() 只提供了包访问权限，因⽽在 dessert 包之外⽆法访问，编译器禁⽌你使⽤它。</p>
+<h4 id="默认包"><a href="#默认包" class="headerlink" title="默认包"></a>默认包</h4><p>在hiding下创建Pie类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/Pie.java</span></span><br><span class="line"><span class="comment">// The other class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pie</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Pie.f()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再创建Cake类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/Cake.java</span></span><br><span class="line"><span class="comment">// Accesses a class in a separate compilation unit</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cake</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Pie x = <span class="keyword">new</span> Pie();</span><br><span class="line"> 		x.f();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最初看上去这两个⽂件毫不相关，但在 Cake 中可以创建⼀个 Pie 对象并调⽤它的 f() ⽅法。。Cake.java 可以访问它们是因为它们在相同的⽬录中且没有给⾃⼰设定明确的包名。Java把这样的⽂件看作是⾪属于该⽬录的默认包中，因此它们为该⽬录中所有的其他⽂件都提供了包访问权限。</p>
+<h4 id="private：你无法访问"><a href="#private：你无法访问" class="headerlink" title="private：你无法访问"></a>private：你无法访问</h4><p>关键字 private 意味着除了包含该成员的类，其他任何类都⽆法访问这个成员。同⼀包中的其他类⽆法访问 private 成员。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/IceCream.java</span></span><br><span class="line"><span class="comment">// Demonstrates "private" keyword</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sundae</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">private</span> <span class="title">Sundae</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"> 		<span class="function"><span class="keyword">static</span> Sundae <span class="title">makeASundae</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">return</span> <span class="keyword">new</span> Sundae();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IceCream</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		<span class="comment">//- Sundae x = new Sundae();</span></span><br><span class="line"> 		Sundae x = Sundae.makeASundae();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例⼦中，你⽆法通过构造器创建⼀个 Sundae 对象，⽽必须调⽤ makeASundae() ⽅法创建对象。</p>
+<p>对于类中的 private 属性也是⼀样。除⾮必须公开底层实现（这种情况很少⻅），否则就将属性声明为 private。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>No newer post</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2021/01/14/thij-initializer/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>初始化和清理</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt=""/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p></p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>
