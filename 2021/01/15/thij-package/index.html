@@ -80,7 +80,7 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。</p>
+        <p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。此外，位于同⼀编译单元中的所有类彼此之间都是可访问的。</p>
 <a id="more"></a>
 
 <p>假设⽂件名是 MyClass.java ，这意味着⽂件中只能有⼀个 public类，且类名必须是 MyClass（⼤⼩写也与⽂件名相同）：</p>
@@ -89,7 +89,14 @@
 <p>如果有⼈想使⽤ MyClass 或 hiding.mypackage 中的其他 public类，就必须使⽤关键字 import 来使 hiding.mypackage 中的名称可⽤。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/ImportedMyClass.java</span></span><br><span class="line"><span class="keyword">import</span> hiding.mypackage.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ImportedMyClass</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		MyClass m = <span class="keyword">new</span> MyClass();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="包访问权限"><a href="#包访问权限" class="headerlink" title="包访问权限"></a>包访问权限</h3><h4 id="public：接口访问权限"><a href="#public：接口访问权限" class="headerlink" title="public：接口访问权限"></a>public：接口访问权限</h4><p>当你使⽤关键字 public，就意味着紧随 public 后声明的成员对于每个⼈都是可⽤的。</p>
+<h3 id="包访问权限"><a href="#包访问权限" class="headerlink" title="包访问权限"></a>包访问权限</h3><p>取得对成员的访问权的唯⼀⽅式是：</p>
+<ol>
+<li>使成员成为 public。那么⽆论是谁，⽆论在哪，都可以访问它。</li>
+<li>赋予成员默认包访问权限，不⽤加任何访问修饰符，然后将其他类放<br>在相同的包内。这样，其他类就可以访问该成员。</li>
+<li>在”复⽤”这⼀章你将看到，继承的类既可以访问 public 成员，也可以<br>访问 protected 成员（但不能访问 private 成员）。只有当两个类处<br>于同⼀个包内，它才可以访问包访问权限的成员。但现在不⽤担⼼继<br>承和 protected。</li>
+<li>提供访问器（accessor）和修改器（mutator）⽅法（有时也称<br>为”get/set” ⽅法），从⽽读取和改变值。</li>
+</ol>
+<h4 id="public：接口访问权限"><a href="#public：接口访问权限" class="headerlink" title="public：接口访问权限"></a>public：接口访问权限</h4><p>当你使⽤关键字 public，就意味着紧随 public 后声明的成员对于每个⼈都是可⽤的。</p>
 <p>这里在dessert包下创建一个cookie类：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hiding.dessert;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cookie</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Cookie</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Cookie constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">void</span> <span class="title">bite</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"bite"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -117,12 +124,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="#">
+		<a class="copy" href="/2021/01/16/thij-reuse/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>No newer post</h3>
+						<h3>thij-re...</h3>
 					</div>
 				</div>
 			</div>

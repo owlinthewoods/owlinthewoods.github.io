@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>thij-reuse | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/tortoise.png">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2021-01-16</span>
+    <h2>thij-reuse</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Thinking-in-Java/" rel="tag">Thinking in Java</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p>Java中的代码复用包括组合和继承。</p>
+<a id="more"></a>
+
+<h3 id="组合语法"><a href="#组合语法" class="headerlink" title="组合语法"></a>组合语法</h3><p>创建WaterSource类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WaterSource</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String s;</span><br><span class="line"> 	WaterSource() &#123;</span><br><span class="line"> 		System.out.println(<span class="string">"WaterSource()"</span>);</span><br><span class="line"> 		s = <span class="string">"Constructed"</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> s; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在SprinklerSystem中引用WaterSource：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SprinklerSystem</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String valve1, valve2, valve3, valve4;</span><br><span class="line"> 	<span class="keyword">private</span> WaterSource source = <span class="keyword">new</span> WaterSource();</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">float</span> f;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">return</span></span><br><span class="line"> 		<span class="string">"valve1 = "</span> + valve1 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve2 = "</span> + valve2 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve3 = "</span> + valve3 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve4 = "</span> + valve4 + <span class="string">"\n"</span> +</span><br><span class="line"> 		<span class="string">"i = "</span> + i + <span class="string">" "</span> + <span class="string">"f = "</span> + f + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"source = "</span> + source; <span class="comment">// [1]</span></span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		SprinklerSystem sprinklers = <span class="keyword">new</span> SprinklerSystem();</span><br><span class="line"> 		System.out.println(sprinklers);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>每个⾮基本类型对象都有⼀个 toString() ⽅法，在编译器需要字符串但它有对象的特殊情况下调⽤该⽅法。在 toString() 上使⽤ @Override 注释来告诉编译器，以确保正确地覆盖。@Override 是可选的，但它有助于验证<br>你没有拼写错误。</p>
+<p>初始化引用有四种方法：</p>
+<ol>
+<li>当对象被定义时。这意味着它们总是在调⽤构造函数之前初始化。</li>
+<li>在该类的构造函数中。</li>
+<li>在实际使⽤对象之前。这通常称为延迟初始化。在对象创建开销⼤且<br>不需要每次都创建对象的情况下，它可以减少开销。</li>
+<li>使⽤实例初始化。</li>
+</ol>
+<p>第一种构造器内初始化，像WaterSource里初始化<code>s</code>一样。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Bath</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String <span class="comment">//定义处初始化</span></span><br><span class="line"> 	s1 = <span class="string">"Happy"</span>,</span><br><span class="line"> 	s2 = <span class="string">"Happy"</span>,</span><br><span class="line"> 	s3, s4;</span><br><span class="line"> 	<span class="keyword">private</span> Soap castille;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">float</span> toy;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Bath</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Inside Bath()"</span>);</span><br><span class="line"> 		s3 = <span class="string">"Joy"</span>;</span><br><span class="line"> 		toy = <span class="number">3.14f</span>;</span><br><span class="line"> 		castille = <span class="keyword">new</span> Soap();</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//实例初始化</span></span><br><span class="line"> 	&#123; i = <span class="number">47</span>; &#125;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">if</span>(s4 == <span class="keyword">null</span>) <span class="comment">//延迟初始化</span></span><br><span class="line"> 		s4 = <span class="string">"Joy"</span>;</span><br><span class="line"> 		<span class="comment">//return...</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="继承语法"><a href="#继承语法" class="headerlink" title="继承语法"></a>继承语法</h3><p>先给一个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// reuse/Detergent.java</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cleanser</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String s = <span class="string">"Cleanser"</span>;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">append</span><span class="params">(String a)</span> </span>&#123; s += a; &#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dilute</span><span class="params">()</span> </span>&#123; append(<span class="string">" dilute()"</span>); &#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">apply</span><span class="params">()</span> </span>&#123; append(<span class="string">" apply()"</span>); &#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrub</span><span class="params">()</span> </span>&#123; append(<span class="string">" scrub()"</span>); &#125;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> s; &#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Cleanser x = <span class="keyword">new</span> Cleanser();</span><br><span class="line"> 		x.dilute(); x.apply(); x.scrub();</span><br><span class="line"> 		System.out.println(x);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Detergent</span> <span class="keyword">extends</span> <span class="title">Cleanser</span> </span>&#123;</span><br><span class="line"> 	<span class="comment">// Change a method:</span></span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrub</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		append(<span class="string">" Detergent.scrub()"</span>);</span><br><span class="line"> 		<span class="keyword">super</span>.scrub(); <span class="comment">// Call base-class version</span></span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="comment">// Add methods to the interface:</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">foam</span><span class="params">()</span> </span>&#123; append(<span class="string">" foam()"</span>); &#125;</span><br><span class="line"> 	<span class="comment">// Test the new class:</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Detergent x = <span class="keyword">new</span> Detergent();</span><br><span class="line"> 		x.dilute();</span><br><span class="line"> 		x.apply();</span><br><span class="line"> 		x.scrub();</span><br><span class="line"> 		x.foam();</span><br><span class="line"> 		System.out.println(x);</span><br><span class="line"> 		System.out.println(<span class="string">"Testing base class:"</span>);</span><br><span class="line"> 		Cleanser.main(args);<span class="comment">//这里可以调用Cleanser.main()</span></span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Cleanser 中的所有⽅法都是公开的。请记住，如果不使⽤任何访问修饰符，则成员默认为包访问权限，这只允许包内成员访问。但是，如果其他包中的类继承 Cleanser，则该类只能访问Cleanser 的公共成员。</p>
+<p>因为 Detergent 是从 Cleanser 派⽣的(通过 extends 关键字)，所以它会在其接⼝中⾃动获取所有这些⽅法（<code>append()</code> 、 <code>dilute()</code> 、 <code>apply()</code> 、 <code>scrub()</code>和 <code>toString()</code>。但是它不能访问Cleanser的private成员，而是通过调用基类子对象的方法对<code>s</code>进行操作。</p>
+<p>Java的 super关键字引⽤了当前类继承的“超类”(基类)。因此表达式 <code>super.scrub()</code>调⽤⽅法<code>scrub()</code>的基类版本。</p>
+<h4 id="初始化基类"><a href="#初始化基类" class="headerlink" title="初始化基类"></a>初始化基类</h4><p>当你创建派⽣类的对象时，它包含基类的⼦对象。这个⼦对象与你⾃⼰创建基类的对象是⼀样的，这个基类子对象是隐式地存在于派生类对象当中，而组合则是显式的。</p>
+<p>要正确初始化基类子对象，就得 通过调⽤基类构造函数在构造函数中执⾏初始化。</p>
+<p>Java ⾃动在派⽣类构造函数中插⼊对基类构造函数的调⽤。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Art</span> </span>&#123;</span><br><span class="line"> 	Art() &#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Art constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Drawing</span> <span class="keyword">extends</span> <span class="title">Art</span> </span>&#123;</span><br><span class="line"> 	Drawing() &#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Drawing constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cartoon</span> <span class="keyword">extends</span> <span class="title">Drawing</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Cartoon</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Cartoon constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Cartoon x = <span class="keyword">new</span> Cartoon();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">Art constructor</span></span><br><span class="line"><span class="comment">Drawing constructor</span></span><br><span class="line"><span class="comment">Cartoon constructor</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>基类在派⽣类构造函数能够访问它之前进⾏初始化，即使不为 Cartoon 创建构造函数，编译器也会为你合成⼀个⽆参数构造函数，调⽤基类构造函数。</p>
+<h4 id="带参数的构造函数"><a href="#带参数的构造函数" class="headerlink" title="带参数的构造函数"></a>带参数的构造函数</h4><p>如果没有⽆参数的基类构造函数，或者必须调⽤具有参数的基类构造函数，则必须使⽤ super 关键字和适当的参数列表显式地编写对基类构造函数的调⽤:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Game</span> </span>&#123;</span><br><span class="line"> 	Game(<span class="keyword">int</span> i) &#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Game constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BoardGame</span> <span class="keyword">extends</span> <span class="title">Game</span> </span>&#123;</span><br><span class="line"> 	BoardGame(<span class="keyword">int</span> i) &#123;</span><br><span class="line"> 		<span class="keyword">super</span>(i);</span><br><span class="line"> 		System.out.println(<span class="string">"BoardGame constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Chess</span> <span class="keyword">extends</span> <span class="title">BoardGame</span> </span>&#123;</span><br><span class="line"> 	Chess() &#123;</span><br><span class="line"> 		<span class="keyword">super</span>(<span class="number">11</span>);</span><br><span class="line"> 		System.out.println(<span class="string">"Chess constructor"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Chess x = <span class="keyword">new</span> Chess();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">Game constructor</span></span><br><span class="line"><span class="comment">BoardGame constructor</span></span><br><span class="line"><span class="comment">Chess constructor</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>如果 Java 基类的⽅法名多次重载，则在派⽣类中重新定义该⽅法名不会隐藏任何基类版本（基类的方法仍然可以调用）不管⽅法是在这个级别定义的，还是在基类中定义的，重载都会起作⽤:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Water</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Whiskey</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mammal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">drink</span><span class="params">(Water water)</span></span>&#123;</span><br><span class="line">		<span class="comment">//喝水     </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span> <span class="keyword">extends</span> <span class="title">Mammal</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">drink</span><span class="params">(Whiskey whiskey)</span></span>&#123;</span><br><span class="line">        <span class="comment">//喝威士忌</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Human man=<span class="keyword">new</span> Human();</span><br><span class="line">        man.drink(water);</span><br><span class="line">        man.drink(whiskey);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意重载（Overload）和重写（Override）的区别</strong>。</p>
+<h3 id="protected"><a href="#protected" class="headerlink" title="protected"></a>protected</h3><p>关键字protected表示就类的⽤⼾⽽⾔，这是 private的。但对于任何继承它的⼦类或在同⼀包中的类，它是可访问的。同时protected还提供了包访问权限。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Villain</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String name;</span><br><span class="line">    </span><br><span class="line"> 	<span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">(String nm)</span> </span>&#123;</span><br><span class="line"> 		name = nm;</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	Villain(String name) &#123;</span><br><span class="line"> 		<span class="keyword">this</span>.name = name;</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">return</span> <span class="string">"I'm a Villain and my name is "</span> + name;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Orc</span> <span class="keyword">extends</span> <span class="title">Villain</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> orcNumber;</span><br><span class="line">    </span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Orc</span><span class="params">(String name, <span class="keyword">int</span> orcNumber)</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">super</span>(name);</span><br><span class="line"> 		<span class="keyword">this</span>.orcNumber = orcNumber;</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">change</span><span class="params">(String name, <span class="keyword">int</span> orcNumber)</span> </span>&#123;</span><br><span class="line"> 		set(name); <span class="comment">// Available because it's protected</span></span><br><span class="line"> 		<span class="keyword">this</span>.orcNumber = orcNumber;</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		<span class="keyword">return</span> <span class="string">"Orc "</span> + orcNumber + <span class="string">": "</span> + <span class="keyword">super</span>.toString()</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Orc orc = <span class="keyword">new</span> Orc(<span class="string">"Limburger"</span>, <span class="number">12</span>);</span><br><span class="line"> 		System.out.println(orc);</span><br><span class="line"> 		orc.change(<span class="string">"Bob"</span>, <span class="number">19</span>);</span><br><span class="line"> 		System.out.println(orc);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>change()</code> ⽅法可以访问<code>set()</code>⽅法，因为<code>set()</code>⽅法是protected。注意到，类 Orc 的 toString() ⽅法也使⽤了基类的版本。</p>
+<h3 id="向上转型"><a href="#向上转型" class="headerlink" title="向上转型"></a>向上转型</h3><p>继承最重要的⽅⾯不是为新类提供⽅法。它是新类与基类的⼀种关系。简⽽⾔之，这种关系可以表述为“新类是已有类的⼀种类型”。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">play</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">tune</span><span class="params">(Instrument i)</span> </span>&#123;</span><br><span class="line"> 		<span class="comment">// ...</span></span><br><span class="line"> 		i.play();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Wind objects are instruments</span></span><br><span class="line"><span class="comment">// because they have the same interface:</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wind</span> <span class="keyword">extends</span> <span class="title">Instrument</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		Wind flute = <span class="keyword">new</span> Wind();</span><br><span class="line"> 		Instrument.tune(flute); <span class="comment">// Upcasting</span></span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>tune()</code>⽅法接受了⼀个 Instrument 类型的引⽤。。在 <code>tune()</code> 中，代码对 Instrument 和 所有 Instrument 的派⽣类起作⽤，这种把 Wind 引⽤转换为 Instrument 引⽤的⾏为称作向上转型。</p>
+<p>继承图中派⽣类转型为基类是向上的，所以通常称作向上转型。因为是从⼀个更具体的类转化为⼀个更⼀般的类，所以向上转型永远是安全的。也就是说，派⽣类是基类的⼀个超集。它可能⽐基类包含更多的⽅法，但它必须⾄少具有与基类⼀样的⽅法。在向上转型期间，类接⼝只可能失去⽅法，不会增加⽅法。这就是为什么编译器在没有任何明确转型或其他特殊标记的情况下，仍然允许向上转型的原因。</p>
+<p>⼀种判断使⽤组合还是继承的最清晰的⽅法是问⼀问⾃⼰是否需要把新类向上转型为基类。</p>
+<h3 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h3><p>final通常指”不允许被改变的“。</p>
+<h4 id="final数据"><a href="#final数据" class="headerlink" title="final数据"></a>final数据</h4><p>许多编程语⾔都有某种⽅法告诉编译器有⼀块数据是恒定不变的。恒定是有⽤的，如：</p>
+<ol>
+<li>⼀个永不改变的编译时常量。</li>
+<li>⼀个在运⾏时初始化就不会改变的值。</li>
+</ol>
+<p>对于编译时常量这种情况，编译器可以把常量带⼊计算中；也就是说，可以在编译时计算，减少了⼀些运⾏时的负担。在 Java 中，这类常量必须是基本类型，⽽且⽤关键字 final 修饰。你必须在定义常量的时候进⾏赋值。</p>
+<p>当⽤ final 修饰对象引⽤⽽⾮基本类型时，其含义会有⼀点令⼈困惑。对于基本类型，final 使数值恒定不变，⽽对于对象引⽤，final 使引⽤恒定不变。⼀旦引⽤被初始化指向了某个对象，它就不能改为指向其他对象。但是，对象本⾝是可以修改的，Java 没有提供将任意对象设为常量的⽅法。（你可以⾃⼰编写类达到使对象恒定不变的效果）这⼀限制同样适⽤数组，数组也是对象。声明引⽤为 final 没有声明基本类型 final 有⽤。</p>
+<h4 id="空白final"><a href="#空白final" class="headerlink" title="空白final"></a>空白final</h4><p>空⽩ final 指的是没有初始化值的 final 属性。编译器确保空⽩ final 在使⽤前必须被初始化。你必须在定义时或在每个构造器中执⾏ final 变量的赋值操作。这保证了final 属性在使⽤前已经被初始化过。</p>
+<h4 id="final参数"><a href="#final参数" class="headerlink" title="final参数"></a>final参数</h4><p>在参数列表中，将参数声明为 final 意味着在⽅法中不能改变参数指向的对象或基本变量。</p>
+<h4 id="final方法"><a href="#final方法" class="headerlink" title="final方法"></a>final方法</h4><p>使用final方法可以防止通过覆写改变⽅法的⾏为。这是出于继承的考虑，确保⽅法的⾏为不会因继承⽽改变。</p>
+<h4 id="final和private"><a href="#final和private" class="headerlink" title="final和private"></a>final和private</h4><p>类中所有的 private ⽅法都隐式地指定为 final。因为不能访问 private ⽅法，所以不能覆写它。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WithFinals</span> </span>&#123;</span><br><span class="line"> 	<span class="comment">// Identical to "private" alone:</span></span><br><span class="line"> 	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"WithFinals.f()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="comment">// Also automatically "final":</span></span><br><span class="line"> 	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">g</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"WithFinals.g()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OverridingPrivate</span> <span class="keyword">extends</span> <span class="title">WithFinals</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"OverridingPrivate.f()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">g</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"OverridingPrivate.g()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OverridingPrivate2</span> <span class="keyword">extends</span> <span class="title">OverridingPrivate</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">f</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"OverridingPrivate2.f()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">g</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"OverridingPrivate2.g()"</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FinalOverridingIllusion</span> </span>&#123;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		OverridingPrivate2 op2 = <span class="keyword">new</span> OverridingPrivate2();</span><br><span class="line"> 		op2.f();</span><br><span class="line"> 		op2.g();</span><br><span class="line"> 		<span class="comment">// You can upcast:</span></span><br><span class="line"> 		OverridingPrivate op = op2;</span><br><span class="line"> 		<span class="comment">// But you can't call the methods:</span></span><br><span class="line"> 		<span class="comment">//- op.f();</span></span><br><span class="line"> 		<span class="comment">//- op.g();</span></span><br><span class="line"> 		<span class="comment">// Same here:</span></span><br><span class="line"> 		WithFinals wf = op2;</span><br><span class="line"> 		<span class="comment">//- wf.f();</span></span><br><span class="line"> 		<span class="comment">//- wf.g();</span></span><br></pre></td></tr></table></figure>
+
+<p>“覆写”只发⽣在⽅法是基类的接⼝时。如果⼀个⽅法是private 的，它就不是基类接⼝的⼀部分，它就不能被派生类使用，它只是隐藏在类内部的代码，且恰好有相同的命名⽽已。但是如果你在派⽣类中以相同的命名创建了<br>public，protected 或包访问权限的⽅法（在基类有同名的private方法情况下），这些⽅法与基类中的⽅法没有联系，你没有覆写⽅法，只是在创建新的⽅法⽽已。</p>
+<h3 id="类初始化和加载"><a href="#类初始化和加载" class="headerlink" title="类初始化和加载"></a>类初始化和加载</h3><p>记住每个类的编译代码，都存在于它⾃⼰独⽴的⽂件中。当创建类的第⼀个对象，或者是访问了类的 static 属性或⽅法，类就会被加载。</p>
+<h4 id="继承和初始化"><a href="#继承和初始化" class="headerlink" title="继承和初始化"></a>继承和初始化</h4><p>当执⾏ java Beetle，⾸先会试图访问 Beetle 类的 main() ⽅法（⼀个静态⽅法），加载器启动并找出 Beetle 类的编译代码（在名为Beetle.class 的⽂件中）。在加载过程中，编译器注意到有⼀个基类，于是继续加载基类。<strong>不论是否创建了基类的对象</strong>，基类都会被加载（注意加载和初始化的区别）。</p>
+<p>如果基类还存在⾃⾝的基类，那么第⼆个基类也将被加载，以此类推。接下来，根基类（例⼦中根基类是Insect）的** static 的初始化开始执⾏**，接着是派⽣类，以此类推。这点很重要，因为派⽣类中 static 的初始化可能依赖基类成员是否被正确地初始化。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>No newer post</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2021/01/15/thij-package/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>封装</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt=""/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p></p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>
