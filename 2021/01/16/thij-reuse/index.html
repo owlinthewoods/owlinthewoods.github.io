@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme-color" content=#58b77a>
-  <title>thij-reuse | Gnique Explorer</title>
+  <title>复用 | Gnique Explorer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="">
   <meta name="keywords" content="">
@@ -70,7 +70,7 @@
   <div class="page-title">
     <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
     <span>2021-01-16</span>
-    <h2>thij-reuse</h2>
+    <h2>复用</h2>
     <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Thinking-in-Java/" rel="tag">Thinking in Java</a></div>
     </div>
 </div>
@@ -89,12 +89,12 @@
 <p>在SprinklerSystem中引用WaterSource：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SprinklerSystem</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> String valve1, valve2, valve3, valve4;</span><br><span class="line"> 	<span class="keyword">private</span> WaterSource source = <span class="keyword">new</span> WaterSource();</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> i;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">float</span> f;</span><br><span class="line"> 	<span class="meta">@Override</span></span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">return</span></span><br><span class="line"> 		<span class="string">"valve1 = "</span> + valve1 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve2 = "</span> + valve2 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve3 = "</span> + valve3 + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"valve4 = "</span> + valve4 + <span class="string">"\n"</span> +</span><br><span class="line"> 		<span class="string">"i = "</span> + i + <span class="string">" "</span> + <span class="string">"f = "</span> + f + <span class="string">" "</span> +</span><br><span class="line"> 		<span class="string">"source = "</span> + source; <span class="comment">// [1]</span></span><br><span class="line"> 	&#125;</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		SprinklerSystem sprinklers = <span class="keyword">new</span> SprinklerSystem();</span><br><span class="line"> 		System.out.println(sprinklers);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>每个⾮基本类型对象都有⼀个 toString() ⽅法，在编译器需要字符串但它有对象的特殊情况下调⽤该⽅法。在 toString() 上使⽤ @Override 注释来告诉编译器，以确保正确地覆盖。@Override 是可选的，但它有助于验证<br>你没有拼写错误。</p>
+<p>每个⾮基本类型对象都有⼀个 <code>toString()</code>⽅法，在编译器需要字符串但它有对象的特殊情况下调⽤该⽅法。在 <code>toString()</code>上使⽤ @Override 注释来告诉编译器，以确保正确地覆盖。@Override 是可选的，但它有助于验证你没有拼写错误。</p>
 <p>初始化引用有四种方法：</p>
 <ol>
 <li>当对象被定义时。这意味着它们总是在调⽤构造函数之前初始化。</li>
 <li>在该类的构造函数中。</li>
-<li>在实际使⽤对象之前。这通常称为延迟初始化。在对象创建开销⼤且<br>不需要每次都创建对象的情况下，它可以减少开销。</li>
+<li>在实际使⽤对象之前。这通常称为延迟初始化。在对象创建开销⼤且不需要每次都创建对象的情况下，它可以减少开销。</li>
 <li>使⽤实例初始化。</li>
 </ol>
 <p>第一种构造器内初始化，像WaterSource里初始化<code>s</code>一样。</p>
@@ -145,7 +145,12 @@
 
 <p>“覆写”只发⽣在⽅法是基类的接⼝时。如果⼀个⽅法是private 的，它就不是基类接⼝的⼀部分，它就不能被派生类使用，它只是隐藏在类内部的代码，且恰好有相同的命名⽽已。但是如果你在派⽣类中以相同的命名创建了<br>public，protected 或包访问权限的⽅法（在基类有同名的private方法情况下），这些⽅法与基类中的⽅法没有联系，你没有覆写⽅法，只是在创建新的⽅法⽽已。</p>
 <h3 id="类初始化和加载"><a href="#类初始化和加载" class="headerlink" title="类初始化和加载"></a>类初始化和加载</h3><p>记住每个类的编译代码，都存在于它⾃⼰独⽴的⽂件中。当创建类的第⼀个对象，或者是访问了类的 static 属性或⽅法，类就会被加载。</p>
-<h4 id="继承和初始化"><a href="#继承和初始化" class="headerlink" title="继承和初始化"></a>继承和初始化</h4><p>当执⾏ java Beetle，⾸先会试图访问 Beetle 类的 main() ⽅法（⼀个静态⽅法），加载器启动并找出 Beetle 类的编译代码（在名为Beetle.class 的⽂件中）。在加载过程中，编译器注意到有⼀个基类，于是继续加载基类。<strong>不论是否创建了基类的对象</strong>，基类都会被加载（注意加载和初始化的区别）。</p>
+<h4 id="继承和初始化"><a href="#继承和初始化" class="headerlink" title="继承和初始化"></a>继承和初始化</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Insect</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> i = <span class="number">9</span>;</span><br><span class="line"> 	<span class="keyword">protected</span> <span class="keyword">int</span> j;</span><br><span class="line">    </span><br><span class="line"> 	Insect() &#123;</span><br><span class="line"> 		System.out.println(<span class="string">"i = "</span> + i + <span class="string">", j = "</span> + j);</span><br><span class="line"> 		j = <span class="number">39</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> x1 = printInit(<span class="string">"static Insect.x1 initialized"</span>);</span><br><span class="line"> 		<span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">printInit</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line"> 		System.out.println(s);</span><br><span class="line"> 		<span class="keyword">return</span> <span class="number">47</span>;</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br><span class="line">                                      </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Beetle</span> <span class="keyword">extends</span> <span class="title">Insect</span> </span>&#123;</span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">int</span> k = printInit(<span class="string">"Beetle.k.initialized"</span>);</span><br><span class="line">    </span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="title">Beetle</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"k = "</span> + k);</span><br><span class="line"> 		System.out.println(<span class="string">"j = "</span> + j);</span><br><span class="line"> 	&#125;</span><br><span class="line">    </span><br><span class="line"> 	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> x2 = printInit(<span class="string">"static Beetle.x2 initialized"</span>);</span><br><span class="line"> 	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 		System.out.println(<span class="string">"Beetle constructor"</span>);</span><br><span class="line"> 		Beetle b = <span class="keyword">new</span> Beetle();</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static Insect.x1 initialized</span><br><span class="line">static Beetle.x2 initialized</span><br><span class="line">Beetle constructor</span><br><span class="line">i &#x3D; 9, j &#x3D; 0</span><br><span class="line">Beetle.k initialized</span><br><span class="line">k &#x3D; 47</span><br><span class="line">j &#x3D; 39</span><br></pre></td></tr></table></figure>
+
+<p>当执⾏ java Beetle，⾸先会试图访问 Beetle 类的 main() ⽅法（⼀个静态⽅法），加载器启动并找出 Beetle 类的编译代码（在名为Beetle.class 的⽂件中）。在加载过程中，编译器注意到有⼀个基类，于是继续加载基类。<strong>不论是否创建了基类的对象</strong>，基类都会被加载（注意加载和初始化的区别）。</p>
 <p>如果基类还存在⾃⾝的基类，那么第⼆个基类也将被加载，以此类推。接下来，根基类（例⼦中根基类是Insect）的** static 的初始化开始执⾏**，接着是派⽣类，以此类推。这点很重要，因为派⽣类中 static 的初始化可能依赖基类成员是否被正确地初始化。</p>
 
       </div>
@@ -155,12 +160,12 @@
 <div class="lx-navigation">
 	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
 		<div class="overlay"></div>
-		<a class="copy" href="#">
+		<a class="copy" href="/2021/01/18/thij-poly/">
 			<div class="display-t">
 				<div class="display-tc">
 					<div>
 						<span>Next</span>
-						<h3>No newer post</h3>
+						<h3>多态</h3>
 					</div>
 				</div>
 			</div>
