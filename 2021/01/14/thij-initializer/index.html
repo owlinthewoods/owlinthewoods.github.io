@@ -80,10 +80,11 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>无参构造器/默认构造器：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock</span> </span>&#123;</span><br><span class="line"> 	Rock() &#123; <span class="comment">// 这是⼀个构造器</span></span><br><span class="line"> 		System.out.print(<span class="string">"Rock "</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+        <p>C++ 引入了构造器的概念，这是一个特殊的方法，每创建一个对象，这个方法就会被自动调用。Java 采用了构造器的概念，另外还使用了垃圾收集器（Garbage Collector, GC）去自动回收不再被使用的对象所占的资源。</p>
 <a id="more"></a>
+
+<p>无参构造器/默认构造器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock</span> </span>&#123;</span><br><span class="line"> 	Rock() &#123; <span class="comment">// 这是⼀个构造器</span></span><br><span class="line"> 		System.out.print(<span class="string">"Rock "</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>接收参数的构造器：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock2</span> </span>&#123;</span><br><span class="line"> 	Rock2(<span class="keyword">int</span> i) &#123;</span><br><span class="line"> 		System.out.print(<span class="string">"Rock "</span> + i + <span class="string">" "</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

@@ -81,7 +81,15 @@
 
   <div class="lx-entry padding">
     <div>
-      <h2 class="title"><a href="/2021/01/21/thij-nestedclass/">thij-nestedclass</a></h2>
+      <h2 class="title"><a href="/2021/01/22/thij-collection/">集合</a></h2>
+      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2021-01-22 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
+      <p><p><strong>java.util</strong> 库提供了一套相当完整的<em>集合类</em>（collection classes）来解决这个问题，其中基本的类型有 <strong>List</strong> 、 <strong>Set</strong> 、 <strong>Queue</strong> 和 <strong>Map</strong>。</p></p>
+      <div class="post-button"><a class="btn" href="/2021/01/22/thij-collection/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
+    </div>
+  </div>
+  <div class="lx-entry padding">
+    <div>
+      <h2 class="title"><a href="/2021/01/21/thij-nestedclass/">内部类</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2021-01-21 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
       <p><p>一个定义在另一个类中的类，叫作内部类。</p></p>
       <div class="post-button"><a class="btn" href="/2021/01/21/thij-nestedclass/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
@@ -115,7 +123,7 @@
     <div>
       <h2 class="title"><a href="/2021/01/15/thij-package/">封装</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2021-01-15 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
-      <p><p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。此外，位于同⼀编译单元中的所有类彼此之间都是可访问的。</p></p>
+      <p><p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。</p></p>
       <div class="post-button"><a class="btn" href="/2021/01/15/thij-package/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
@@ -123,8 +131,7 @@
     <div>
       <h2 class="title"><a href="/2021/01/14/thij-initializer/">初始化和清理</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2021-01-14 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
-      <p><p>无参构造器/默认构造器：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rock</span> </span>&#123;</span><br><span class="line"> 	Rock() &#123; <span class="comment">// 这是⼀个构造器</span></span><br><span class="line"> 		System.out.print(<span class="string">"Rock "</span>);</span><br><span class="line"> 	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+      <p><p>C++ 引入了构造器的概念，这是一个特殊的方法，每创建一个对象，这个方法就会被自动调用。Java 采用了构造器的概念，另外还使用了垃圾收集器（Garbage Collector, GC）去自动回收不再被使用的对象所占的资源。</p></p>
       <div class="post-button"><a class="btn" href="/2021/01/14/thij-initializer/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
@@ -141,7 +148,7 @@
     <div>
       <h2 class="title"><a href="/2020/05/07/thij-operator/">操作符</a></h2>
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-05-07 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Java/">Java</a></span>
-      <p><h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><p>对⼀个对象进⾏操作时，我们实际上操作的是它的引⽤。两者指向的堆中的对象还是同⼀个。</p></p>
+      <p><p>几乎所有运算符都只能操作基本类型（Primitives）。唯一的例外是 <code>=</code>、<code>==</code> 和 <code>!=</code>，它们能操作所有对象（这也是令人混淆的一个地方）。除此以外，<strong>String</strong> 类支持 <code>+</code> 和 <code>+=</code>。</p></p>
       <div class="post-button"><a class="btn" href="/2020/05/07/thij-operator/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
@@ -151,14 +158,6 @@
       <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-05-07 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
       <p><p>给你一份旅游线路图，该线路图中的旅行线路用数组 <code>paths</code>表示，其中<code>paths[i] = [cityAi, cityBi]</code>表示该线路将会从 <code>cityAi</code> 直接前往<code>cityBi</code> 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市。</p></p>
       <div class="post-button"><a class="btn" href="/2020/05/07/destination-city/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
-    </div>
-  </div>
-  <div class="lx-entry padding">
-    <div>
-      <h2 class="title"><a href="/2020/04/29/reverse-words-in-a-string/">Leetcode_反转字符串中的单词</a></h2>
-      <span class="lx-post-detail"><i class="fa fa-calendar-o"></i> 2020-04-29 | <i class="fa fa-folder-o"></i> <a class="category-link" href="/categories/Algorithm/">Algorithm</a></span>
-      <p><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</p></p>
-      <div class="post-button"><a class="btn" href="/2020/04/29/reverse-words-in-a-string/" rel="noopener"><i class="fa fa-angle-double-right fa-fw"></i>Read More</a></div>
     </div>
   </div>
 

@@ -80,9 +80,10 @@
   <div class="lx-post">
     <div class="lx-entry padding">
       <div>
-        <p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。此外，位于同⼀编译单元中的所有类彼此之间都是可访问的。</p>
+        <p>⼀个 Java 源代码⽂件称为⼀个编译单元（compilation unit）。每个编译单元的⽂件名后缀必须是.java。在编译单元中可以有⼀个 public 类，它的类名必须与⽂件名相同（包括⼤⼩写，但不包括后缀名 .java）。</p>
 <a id="more"></a>
 
+<p>每个编译单元中只能有⼀个public 类，否则编译器不接受。如果这个编译单元中还有其他类，那么在包之外是⽆法访问到这些类的，因为它们不是 public 类，此时它们为主public 类提供“⽀持”类 。此外，位于同⼀编译单元中的所有类彼此之间都是可访问的。</p>
 <p>假设⽂件名是 MyClass.java ，这意味着⽂件中只能有⼀个 public类，且类名必须是 MyClass（⼤⼩写也与⽂件名相同）：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// hiding/mypackage/MyClass.java</span></span><br><span class="line"><span class="keyword">package</span> hiding.mypackage</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line"> 	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

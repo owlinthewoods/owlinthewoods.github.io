@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme-color" content=#58b77a>
+  <title>集合 | Gnique Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <script id="hexo-configurations">
+  var CONFIG = {
+    root: '/',
+    theme: 'lx',
+    version: '0.3.9',
+    localsearch:{
+      "enable": false,
+      "trigger": "auto",
+      "top_n_per_article": 1,
+      "unescape": false,
+      "preload": false
+      },
+    path: 'null'
+  };
+</script>
+
+  <link rel="shortcut icon" href="/tortoise.png">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/css/main.min.css">
+  <style type="text/css">
+    pre,
+    code {
+      font-family: 'Fira Code', monospace;
+    }
+    html {
+      font-family: sans-serif;
+    }
+    body {
+      font-family: sans-serif;
+    }
+    h1, h2, h3, h4, h5, figure {
+      font-family: sans-serif;
+    }
+    .menu-container{
+      font-family: sans-serif;
+    }
+  </style>
+
+  <script src="//cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.jside.menu.js"></script>
+	<script>
+	$(document).ready(function(){
+	$(".menu-container").jSideMenu({
+	    jSidePosition: "position-right",
+	    jSideSticky: true,
+	    jSideSkin: "greenish",
+	     });
+	}); 
+	</script>
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Fira Code:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4/css/font-awesome.min.css">
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+<div class="single">
+
+<div id="page">
+<div id="lx-aside" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/post_cover.jpeg)" data-stellar-background-ratio="0.5">
+  <div class="overlay">
+  <div class="page-title">
+    <div class="avatar"><a href="/"><img src="/images/avatar.jpeg"></a></div>
+    <span>2021-01-22</span>
+    <h2>集合</h2>
+    <div class="tags"><i class="fa fa-tag"></i><a class="tag-link" href="/tags/Thinking-in-Java/" rel="tag">Thinking in Java</a></div>
+    </div>
+</div>
+</div>
+
+<div id="lx-main-content">
+  <div class="lx-post">
+    <div class="lx-entry padding">
+      <div>
+        <p><strong>java.util</strong> 库提供了一套相当完整的<em>集合类</em>（collection classes）来解决这个问题，其中基本的类型有 <strong>List</strong> 、 <strong>Set</strong> 、 <strong>Queue</strong> 和 <strong>Map</strong>。</p>
+<a id="more"></a>
+
+<h3 id="泛型和类型安全的集合"><a href="#泛型和类型安全的集合" class="headerlink" title="泛型和类型安全的集合"></a>泛型和类型安全的集合</h3><p>在本例中， <strong>Apple</strong> 和 <strong>Orange</strong> 都被放到了集合中，然后将它们取出:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/ApplesAndOrangesWithoutGenerics.java</span></span><br><span class="line"><span class="comment">// Simple collection use (suppressing compiler warnings)</span></span><br><span class="line"><span class="comment">// &#123;ThrowsException&#125;</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span> counter;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> id = counter++;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">id</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> id; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Orange</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplesAndOrangesWithoutGenerics</span> </span>&#123;</span><br><span class="line">  <span class="meta">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ArrayList apples = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">      apples.add(<span class="keyword">new</span> Apple());</span><br><span class="line">    <span class="comment">// No problem adding an Orange to apples:</span></span><br><span class="line">    apples.add(<span class="keyword">new</span> Orange());</span><br><span class="line">    <span class="keyword">for</span>(Object apple : apples) &#123;</span><br><span class="line">      ((Apple) apple).id();</span><br><span class="line">      <span class="comment">// Orange is detected only at run time</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">___[ Error Output ]___</span></span><br><span class="line"><span class="comment">Exception in thread "main"</span></span><br><span class="line"><span class="comment">java.lang.ClassCastException: Orange cannot be cast to</span></span><br><span class="line"><span class="comment">Apple</span></span><br><span class="line"><span class="comment">        at ApplesAndOrangesWithoutGenerics.main(ApplesA</span></span><br><span class="line"><span class="comment">ndOrangesWithoutGenerics.java:23)</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>因为 <strong>ArrayList</strong> 保存的是 <strong>Object</strong> ，所以不仅可以通过 <strong>ArrayList</strong> 的 <code>add()</code> 方法将 <strong>Apple</strong> 对象放入这个集合，而且可以放入 <strong>Orange</strong> 对象，这无论在编译期还是运行时都不会有问题。当使用 <strong>ArrayList</strong> 的 <code>get()</code> 方法来取出你认为是 <strong>Apple</strong> 的对象时，得到的只是 <strong>Object</strong> 引用，必须将其转型为 <strong>Apple</strong>。</p>
+<p>在运行时，当尝试将 <strong>Orange</strong> 对象转为 <strong>Apple</strong> 时，会出现输出中显示的错误。</p>
+<p>下面的例子指定了泛型参数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/ApplesAndOrangesWithGenerics.java</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ApplesAndOrangesWithGenerics</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;Apple&gt; apples = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++)</span><br><span class="line">      apples.add(<span class="keyword">new</span> Apple());</span><br><span class="line">    <span class="comment">// Compile-time error:</span></span><br><span class="line">    <span class="comment">// apples.add(new Orange());</span></span><br><span class="line">    <span class="keyword">for</span>(Apple apple : apples) &#123;</span><br><span class="line">      System.out.println(apple.id());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">0</span></span><br><span class="line"><span class="comment">1</span></span><br><span class="line"><span class="comment">2</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>使用泛型，从 <strong>List</strong> 中获取元素不需要强制类型转换。因为 <strong>List</strong> 知道它持有什么类型，因此当调用 <code>get()</code> 时，它会替你执行转型。</p>
+<p>还能进行向上转型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/GenericsAndUpcasting.java</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GrannySmith</span> <span class="keyword">extends</span> <span class="title">Apple</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Gala</span> <span class="keyword">extends</span> <span class="title">Apple</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Fuji</span> <span class="keyword">extends</span> <span class="title">Apple</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Braeburn</span> <span class="keyword">extends</span> <span class="title">Apple</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericsAndUpcasting</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    ArrayList&lt;Apple&gt; apples = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    apples.add(<span class="keyword">new</span> GrannySmith());</span><br><span class="line">    apples.add(<span class="keyword">new</span> Gala());</span><br><span class="line">    apples.add(<span class="keyword">new</span> Fuji());</span><br><span class="line">    apples.add(<span class="keyword">new</span> Braeburn());</span><br><span class="line">    <span class="keyword">for</span>(Apple apple : apples)</span><br><span class="line">      System.out.println(apple);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">GrannySmith@15db9742</span></span><br><span class="line"><span class="comment">Gala@6d06d69c</span></span><br><span class="line"><span class="comment">Fuji@7852e922</span></span><br><span class="line"><span class="comment">Braeburn@4e25154f</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>创建一个List：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; apples = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>请注意， <strong>ArrayList</strong> 已经被向上转型为了 <strong>List</strong> 。</p>
+<p>使用接口的目的是，如果想要改变具体实现，只需在创建时修改它就行了，就像下面这样：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; apples = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>这种方式并非总是有效的，因为某些具体类有额外的功能。例如， <strong>LinkedList</strong> 具有 <strong>List</strong> 接口中未包含的额外方法，而 <strong>TreeMap</strong> 也具有在 <strong>Map</strong> 接口中未包含的方法。如果需要使用这些方法，就不能将它们向上转型为更通用的接口。</p>
+<p><strong>Collection</strong> 接口概括了<em>序列</em>的概念——一种存放一组对象的方式。</p>
+<p>下面是个简单的示例，用 <strong>Integer</strong> 对象填充了一个 <strong>Collection</strong> （这里用 <strong>ArrayList</strong> 表示），然后打印集合中的每个元素：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/SimpleCollection.java</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleCollection</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Collection&lt;Integer&gt; c = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">      c.add(i); <span class="comment">// Autoboxing</span></span><br><span class="line">    <span class="keyword">for</span>(Integer i : c)</span><br><span class="line">      System.out.print(i + <span class="string">", "</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">0, 1, 2, 3, 4, 5, 6, 7, 8, 9,</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加元素组"><a href="#添加元素组" class="headerlink" title="添加元素组"></a>添加元素组</h3><p><code>Arrays.asList()</code> 方法接受一个数组或是逗号分隔的元素列表（使用可变参数），并返回一个<strong>List</strong> 对象。</p>
+<p><code>Collections.addAll()</code> 方法接受一个 <strong>Collection</strong> 对象，以及一个数组或是一个逗号分隔的列表（可变参数），将其中元素添加到 <strong>Collection</strong> 对象中。</p>
+<p>然后所有 <strong>Collection</strong> 类型也都包含<code>addAll()</code> 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/AddingGroups.java</span></span><br><span class="line"><span class="comment">// Adding groups of elements to Collection objects</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AddingGroups</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Collection&lt;Integer&gt; collection =</span><br><span class="line">      <span class="keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>));</span><br><span class="line">    Integer[] moreInts = &#123; <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span> &#125;;</span><br><span class="line">    collection.addAll(Arrays.asList(moreInts));</span><br><span class="line">    <span class="comment">// Runs significantly faster, but you can't</span></span><br><span class="line">    <span class="comment">// construct a Collection this way:</span></span><br><span class="line">    Collections.addAll(collection, <span class="number">11</span>, <span class="number">12</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>);</span><br><span class="line">    Collections.addAll(collection, moreInts);</span><br><span class="line">    <span class="comment">// Produces a list "backed by" an array:</span></span><br><span class="line">    List&lt;Integer&gt; list = Arrays.asList(<span class="number">16</span>,<span class="number">17</span>,<span class="number">18</span>,<span class="number">19</span>,<span class="number">20</span>);</span><br><span class="line">    list.set(<span class="number">1</span>, <span class="number">99</span>); <span class="comment">// OK -- modify an element</span></span><br><span class="line">    <span class="comment">// list.add(21); // Runtime error; the underlying</span></span><br><span class="line">                     <span class="comment">// array cannot be resized.</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以直接使用 <code>Arrays.asList()</code> 的输出作为一个 <strong>List</strong> ，但是这里的底层实现是数组，没法调整大小。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/AsListInference.java</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Snow</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Powder</span> <span class="keyword">extends</span> <span class="title">Snow</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Light</span> <span class="keyword">extends</span> <span class="title">Powder</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Heavy</span> <span class="keyword">extends</span> <span class="title">Powder</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Crusty</span> <span class="keyword">extends</span> <span class="title">Snow</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Slush</span> <span class="keyword">extends</span> <span class="title">Snow</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AsListInference</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Snow&gt; snow1 = Arrays.asList(</span><br><span class="line">      <span class="keyword">new</span> Crusty(), <span class="keyword">new</span> Slush(), <span class="keyword">new</span> Powder());</span><br><span class="line">    <span class="comment">//- snow1.add(new Heavy()); // Exception</span></span><br><span class="line"></span><br><span class="line">    List&lt;Snow&gt; snow2 = Arrays.asList(</span><br><span class="line">      <span class="keyword">new</span> Light(), <span class="keyword">new</span> Heavy());</span><br><span class="line">    <span class="comment">//- snow2.add(new Slush()); // Exception</span></span><br><span class="line"></span><br><span class="line">    List&lt;Snow&gt; snow3 = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    Collections.addAll(snow3,</span><br><span class="line">      <span class="keyword">new</span> Light(), <span class="keyword">new</span> Heavy(), <span class="keyword">new</span> Powder());</span><br><span class="line">    snow3.add(<span class="keyword">new</span> Crusty());</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Hint with explicit type argument specification:</span></span><br><span class="line">    List&lt;Snow&gt; snow4 = Arrays.&lt;Snow&gt;asList(</span><br><span class="line">       <span class="keyword">new</span> Light(), <span class="keyword">new</span> Heavy(), <span class="keyword">new</span> Slush());</span><br><span class="line">    <span class="comment">//- snow4.add(new Powder()); // Exception</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 <strong>snow4</strong> 中，注意 <code>Arrays.asList()</code> 中间的“暗示”（即 <code>&lt;Snow&gt;</code> ），告诉编译器 <code>Arrays.asList()</code> 生成的结果 <strong>List</strong> 类型的实际目标类型是什么。</p>
+<h3 id="集合的打印"><a href="#集合的打印" class="headerlink" title="集合的打印"></a>集合的打印</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/PrintingCollections.java</span></span><br><span class="line"><span class="comment">// Collections print themselves automatically</span></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrintingCollections</span> </span>&#123;</span><br><span class="line">  <span class="keyword">static</span> Collection</span><br><span class="line">  fill(Collection&lt;String&gt; collection) &#123;</span><br><span class="line">    collection.add(<span class="string">"rat"</span>);</span><br><span class="line">    collection.add(<span class="string">"cat"</span>);</span><br><span class="line">    collection.add(<span class="string">"dog"</span>);</span><br><span class="line">    collection.add(<span class="string">"dog"</span>);</span><br><span class="line">    <span class="keyword">return</span> collection;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">static</span> Map <span class="title">fill</span><span class="params">(Map&lt;String, String&gt; map)</span> </span>&#123;</span><br><span class="line">    map.put(<span class="string">"rat"</span>, <span class="string">"Fuzzy"</span>);</span><br><span class="line">    map.put(<span class="string">"cat"</span>, <span class="string">"Rags"</span>);</span><br><span class="line">    map.put(<span class="string">"dog"</span>, <span class="string">"Bosco"</span>);</span><br><span class="line">    map.put(<span class="string">"dog"</span>, <span class="string">"Spot"</span>);</span><br><span class="line">    <span class="keyword">return</span> map;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> ArrayList&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> LinkedList&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> HashSet&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> TreeSet&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> LinkedHashSet&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> HashMap&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> TreeMap&lt;&gt;()));</span><br><span class="line">    System.out.println(fill(<span class="keyword">new</span> LinkedHashMap&lt;&gt;()));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">[rat, cat, dog, dog]</span></span><br><span class="line"><span class="comment">[rat, cat, dog, dog]</span></span><br><span class="line"><span class="comment">[rat, cat, dog]</span></span><br><span class="line"><span class="comment">[cat, dog, rat]</span></span><br><span class="line"><span class="comment">[rat, cat, dog]</span></span><br><span class="line"><span class="comment">&#123;rat=Fuzzy, cat=Rags, dog=Spot&#125;</span></span><br><span class="line"><span class="comment">&#123;cat=Rags, dog=Spot, rat=Fuzzy&#125;</span></span><br><span class="line"><span class="comment">&#123;rat=Fuzzy, cat=Rags, dog=Spot&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>默认的打印行为，使用集合提供的 <code>toString()</code> 方法即可生成可读性很好的结果</p>
+<h3 id="列表List"><a href="#列表List" class="headerlink" title="列表List"></a>列表List</h3><p><strong>List</strong> 接口在 <strong>Collection</strong> 的基础上添加了许多方法，允许在 <strong>List</strong> 的中间插入和删除元素。</p>
+<p>有两种类型的 <strong>List</strong> ：</p>
+<ul>
+<li>基本的 <strong>ArrayList</strong> ，擅长随机访问元素，但在 <strong>List</strong> 中间插入和删除元素时速度较慢。</li>
+<li><strong>LinkedList</strong> ，它通过代价较低的在 <strong>List</strong> 中间进行的插入和删除操作，提供了优化的顺序访问。 <strong>LinkedList</strong> 对于随机访问来说相对较慢，但它具有比 <strong>ArrayList</strong> 更大的特征集。</li>
+</ul>
+<h3 id="迭代器Iterators"><a href="#迭代器Iterators" class="headerlink" title="迭代器Iterators"></a>迭代器Iterators</h3><p>迭代器是一个对象，它在一个序列中移动并选择该序列中的每个对象。</p>
+<p>Java 的 <strong>Iterator</strong> 只能单向移动。这个 <strong>Iterator</strong> 只能用来：</p>
+<ol>
+<li>使用 <code>iterator()</code> 方法要求集合返回一个 <strong>Iterator</strong>。 <strong>Iterator</strong> 将准备好返回序列中的第一个元素。</li>
+<li>使用 <code>next()</code> 方法获得序列中的下一个元素。</li>
+<li>使用 <code>hasNext()</code> 方法检查序列中是否还有元素。</li>
+<li>使用 <code>remove()</code> 方法将迭代器最近返回的那个元素删除。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/SimpleIteration.java</span></span><br><span class="line"><span class="keyword">import</span> typeinfo.pets.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SimpleIteration</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Pet&gt; pets = Pets.list(<span class="number">12</span>);</span><br><span class="line">    Iterator&lt;Pet&gt; it = pets.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">      Pet p = it.next();</span><br><span class="line">      System.out.print(p.id() + <span class="string">":"</span> + p + <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">    <span class="comment">// A simpler approach, when possible:</span></span><br><span class="line">    <span class="keyword">for</span>(Pet p : pets)</span><br><span class="line">      System.out.print(p.id() + <span class="string">":"</span> + p + <span class="string">" "</span>);</span><br><span class="line">    System.out.println();</span><br><span class="line">    <span class="comment">// An Iterator can also remove elements:</span></span><br><span class="line">    it = pets.iterator();</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">6</span>; i++) &#123;</span><br><span class="line">      it.next();</span><br><span class="line">      it.remove();</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(pets);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx 8:Cymric 9:Rat 10:EgyptianMau 11:Hamster</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx 8:Cymric 9:Rat 10:EgyptianMau 11:Hamster</span></span><br><span class="line"><span class="comment">[Pug, Manx, Cymric, Rat, EgyptianMau, Hamster]</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>如果只是想向前遍历 <strong>List</strong> ，并不打算修改 <strong>List</strong> 对象本身，那么使用 <em>for-in</em> 语法更加简洁。</p>
+<p><strong>Iterator</strong> 还可以删除调用 <code>next()</code> 后迭代器指向的元素，这意味着在调用 <code>remove()</code> 之前必须先调用 <code>next()</code>。</p>
+<p>现在考虑创建一个 <code>display()</code> 方法，它不必知晓集合的确切类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/CrossCollectionIteration.java</span></span><br><span class="line"><span class="keyword">import</span> typeinfo.pets.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossCollectionIteration</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(Iterator&lt;Pet&gt; it)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">      Pet p = it.next();</span><br><span class="line">      System.out.print(p.id() + <span class="string">":"</span> + p + <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Pet&gt; pets = Pets.list(<span class="number">8</span>);</span><br><span class="line">    LinkedList&lt;Pet&gt; petsLL = <span class="keyword">new</span> LinkedList&lt;&gt;(pets);</span><br><span class="line">    HashSet&lt;Pet&gt; petsHS = <span class="keyword">new</span> HashSet&lt;&gt;(pets);</span><br><span class="line">    TreeSet&lt;Pet&gt; petsTS = <span class="keyword">new</span> TreeSet&lt;&gt;(pets);</span><br><span class="line">    display(pets.iterator());</span><br><span class="line">    display(petsLL.iterator());</span><br><span class="line">    display(petsHS.iterator());</span><br><span class="line">    display(petsTS.iterator());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">5:Cymric 2:Cymric 7:Manx 1:Manx 3:Mutt 6:Pug 4:Pug</span></span><br><span class="line"><span class="comment">0:Rat</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <strong>Iterable</strong> 接口生成上一个示例的更简洁版本，该接口描述了“可以产生 <strong>Iterator</strong> 的任何东西”。<code>display(Iterable&lt;Pet&gt;)</code>方法接受任何实现了Iterable接口的类对象，当然这里指定了泛型类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// collections/CrossCollectionIteration2.java</span></span><br><span class="line"><span class="keyword">import</span> typeinfo.pets.*;</span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CrossCollectionIteration2</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">(Iterable&lt;Pet&gt; ip)</span> </span>&#123;</span><br><span class="line">    Iterator&lt;Pet&gt; it = ip.iterator();</span><br><span class="line">    <span class="keyword">while</span>(it.hasNext()) &#123;</span><br><span class="line">      Pet p = it.next();</span><br><span class="line">      System.out.print(p.id() + <span class="string">":"</span> + p + <span class="string">" "</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    List&lt;Pet&gt; pets = Pets.list(<span class="number">8</span>);</span><br><span class="line">    LinkedList&lt;Pet&gt; petsLL = <span class="keyword">new</span> LinkedList&lt;&gt;(pets);</span><br><span class="line">    HashSet&lt;Pet&gt; petsHS = <span class="keyword">new</span> HashSet&lt;&gt;(pets);</span><br><span class="line">    TreeSet&lt;Pet&gt; petsTS = <span class="keyword">new</span> TreeSet&lt;&gt;(pets);</span><br><span class="line">    display(pets);</span><br><span class="line">    display(petsLL);</span><br><span class="line">    display(petsHS);</span><br><span class="line">    display(petsTS);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* Output:</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">0:Rat 1:Manx 2:Cymric 3:Mutt 4:Pug 5:Cymric 6:Pug</span></span><br><span class="line"><span class="comment">7:Manx</span></span><br><span class="line"><span class="comment">5:Cymric 2:Cymric 7:Manx 1:Manx 3:Mutt 6:Pug 4:Pug</span></span><br><span class="line"><span class="comment">0:Rat</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>这里所有的类都是 <strong>Iterable</strong> ，所以现在对 <code>display()</code> 的调用显然更简单。</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lx-navigation">
+	<div class="lx-cover prev lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-l.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="#">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Next</span>
+						<h3>No newer post</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+        <div class="lx-cover next lx-cover-sm" style="background-image: url(//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/images/footer-r.jpeg)">
+		<div class="overlay"></div>
+		<a class="copy" href="/2021/01/21/thij-nestedclass/">
+			<div class="display-t">
+				<div class="display-tc">
+					<div>
+						<span>Prev</span>
+						<h3>内部类</h3>
+					</div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+</div>
+
+<footer>
+  <div>
+  Copyright &copy; 2019.<a href="/">Gnique Explorer</a><br>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme <a href="https://lx.js.org" target="_blank">Lx</a><br>
+  </div>
+</footer>
+
+</div>
+
+<button class="hamburger hamburger--arrow-r" type="button">
+    <div class="hamburger-box">
+      <div class="hamburger-inner"></div>
+    </div>
+</button> 
+<div class="menu visibility">
+  <div class="menu-head">
+    <span class="layer">
+      <div class="col">
+        <div class="row for-pic">
+          <div class="profile-pic">
+            <a href="/"><img src="/images/avatar.jpeg" alt=""/></a>
+          </div>
+        </div>
+        <div class="row for-name">
+          <p></p>
+          <span class="tagline">Hello, World!</span>
+        </div>
+      </div>
+    </span>
+  </div>
+  <nav class="menu-container">
+  <ul class="menu-items">
+    <li><a href="/"><i class="fa fa-home fa-fw"></i>Home</a></li>
+    <li><a href="/archives/"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+    
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-bookmark fa-fw"></i>Pages</span>
+        <ul>
+          <li><a href="/guestbook/">Guestbook</a></li>
+        <li><a href="/about/">About</a></li>
+        </ul>
+    </li>
+    <li class="has-sub"><span class="dropdown-heading">
+      <i class="fa fa-link fa-fw"></i>Friends</span>
+        <ul>
+          <li> <a href="https://lx.js.org" target="_blank">Theme-Lx</a></li>
+        </ul>
+    </li>
+  </ul>
+  </nav>
+</div>
+
+<div class="gototop js-top">
+  <a href="#" class="js-gotop"><i class="fa fa-arrow-up"></i></a>
+</div>
+<script src="//cdn.jsdelivr.net/npm/theme-lx@0.3.9/source/js/jquery.easing.min.js"></script>
+<script>
+(function () {
+	"use strict";
+	var goToTop = function() {
+		$(".js-gotop").on("click", function(event){
+			event.preventDefault();
+			$("html, body").animate({
+				scrollTop: $("html").offset().top
+			}, 500, "easeInOutExpo");
+			return false;
+		});
+		$(window).scroll(function(){
+			var $win = $(window);
+			if ($win.scrollTop() > 200) {
+				$(".js-top").addClass("active");
+			} else {
+				$(".js-top").removeClass("active");
+			}
+		});
+	};
+	$(function(){
+		goToTop();
+	});
+}());
+</script>
+
+
+</body>
+</html>
